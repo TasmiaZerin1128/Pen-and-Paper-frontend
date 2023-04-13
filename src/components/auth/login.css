@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Dancing+Script:wght@400;500&family=Great+Vibes&family=Playfair+Display:wght@400;600;700&family=Poppins:wght@400;700&display=swap');
+
+h1{
+    font-family: 'Poppins', sans-serif;
+    color: #5B3203;
+    font-size: 3rem;
+    margin: 0.5rem;
+}
+
+h3{
+    color: #863812;
+    margin: 0.2rem;
+    font-weight: 500;
+}
+
+.wrapper{
+    text-align: center;
+}
+
+.logoRaw{
+    margin-top: 4%;
+    width: 7%;  /* 30rem */
+}
+
+.input{
+    margin-bottom: 1.2rem;
+}
+
+.input:hover{
+    margin-bottom: 1.2rem;
+}
+
+.loginForm{
+    margin: 5% auto 0;
+    width: 30%;
+}
+
+.submit{
+    margin: 2.5rem auto 0;
+    background-color: #863812;
+    border-radius: 6px;
+    width: 10rem;
+    height: 3rem;
+    text-transform:capitalize;
+    font-size: large;
+    font-weight: bold;
+}
+
+.submit:hover{
+    background-color: #5B3203;
+}
