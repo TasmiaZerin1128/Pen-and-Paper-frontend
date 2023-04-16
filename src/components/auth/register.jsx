@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { TextField, Button } from "@mui/material";
+import { register } from "../../services/auth";
 import "./register.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Form() {
   const [fullName, setName] = useState("");
@@ -9,77 +11,127 @@ export default function Form() {
   const [password, setPassword] = useState("");
 
   const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState(false);
+  const [errorOrSuccessLine, setErrorOrSuccessLine] = useState("");
+
+  const [errorFullName, setErrorFullName] = useState(false);
+  const [errorUsername, setErrorUsername] = useState(false);
+  const [errorEmail, setErrorEmail] = useState(false);
+  const [errorPassword, setErrorPassword] = useState(false);
+
+  const [errorLineFullName, setErrorLineFullName] = useState("");
+  const [errorLineUsername, setErrorLineUsername] = useState("");
+  const [errorLineEmail, setErrorLineEmail] = useState("");
+  const [errorLinePassword, setErrorLinePassword] = useState("");
+
+  const navigate = useNavigate();
 
   const submit = async (e) => {
     e.preventDefault();
-    if (fullName === "" || username === "" || email === "" || password === "") {
-      setError(true);
-    } else {
+    if(validateFullName(fullName) && validateUsername(username) && validateEmail(email) && validatePassword(password)) {
+
+	  const newUser = {
+		    fullName: fullName,
+        username: username,
+        password: password,
+        email: email,
+	  };
+
+    try{
+    const response = await register(newUser);
+    console.log(response.status);
+    if(String(response.status)[0] == 2){
       setSubmitted(true);
-      setError(false);
-      try {
-        await fetch("http://localhost:3000/api/v1/auth/register", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            fullName: fullName,
-            username: username,
-            password: password,
-            email: email,
-          }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
-          });
-      } catch (err) {
-        console.log(err);
-      }
+      setErrorOrSuccessLine("User successfully registered! Please go to the login section");
+      console.log(response.data);
+      navigate("/login", { state: { message: "User registered successfully" } });
+    } else {
+      setSubmitted(false);
+      setErrorOrSuccessLine(response.data);
+      console.log(response.data);
+    }
+    } catch (err) {
+      console.log("An error occured!");
+      setErrorOrSuccessLine("An error occured");
+    }
+    } else {
+      setErrorOrSuccessLine("Please enter all the fields correctly!");
     }
   };
 
-  // Showing success message
-  const successMessage = () => {
-    return (
-      <div
-        className="success"
-        style={{
-          display: submitted ? "" : "none",
-        }}
-      >
-        <h1>User {name} successfully registered!!</h1>
-      </div>
-    );
-  };
+  const validateFullName = (value) => {
+    if (value === "") {
+      setErrorFullName(true);
+      setErrorLineFullName("\u{26A0} Full Name is required");
+      return false;
+    } 
+      setErrorFullName(false);
+      setErrorLineFullName("");
+      return true;
+  }
 
-  // Showing error message if error is true
-  const errorMessage = () => {
+  const validateUsername = (value) => {
+    if (value === "") {
+      setErrorUsername(true);
+      setErrorLineUsername("\u{26A0} Username is required");
+      return false;
+    } 
+    if(!value.match(/^[a-zA-Z0-9]+$/)) {
+      setErrorUsername(true);
+      setErrorLineUsername("\u{26A0} Username cannot contain any special characters");
+      return false;
+    } 
+      setErrorUsername(false);
+      setErrorLineUsername("");
+      return true;
+  }
+
+  const validateEmail = (value) => {
+    if (value === "") {
+      setErrorEmail(true);
+      setErrorLineEmail("\u{26A0} Email is required");
+      return false;
+    } 
+      setErrorEmail(false);
+      setErrorLineEmail("");
+      return true;
+  }
+
+  const validatePassword = (value) => {
+    if (value === "") {
+      setErrorPassword(true);
+      setErrorLinePassword("\u{26A0} Password is required");
+      return false;
+    } 
+    if(value.length < 6) {
+      setErrorPassword(true);
+      setErrorLinePassword("\u{26A0} Password must be atleast of 6 characters");
+      return false;
+    } 
+      setErrorPassword(false);
+      setErrorLinePassword("");
+      return true;
+  }
+
+  const registerStatus = () => {
     return (
       <div
-        className="error"
-        style={{
-          display: error ? "" : "none",
-        }}
+        className="registerStatus"
       >
-        <h1>Please enter all the fields</h1>
+        <h5>{errorOrSuccessLine}</h5>
       </div>
     );
   };
 
   return (
+    <>
     <div className="form">
-      {/* <div className="messages">
-		{errorMessage()}
-		{successMessage()}
-	</div> */}
-
       <div className="left">
 		<img className="logo" src="src\assets\logo-pen-paper.png" />
 	  </div>
       <div className="right">
+      <div className="messages">
+        {registerStatus()}
+	    </div>
         <form>
           <TextField
             id="fullName"
@@ -89,6 +141,8 @@ export default function Form() {
             className="input"
             value={fullName}
             type="text"
+			      error={errorFullName} helperText={errorLineFullName}
+            onBlur={e => validateFullName(e.target.value)}
           />
 
           <TextField
@@ -99,6 +153,8 @@ export default function Form() {
             className="input"
             value={username}
             type="text"
+            error={errorUsername} helperText={errorLineUsername}
+            onBlur={e => validateUsername(e.target.value)}
           />
 
           <TextField
@@ -109,6 +165,8 @@ export default function Form() {
             className="input"
             value={email}
             type="email"
+            error={errorEmail} helperText={errorLineEmail}
+            onBlur={e => validateEmail(e.target.value)}
           />
 
           <TextField
@@ -119,6 +177,8 @@ export default function Form() {
             className="input"
             value={password}
             type="password"
+            error={errorPassword} helperText={errorLinePassword}
+            onBlur={e => validatePassword(e.target.value)}
           />
 
           <Button
@@ -129,9 +189,10 @@ export default function Form() {
           >
             Register
           </Button>
-		  <h4>Already have an account?<span><a href="/login"> Sign In</a></span></h4>
+		  <h4 className="loginLine">Already have an account?<span><a href="/login"> Sign In</a></span></h4>
         </form>
       </div>
     </div>
+    </>
   );
 }

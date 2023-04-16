@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Dancing+Script:wght@400;500&family=Great+Vibes&family=Playfair+Display:wght@400;600;700&family=Poppins:wght@400;700&display=swap');
 
-h4{
+.loginLine {
     color: #5B3203;
     font-weight: 300;
 }
@@ -31,7 +31,7 @@ a{
 
 .right{
     width: 45%;
-    padding: 10% 5rem 0 0;
+    margin: 10% 5rem 0 0;
     text-align: center;
 }
 
@@ -62,10 +62,9 @@ form{
     background-color: #5B3203;
 }
 
-@media screen and (max-width: 4000px){
-    .right{
-        width: 45%;
-        padding: 10% 5rem 0 0;
-        text-align: center;
-    }
+.registerStatus{
+    margin: 0;
+    color: #dd3737;
+    margin-top: -2rem;
+    font-weight: 300;
 }
