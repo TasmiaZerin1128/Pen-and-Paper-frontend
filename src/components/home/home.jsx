@@ -1,7 +1,12 @@
 import "./home.css";
 import Navbar from "../navbar/navbar";
-import { Button } from "@mui/material";
+import { Button, Grid, ListItem } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
 export default function Home() {
+  
+  const navigate = useNavigate();
+
   return (
     <>
       <Navbar />
@@ -11,7 +16,7 @@ export default function Home() {
         A Platform for Your Voice: Share Your Stories and Ideas on Our Blog
         </p>
         <a href="./login" className="learnMore">
-          Start Blogging
+          START BLOGGING
         </a>
       </div>
 
@@ -21,50 +26,43 @@ export default function Home() {
           <p>Create blogs, get idea and inspiration from other’s blogs</p>
         </div>
         <div className="right-button">
-          <Button className="get-started">Get Started</Button>
+          <Button className="get-started" onClick={() => navigate("/login")}>Get Started</Button>
         </div>
       </div>
 
       <div class="container second">
-        <div class="item">
-          <div class="img img-first"></div>
+        <Grid container spacing={2}>
+          <Grid item xs={5}>
+            <ListItem></ListItem>
+          </Grid>
+          <Grid item xs={7}>
+            <ListItem className="cardsList">
+              <div class="item">
           <div class="card">
-            <h3>Rock climbing</h3>
+            <h3>Gain Knowledge</h3>
             <p>
-              The goal is to reach the summit of a formation or the endpoint of
-              a usually pre-defined route without falling
+            Gain in-depth information on various topics from the bloggers around the world.
             </p>
-            <a href="#" className="learnMore">
-              Learn more
-            </a>
           </div>
         </div>
         <div class="item">
-          <div class="img img-second"></div>
           <div class="card">
-            <h3>Caving</h3>
+            <h3>Find Inspiration</h3>
             <p>
-              Exploring underground through networks of tunnels and passageways,
-              which can be natural or artificial.
+            Find inspirational stories, quotes, and tips that can motivate one to achieve the goals.
             </p>
-            <a href="#" className="learnMore">
-              Learn more
-            </a>
           </div>
         </div>
         <div class="item">
-          <div class="img img-third"></div>
           <div class="card">
-            <h3>Parachuting</h3>
+            <h3>Connect with Others</h3>
             <p>
-              Jumping from an aeroplane and falling through the air before
-              opening your parachute.
+            Connect with other like-minded individuals. Engage in discussions, ask questions, and share your opinions with others.
             </p>
-            <a href="#" className="learnMore">
-              Learn more
-            </a>
           </div>
-        </div>
+        </div></ListItem>
+          </Grid>
+        </Grid>
       </div>
 
       <div class="blank-2">
