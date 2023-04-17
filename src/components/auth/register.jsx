@@ -189,7 +189,7 @@ export default function Form() {
           >
             Register
           </Button>
-		  <h4 className="loginLine">Already have an account?<span><a href="/login"> Sign In</a></span></h4>
+		  <h4 className="loginLine">Already have an account?<span><a href="/login" className="signIn"> Sign In</a></span></h4>
         </form>
       </div>
     </div>
