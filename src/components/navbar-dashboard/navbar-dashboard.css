@@ -1,0 +1,22 @@
+.loginNav {
+    font-family: 'Poppins', sans-serif;
+    color: #5B3203;
+    margin-right: 1rem;
+}
+
+.create {
+    font-family: 'Poppins', sans-serif;
+    padding: 5px 20px;
+    background-color: #863812;
+    color: #EBE4D2;
+    border-radius: 4rem;
+    margin-right: 2rem;
+}
+
+.create:hover, .create:active, .create:focus {
+    font-family: 'Poppins', sans-serif;
+    padding: 5px 20px;
+    background-color: #6a2c0c;
+    color: #EBE4D2;
+    border-radius: 4rem;
+}

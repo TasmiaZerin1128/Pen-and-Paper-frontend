@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { TextField, Button } from "@mui/material";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer , toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { login } from "../../services/auth";
@@ -13,6 +13,7 @@ export default function Login(){
     const [status, setStatus] = useState("");
 
     const location = useLocation();
+    const navigate = useNavigate();
 
     const submit = async (e) => {
         e.preventDefault();
@@ -25,7 +26,7 @@ export default function Login(){
         try{
             const response = await login(loginUser);
             if(String(response.status)[0] == 2){
-                console.log("matched");
+                navigate("/dashboard");
             } else {
                 setError(true);
                 setStatus(response.data);

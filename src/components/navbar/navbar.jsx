@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import './navbar.css';
 
 
-export default function ButtonAppBar() {
+export default function Navbar() {
 
     const navigate = useNavigate();
 
