@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { login } from "../../services/auth";
 import "./login.css";
 
-export default function Login(){
+export default function Login({setIsSignedIn}){
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
@@ -25,13 +25,14 @@ export default function Login(){
         
         try{
             const response = await login(loginUser);
+            console.log(response.data);
             if(String(response.status)[0] == 2){
+                setIsSignedIn(true);
                 navigate("/dashboard");
             } else {
                 setError(true);
                 setStatus(response.data);
             }
-            console.log(response.data);
         } catch (err) {
             setStatus("An error occured");
         }
@@ -82,7 +83,7 @@ export default function Login(){
         <>
         <ToastContainer />
         <div className="wrapper">
-            <img className="logoRaw" src="src\assets\raw-logo.png" />
+            <img className="logoRaw" src="src\assets\images\raw-logo.png" />
             <h1>Welcome Back!</h1>
             <h3>Let's start imagining again</h3>
             <div className="loginForm">

@@ -126,7 +126,7 @@ export default function Form() {
     <>
     <div className="form">
       <div className="left">
-		<img className="logo" src="src\assets\logo-pen-paper.png" />
+		<img className="logo" src="src\assets\images\logo-pen-paper.png" />
 	  </div>
       <div className="right">
       <div className="messages">

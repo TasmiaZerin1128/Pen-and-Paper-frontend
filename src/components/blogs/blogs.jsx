@@ -42,19 +42,24 @@ function ReadMore({ text, length = 400 }) {
   );
 }
 
-function AllBlogs() {
-  const [blogs, setBlogs] = useState([]);
+function AllBlogs({blogAdded}) {
+  const [blogs, setBlogs] = useState(null);
 
   useEffect(() => {
     async function fetchBlogs() {
       const allBlogs = await getAllBlogs();
       console.log(allBlogs.data);
-      setBlogs(allBlogs.data);
+      console.log(typeof(allBlogs));
+      if(typeof(allBlogs) === 'object'){
+        setBlogs(allBlogs.data);
+      }
     }
     fetchBlogs();
-  }, []);
+  }, [blogAdded]);
 
-  return (
+
+  if(blogs) {
+    return (
     <>
       {blogs.map((item) => (
         <Card className="blogCards" key={item.id}>
@@ -86,10 +91,17 @@ function AllBlogs() {
       ))}
     </>
   );
+  } 
+    return (
+      <>
+      <h1>No blog found</h1>
+      </>
+    )
+  
 }
 
-export default function BlogList() {
+export default function BlogList({blogAdded}) {
   return (
-        <AllBlogs />
+        <AllBlogs blogAdded={blogAdded}/>
   );
 }

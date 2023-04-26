@@ -6,11 +6,12 @@
 
 .create {
     font-family: 'Poppins', sans-serif;
-    padding: 5px 20px;
+    height: 2.5rem;
+    width: 10rem;
     background-color: #863812;
     color: #EBE4D2;
-    border-radius: 4rem;
-    margin-right: 2rem;
+    border-radius: 5rem;
+    margin: 0 2rem 0 1rem;
 }
 
 .create:hover, .create:active, .create:focus {
@@ -18,5 +19,9 @@
     padding: 5px 20px;
     background-color: #6a2c0c;
     color: #EBE4D2;
-    border-radius: 4rem;
+}
+
+.dialogBox {
+    background-color : '#863812' !important;
+    color: '#ffffff' !important;
 }

@@ -18,7 +18,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-image: url('../../assets/home.png');
+  background-image: url('../../assets/images/home.png');
   background-size: cover;
   background-position: center;
   
@@ -63,7 +63,7 @@ p {
 }
 
 .second {
-  background-image:url('../../assets/home-2.png');
+  background-image:url('../../assets/images/home-2.png');
   background-attachment: fixed;
   height: 800px;
 }

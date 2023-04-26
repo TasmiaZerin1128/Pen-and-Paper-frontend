@@ -1,5 +1,5 @@
 import "./home.css";
-import Navbar from "../navbar/navbar";
+import Navbar from "../../components/navbar/navbar";
 import { Button, Grid, ListItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <div class="container">
+      <div className="container">
         <h1 className="title">Your Ideas, Your Platform</h1>
         <p>
         A Platform for Your Voice: Share Your Stories and Ideas on Our Blog
@@ -20,10 +20,11 @@ export default function Home() {
         </a>
       </div>
 
-      <div class="blank-1">
+      <div className="blank-1">
         <div className="left-line">
           <h2 style={{ fontSize: '2.5rem' }}>Connect, Create and Grow</h2>
           <p>Create blogs, get idea and inspiration from other’s blogs</p>
+          <a href="./enrolledusers" style={{ color: '#EBE4D2'}}><b>View Enrolled Users →</b></a>
         </div>
         <div className="right-button">
           <Button className="get-started" onClick={() => navigate("/login")}>Get Started</Button>

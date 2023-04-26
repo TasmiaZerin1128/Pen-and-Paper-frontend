@@ -24,4 +24,13 @@ const login = async (loginUser) => {
     }
 }
 
-export { register, login };
+const logout = async () => {
+    try {
+        const response = await api.post("auth/logout");
+        return response;
+    } catch (err) {
+        return err.response;
+    }
+}
+
+export { register, login, logout };

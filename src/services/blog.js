@@ -9,5 +9,15 @@ const getAllBlogs = async () => {
     }
 }
 
+const createBlog = async (newBlog) => {
+    try {
+        const response = await api.post("/blogs", newBlog, { withCredentials: true });
+        return response;
+    } catch (err) {
+        return err.response;
+    }
+}
 
-export { getAllBlogs };
+
+
+export { getAllBlogs, createBlog };
