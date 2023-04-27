@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer , toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { login } from "../../services/auth";
+import Cookies from 'js-cookie';
 import "./login.css";
 
 export default function Login({setIsSignedIn}){
@@ -65,6 +66,11 @@ export default function Login({setIsSignedIn}){
     }
 
     useEffect(() => {
+        let cookie = Cookies.get('jwt');
+        if(cookie){
+            Cookies.remove('jwt');
+            navigate("/dashboard");
+        }
         if (location.state) {
             toast.success(location.state.message, {
                 position: "top-right",

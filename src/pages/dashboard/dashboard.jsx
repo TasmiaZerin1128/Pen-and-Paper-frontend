@@ -5,12 +5,6 @@ import BlogList  from "../../components/blogs/blogs";
 
 import "./dashboard.css";
 
-function UserBlogNavbar() {
-  return (
-    <h1 style={{fontSize:'1.5rem', marginBottom: '2rem'}}><u>Recent Blogs</u></h1>
-  );
-}
-
 export default function Dashboard() {
       
   const [blogAdded, setBlogAdded] = useState(false);
@@ -24,7 +18,7 @@ export default function Dashboard() {
     <>
       <NavbarDashboard handleBlogAdd={handleBlogAdd}/>
       <div className="dashboard">
-        <UserBlogNavbar />
+        <h1 style={{fontSize:'1.5rem', marginBottom: '2rem'}}><u>Recent Blogs</u></h1>
         <BlogList blogAdded={blogAdded}/>
       </div>
     </>

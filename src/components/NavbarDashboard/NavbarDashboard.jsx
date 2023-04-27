@@ -150,7 +150,7 @@ export default function NavbarDashboard({handleBlogAdd}) {
               onClose={handleCloseUserMenu}
             >
                 <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center" sx={{padding: 0}}>Profile</Typography>
+                  <Typography textAlign="center" sx={{padding: 0}} onClick={(e) => navigate('/profile')}>Profile</Typography>
                 </MenuItem>
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Typography textAlign="center" sx={{padding: 0}} onClick={(e) => logoutUser()}>Logout</Typography>

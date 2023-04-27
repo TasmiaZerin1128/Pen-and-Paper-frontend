@@ -22,7 +22,7 @@ export default function Home() {
 
       <div className="blank-1">
         <div className="left-line">
-          <h2 style={{ fontSize: '2.5rem' }}>Connect, Create and Grow</h2>
+          <h2 style={{ fontSize: '2.5rem', marginTop: '0rem' }}>Connect, Create and Grow</h2>
           <p>Create blogs, get idea and inspiration from other’s blogs</p>
           <a href="./enrolledusers" style={{ color: '#EBE4D2'}}><b>View Enrolled Users →</b></a>
         </div>

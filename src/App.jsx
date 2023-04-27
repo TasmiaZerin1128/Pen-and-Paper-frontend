@@ -7,21 +7,11 @@ import Home from './pages/home/home';
 import Dashboard from './pages/dashboard/dashboard';
 import Users from './pages/enrolledusers/enrolledusers';
 import Protected from './components/Protected';
-import Cookies from 'js-cookie';
-import jwt_decode from "jwt-decode";
+import Profile from './pages/profile/profile';
 
 function App() {
 
   const [isSignedIn, setIsSignedIn] = useState(false);
-
-  useEffect(() => {
-    let cookie = Cookies.get('jwt');
-    if(cookie){
-      console.log(jwt_decode(cookie));
-      setIsSignedIn(true);
-      console.log(isSignedIn);
-    }
-  }, [isSignedIn]);
 
   return (
     <>
@@ -30,9 +20,15 @@ function App() {
         <Route path="/login" element={<Login setIsSignedIn={setIsSignedIn} />}/>
         <Route path="/" element={<Home />}/>
         <Route path="/dashboard" element={
-        <Protected isSignedIn={isSignedIn}>
-        <Dashboard />
-      </Protected>}/>
+          <Protected setIsSignedIn={setIsSignedIn} >
+          <Dashboard />
+          </Protected>
+        }/>
+        <Route path="/profile" element={
+          <Protected setIsSignedIn={setIsSignedIn} >
+          <Profile />
+          </Protected>
+        }/>
         <Route path="/enrolledusers" element={<Users />}/>
       </Routes>
     </>
