@@ -19,9 +19,12 @@ h1{
 .info {
     text-align: center;
     margin: 1rem 5rem;
-    padding: 2rem 3rem;
     background-color: #FAF5E8;
     border-radius: 1rem;
+}
+
+.infoForm {
+    padding: 2rem 4rem;
 }
 
 .profilePicWrap {
@@ -43,18 +46,26 @@ h1{
 }
 
 h4 {
-    margin-right: 4rem;
+    margin-right: 2rem;
+    color:#5B3203;
+    font-weight: 100;
 }
 
 .profileButtons {
     text-align: center;
 }
 
-.goBack, .goBack:hover {
+.goBack {
     border: #863812 2px solid;
     background-color: transparent;
     color: #863812;
     margin: 0.5rem;
+}
+
+.goBack:hover {
+    border: #863812 2px solid;
+    background-color: #863812;
+    color: #ffffff;
 }
 
 .save, .save:hover {
@@ -62,4 +73,10 @@ h4 {
     background-color: #863812;
     color: #ffffff;
     margin: 0.5rem;
+}
+
+.save:disabled {
+    border: #86391269 2px solid;
+    background-color: #86391269;
+    color: #ffffff78;
 }

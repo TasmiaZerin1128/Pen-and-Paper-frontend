@@ -18,6 +18,16 @@ const getUserByUsername = async (username) => {
     }
 }
 
+const updateUserByUsername = async (username, updatedUser) => {
+    try {
+        const response = await api.put("/users/"+ username, updatedUser, { withCredentials: true });
+        console.log(response);
+        return response;
+    } catch (err) {
+        return err.response;
+    }
+}
 
 
-export { getAllUsers, getUserByUsername };
+
+export { getAllUsers, getUserByUsername, updateUserByUsername };

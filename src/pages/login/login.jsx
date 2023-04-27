@@ -87,7 +87,7 @@ export default function Login({setIsSignedIn}){
 
     return(
         <>
-        <ToastContainer />
+        <ToastContainer toastStyle={{ backgroundColor: "#863812" }}/>
         <div className="wrapper">
             <img className="logoRaw" src="src\assets\images\raw-logo.png" />
             <h1>Welcome Back!</h1>
