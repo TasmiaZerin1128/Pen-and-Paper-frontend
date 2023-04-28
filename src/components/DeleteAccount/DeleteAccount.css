@@ -1,0 +1,22 @@
+.deleteSection {
+    margin: 2rem;
+}
+
+.deleteButton {
+    background-color: rgb(182, 11, 34);
+}
+
+.deleteButton:hover {
+    background-color: rgb(146, 9, 27);
+}
+
+.cancelButton {
+    margin-right: 1rem;
+    border-color: rgb(182, 11, 34);
+    color:rgb(182, 11, 34);
+}
+
+.cancelButton:hover {
+    border-color: rgb(182, 11, 34);
+    background-color: rgba(134, 56, 18, 0.09);
+}

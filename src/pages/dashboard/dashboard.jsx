@@ -1,7 +1,6 @@
-import Button from "@mui/material/Button";
 import { useEffect, useState } from "react";
 import NavbarDashboard from "../../components/NavbarDashboard/NavbarDashboard";
-import BlogList  from "../../components/blogs/blogs";
+import BlogList from "../../components/blogs/blogs";
 
 import "./dashboard.css";
 

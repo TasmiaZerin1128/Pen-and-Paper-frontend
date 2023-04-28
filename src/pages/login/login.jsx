@@ -45,30 +45,17 @@ export default function Login({setIsSignedIn}){
 
     const loginStatus = () => {
         return (
-          <div
-            className="loginStatus" style={{ visibility : error ? "visible" : "hidden" }}
+          <div style={{ visibility : error ? "visible" : "hidden" }}
           >
-            <h4>{status}</h4>
+            <h4 className="loginStatus">{status}</h4>
           </div>
         );
       };
 
-    const validateFields = () => {
-        if(username == ""){
-            setError(true);
-        }
-        if(password == ""){
-            setError(true);
-        }
-        if(error) return false;
-        console.log(username + " " + password);
-        return true;
-    }
 
     useEffect(() => {
         let cookie = Cookies.get('jwt');
         if(cookie){
-            Cookies.remove('jwt');
             navigate("/dashboard");
         }
         if (location.state) {

@@ -28,6 +28,14 @@ const updateUserByUsername = async (username, updatedUser) => {
     }
 }
 
+const deleteUserByUsername = async (username) => {
+    try {
+        const response = await api.delete("/users/"+ username, { withCredentials: true });
+        return response;
+    } catch (err) {
+        return err.response;
+    }
+}
 
 
-export { getAllUsers, getUserByUsername, updateUserByUsername };
+export { getAllUsers, getUserByUsername, updateUserByUsername, deleteUserByUsername };

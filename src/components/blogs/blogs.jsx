@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import { getAllBlogs } from "../../services/blog";
 
-import "./blogs.css";
+import './Blogs.css';
 
 function formatTimestamp(timestamp) {
   const options = {
@@ -14,10 +14,9 @@ function formatTimestamp(timestamp) {
     day: "numeric",
     hour: "numeric",
     minute: "numeric",
-    second: "numeric",
-    timeZone: "UTC",
+    hour12: true
   };
-  const formatted = new Date(timestamp).toLocaleString("en-US", options);
+  const formatted = new Date(timestamp).toLocaleString(undefined, options);
   return (
     <Typography sx={{ mb: 1.5 }} color="text.secondary">
       {formatted}
@@ -65,11 +64,12 @@ function AllBlogs({blogAdded}) {
         <Card className="blogCards" key={item.id}>
           <CardContent style={{ overflowWrap: "break-word" }}>
             <Typography
-              sx={{ fontSize: 14, fontFamily: "Poppins" }}
+              sx={{ fontSize: 14, fontFamily: "Poppins", display: "flex", alignItems: "center" }}
               color="text.secondary"
               gutterBottom
             >
               {item.authorFullName}
+              <Typography sx={{ fontSize: 13, fontFamily: "Poppins", padding: "0" }} color="#863812">&nbsp;@{item.authorUsername}</Typography>
             </Typography>
             <Typography
               variant="h5"

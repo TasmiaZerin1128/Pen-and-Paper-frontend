@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -10,16 +10,14 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import SearchIcon from '@mui/icons-material/Search';
-import InputBase from '@mui/material/InputBase';
+import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { styled, alpha } from '@mui/material/styles';
-import Cookies from 'js-cookie';
+import GroupIcon from '@mui/icons-material/Group';
+
 
 import { useNavigate } from "react-router-dom";
 import SearchBar from '../SearchBar/SearchBar';
@@ -27,6 +25,8 @@ import { createBlog } from '../../services/blog';
 import { logout } from '../../services/auth';
 
 import './NavbarDashboard.css';
+import Cookies from 'js-cookie';
+import jwt_decode from 'jwt-decode';
 
 function FormDialog({handleBlogAdd}) {
   const [open, setOpen] = useState(false);
@@ -98,6 +98,13 @@ export default function NavbarDashboard({handleBlogAdd}) {
 
     const navigate = useNavigate();
     const [anchorElUser, setAnchorElUser] = useState(null);
+    const [username, setUsername] = useState('');
+
+    useEffect(() => {
+      let cookie = Cookies.get("jwt");
+      let { username } = jwt_decode(cookie);
+      setUsername(username);
+    })
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -110,6 +117,7 @@ export default function NavbarDashboard({handleBlogAdd}) {
     const logoutUser = async () => {
       try {
       const response = await logout();
+      Cookies.remove('jwt');
       console.log(response);
       navigate("/login");
       } catch (err) {
@@ -126,8 +134,9 @@ export default function NavbarDashboard({handleBlogAdd}) {
             <img src='src\assets\images\logo-sm.svg' style={{ width: '4rem', marginTop: '0.5rem' }} onClick={(e)=> navigate('../')}/>
           </Typography>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-          <SearchBar />
+          {/* <SearchBar /> */}
           <FormDialog handleBlogAdd={handleBlogAdd}/>
+          <Button title="View enrolled users" sx={{ marginRight: '0.5rem', borderRadius: '50%' }} onClick={() => navigate('/enrolledUsers')}><GroupIcon  sx={{ color: '#863812'}}/></Button>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="profile icon" src="src\assets\images\profile-pic2.jpg" />
@@ -149,6 +158,10 @@ export default function NavbarDashboard({handleBlogAdd}) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
+              <MenuItem disabled>
+                  <Typography textAlign="left" variant='body1' sx={{padding: 0, fontSize: '14px'}}>Signed in as <br /><b>{username}</b></Typography>
+                </MenuItem>
+                <Divider />
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Typography textAlign="center" sx={{padding: 0}} onClick={(e) => navigate('/profile')}>Profile</Typography>
                 </MenuItem>

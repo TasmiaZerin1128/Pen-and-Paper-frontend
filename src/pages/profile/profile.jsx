@@ -12,18 +12,18 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { TextField, Button } from "@mui/material";
-import { Grid } from "@mui/material";
-import { useState } from "react";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import DescriptionIcon from "@mui/icons-material/Description";
-// import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import "./profile.css";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 import { ToastContainer , toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import { getUserByUsername, updateUserByUsername } from "../../services/user";
+import DeleteAccount from "../../components/DeleteAccount/DeleteAccount";
+import OwnBlogs from "../../components/OwnBlogs/OwnBlogs";
 
 const drawerWidth = 200;
 
@@ -141,7 +141,7 @@ function UserInfo() {
           </form>
         </div>
         <hr style={{border: '1px solid #e0d8c3'}} />
-        <div className="infoForm" style={{padding: '2rem 4rem'}}>
+        <div className="infoForm" style={{padding: '1.5rem 4rem'}}>
           <div className="individual">
             <h4 style={{marginTop: '0rem'}}>Password</h4>
             <TextField
@@ -169,6 +169,13 @@ function UserInfo() {
 }
 
 export default function Profile() {
+
+  const [selectedOption, setSelectedOption] = useState("userInfo");
+
+  const handleOptionClick = (option) => {
+    setSelectedOption(option);
+  }
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -200,28 +207,58 @@ export default function Profile() {
         <Toolbar />
         <Divider />
         <List>
-          <ListItem disablePadding>
-            <ListItemButton>
+          <ListItem disablePadding >
+            <ListItemButton selected={selectedOption === "userInfo"} 
+            onClick={() => handleOptionClick("userInfo")}
+            sx={{
+              color: '#5B3203',
+              "&.Mui-selected": {
+                backgroundColor: "rgba(134, 56, 18, 0.09)",
+                "&:hover": {
+                  backgroundColor: "rgba(134, 56, 18, 0.2)"
+                }
+              }
+            }}>
               <ListItemIcon>
-                <PermIdentityIcon />
+                <PermIdentityIcon sx={{color:"#5B3203"}}/>
               </ListItemIcon>
-              <ListItemText primary="User Info" />
+              <ListItemText sx={{marginLeft:"-20px"}} primary="User Info"/>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton selected={selectedOption === "ownBlogs"}
+            onClick={() => handleOptionClick("ownBlogs")}
+            sx={{
+              color: '#5B3203',
+              "&.Mui-selected": {
+                backgroundColor: "rgba(134, 56, 18, 0.09)",
+                "&:hover": {
+                  backgroundColor: "rgba(134, 56, 18, 0.2)"
+                }
+              }
+            }}>
               <ListItemIcon>
-                <DescriptionIcon />
+                <DescriptionIcon sx={{color:"#5B3203"}}/>
               </ListItemIcon>
-              <ListItemText primary="Own Blogs" />
+              <ListItemText sx={{marginLeft:"-20px"}} primary="Own Blogs" />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton>
+            <ListItemButton selected={selectedOption === "deleteAccount"} 
+            onClick={() => handleOptionClick("deleteAccount")}
+            sx={{
+              color:"#5B3203",
+              "&.Mui-selected": {
+                backgroundColor: "rgba(134, 56, 18, 0.09)",
+                "&:hover": {
+                  backgroundColor: "rgba(134, 56, 18, 0.2)"
+                }
+              }
+            }}>
               <ListItemIcon>
-                {/* <DeleteOutlineIcon /> */}
+                <DeleteOutlineIcon sx={{color:"#5B3203"}}/>
               </ListItemIcon>
-              <ListItemText primary="Delete Account" />
+              <ListItemText sx={{marginLeft:"-20px"}} primary="Delete Account" />
             </ListItemButton>
           </ListItem>
         </List>
@@ -231,7 +268,9 @@ export default function Profile() {
         sx={{ flexGrow: 1, bgcolor: "#EBE4D2", p: 3, margin: "auto" }}
       >
         <Toolbar />
-        <UserInfo />
+        {selectedOption === "userInfo" ? (<UserInfo />) : null}
+        {selectedOption === "deleteAccount" ? (<DeleteAccount />) : null}
+        {selectedOption === "ownBlogs" ? (<OwnBlogs />) : null}
       </Box>
     </Box>
   );
