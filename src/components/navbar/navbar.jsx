@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
 import { useNavigate } from "react-router-dom";
-import './navbar.css';
+import './Navbar.css';
 
 
 export default function Navbar() {
@@ -15,10 +15,10 @@ export default function Navbar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" style={{ backgroundColor: '#EBE4D2', borderBottom: '#5B3203 1px solid' }}>
+      <AppBar position="static" style={{ backgroundColor: '#EBE4D2', borderBottom: '#5B3203 1px solid', boxShadow: 'none'}}>
         <Toolbar>
-          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-            <img src='src\assets\images\logo-sm.svg' style={{ width: '4rem', marginTop: '0.5rem' }} />
+          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} >
+            <img src='src\assets\images\logo-sm.svg' style={{ width: '4rem', marginTop: '0.5rem' }} onClick={()=> navigate('/')}/>
           </Typography>
           <Button className="loginNav" onClick={() => navigate("/login")}>Sign In</Button>
           <Button className="registerNav" onClick={() => navigate("/register")}>Get Started</Button>

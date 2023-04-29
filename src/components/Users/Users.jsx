@@ -1,5 +1,6 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { getAllUsers } from "../../services/user";
@@ -86,6 +87,10 @@ function AllUsers() {
             </Grid>
           </Grid>
           </CardContent>
+          <hr style={{border: '1px solid #e0d8c3'}} />
+          <CardActions>
+            <h4 style={{margin: '0px'}}>View all blogs →</h4>
+          </CardActions>
         </Card>
       ))}
     </>

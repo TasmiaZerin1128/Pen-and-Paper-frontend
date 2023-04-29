@@ -1,8 +1,8 @@
 import api from "../api";
 
-const getAllBlogs = async () => {
+const getAllBlogs = async (pageNumber) => {
     try {
-        const response = await api.get("/blogs");
+        const response = await api.get("/blogs" + "?pagenumber=" + pageNumber + "&pagesize=5"); 
         return response;
     } catch (err) {
         return err.response;

@@ -19,11 +19,7 @@ function App() {
         <Route path="/register" element={<Register />}/>
         <Route path="/login" element={<Login setIsSignedIn={setIsSignedIn} />}/>
         <Route path="/" element={<Home />}/>
-        <Route path="/dashboard" element={
-          <Protected setIsSignedIn={setIsSignedIn} >
-          <Dashboard />
-          </Protected>
-        }/>
+        <Route path="/dashboard" element={<Dashboard />}/>
         <Route path="/profile" element={
           <Protected setIsSignedIn={setIsSignedIn} >
           <Profile />

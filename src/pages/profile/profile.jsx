@@ -24,6 +24,7 @@ import { useNavigate } from "react-router-dom";
 import { getUserByUsername, updateUserByUsername } from "../../services/user";
 import DeleteAccount from "../../components/DeleteAccount/DeleteAccount";
 import OwnBlogs from "../../components/OwnBlogs/OwnBlogs";
+import { showToast } from "../../services/toast";
 
 const drawerWidth = 200;
 
@@ -52,15 +53,7 @@ function UserInfo() {
       if(response.status === 200){
         console.log("successful");
         setPassword("");
-        toast.success("Password updated successfully", {
-          toastId: "passwordChanged",
-          position: "top-right",
-          autoClose: 4000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          theme: "colored",
-          });
+        showToast("Password updated successfully","passwordChanged" );
       }
     }
   }

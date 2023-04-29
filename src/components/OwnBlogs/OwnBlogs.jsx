@@ -12,7 +12,9 @@ import TextField from '@mui/material/TextField';
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 import { useEffect, useState } from "react";
+import { ToastContainer, Slide, Zoom } from "react-toastify";
 import { editBlog, deleteBlog } from "../../services/blog";
+import { showToast } from "../../services/toast";
 
 
 function EditBlogs({blog, setBlogList}) {
@@ -37,6 +39,7 @@ function EditBlogs({blog, setBlogList}) {
     console.log(response.data);
     if(response.status === 200){
         handleClose();
+        showToast("Blog updated", "blogUpdated");
         const userBlogs = await getBlogsByAuthorId(blog.authorId);
         console.log(userBlogs);
         if(typeof(userBlogs) === 'object'){
@@ -104,6 +107,9 @@ export default function OwnBlogs() {
     const deleteBlogs = async (blogId) => {
       const response = await deleteBlog(blogId);
       console.log(response.data);
+      if(response.status === 200){
+        showToast("Blog deleted", "deleted");
+      }
       await getAllBlgsByAuthorId(authorId);
     }
 
@@ -135,6 +141,7 @@ export default function OwnBlogs() {
     if(blogList) {
         return (
         <>
+        <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#863812" }}/>
         <h4><a href="/dashboard" style={{ fontSize: '16px', color: '#863812', textDecoration: 'none', marginBottom: '2rem'}}>←  Go back to Dashboard</a></h4>
           {blogList.map((item) => (
             <Card className="blogCards" key={item.id}>

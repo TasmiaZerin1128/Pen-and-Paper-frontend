@@ -17,14 +17,18 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import GroupIcon from '@mui/icons-material/Group';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Logout from '@mui/icons-material/Logout';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
 import { useNavigate } from "react-router-dom";
-import SearchBar from '../SearchBar/SearchBar';
+import { ToastContainer, Zoom } from 'react-toastify';
 import { createBlog } from '../../services/blog';
 import { logout } from '../../services/auth';
 
 import './NavbarDashboard.css';
+import { showToast } from '../../services/toast';
 import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
 
@@ -49,6 +53,7 @@ function FormDialog({handleBlogAdd}) {
     const response = await createBlog(newBlog);
     console.log(response.data);
     if(String(response.status)[0] == 2){
+        showToast("Blog added to timeline", "newBlog");
         handleClose();
         handleBlogAdd();
     } else {
@@ -127,6 +132,8 @@ export default function NavbarDashboard({handleBlogAdd}) {
     
 
   return (
+    <>
+    <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#863812" }}/>
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={{ backgroundColor: '#EBE4D2', borderBottom: '#5B3203 1px solid', padding: '0 10rem', boxShadow: 'none' }}>
         <Toolbar>
@@ -143,7 +150,8 @@ export default function NavbarDashboard({handleBlogAdd}) {
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              elevation={1}
+              sx={{ mt: '45px'}}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
@@ -163,9 +171,15 @@ export default function NavbarDashboard({handleBlogAdd}) {
                 </MenuItem>
                 <Divider />
                 <MenuItem onClick={handleCloseUserMenu}>
+                <ListItemIcon>
+                  <AccountCircleIcon fontSize="small" />
+                </ListItemIcon>
                   <Typography textAlign="center" sx={{padding: 0}} onClick={(e) => navigate('/profile')}>Profile</Typography>
                 </MenuItem>
                 <MenuItem onClick={handleCloseUserMenu}>
+                <ListItemIcon>
+                  <Logout fontSize="small" />
+                </ListItemIcon>
                   <Typography textAlign="center" sx={{padding: 0}} onClick={(e) => logoutUser()}>Logout</Typography>
                 </MenuItem>
             </Menu>
@@ -173,5 +187,6 @@ export default function NavbarDashboard({handleBlogAdd}) {
         </Toolbar>
       </AppBar>
     </Box>
+    </>
   );
 }

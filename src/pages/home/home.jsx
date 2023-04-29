@@ -15,8 +15,8 @@ export default function Home() {
         <p>
         A Platform for Your Voice: Share Your Stories and Ideas on Our Blog
         </p>
-        <a href="./login" className="learnMore">
-          START BLOGGING
+        <a href="./dashboard" className="learnMore">
+          START READING BLOGS
         </a>
       </div>
 

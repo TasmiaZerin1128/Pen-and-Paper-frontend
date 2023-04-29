@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { TextField, Button } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ToastContainer , toast } from 'react-toastify';
+import { ToastContainer , Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { login } from "../../services/auth";
 import Cookies from 'js-cookie';
+import { showToast } from "../../services/toast";
 import "./login.css";
 
 export default function Login({setIsSignedIn}){
@@ -59,14 +60,7 @@ export default function Login({setIsSignedIn}){
             navigate("/dashboard");
         }
         if (location.state) {
-            toast.success(location.state.message, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: true,
-                closeOnClick: true,
-                pauseOnHover: true,
-                theme: "colored",
-                });
+            showToast(location.state.message, "loginSuccessful");
             location.state = null;
         }
     }, [location]);
@@ -74,9 +68,9 @@ export default function Login({setIsSignedIn}){
 
     return(
         <>
-        <ToastContainer toastStyle={{ backgroundColor: "#863812" }}/>
+        <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#863812" }}/>
         <div className="wrapper">
-            <img className="logoRaw" src="src\assets\images\raw-logo.png" />
+            <img className="logoRaw" src="src\assets\images\raw-logo.png" onClick={(e)=> navigate('/')}/>
             <h1>Welcome Back!</h1>
             <h3>Let's start imagining again</h3>
             <div className="loginForm">

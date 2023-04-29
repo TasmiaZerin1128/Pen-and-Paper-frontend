@@ -41,21 +41,27 @@ function ReadMore({ text, length = 400 }) {
   );
 }
 
-function AllBlogs({blogAdded}) {
+function AllBlogs({blogAdded, pageNumber}) {
   const [blogs, setBlogs] = useState(null);
 
   useEffect(() => {
-    async function fetchBlogs() {
-      const allBlogs = await getAllBlogs();
-      console.log(allBlogs.data);
-      console.log(typeof(allBlogs));
-      if(typeof(allBlogs) === 'object'){
-        setBlogs(allBlogs.data);
-      }
-    }
-    fetchBlogs();
+    fetchAllBlogs(pageNumber);
   }, [blogAdded]);
 
+  useEffect(() => {
+    console.log(pageNumber);
+    fetchAllBlogs(pageNumber);
+  }, [pageNumber]);
+
+  const fetchAllBlogs = async (pageNumber) => {
+    const allBlogs = await getAllBlogs(pageNumber);
+    console.log(allBlogs.data);
+    if(typeof(allBlogs.data) === 'object'){
+      setBlogs(allBlogs.data);
+    } else {
+      setBlogs(null);
+    }
+  }
 
   if(blogs) {
     return (
@@ -94,14 +100,14 @@ function AllBlogs({blogAdded}) {
   } 
     return (
       <>
-      <h1>No blog found</h1>
+      <h1 style={{ marginBottom: "1rem" }}>No blog found</h1>
       </>
     )
   
 }
 
-export default function BlogList({blogAdded}) {
+export default function BlogList({blogAdded, pageNumber}) {
   return (
-        <AllBlogs blogAdded={blogAdded}/>
+        <AllBlogs blogAdded={blogAdded} pageNumber={pageNumber}/>
   );
 }
