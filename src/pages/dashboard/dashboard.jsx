@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import NavbarDashboard from "../../components/NavbarDashboard/NavbarDashboard";
-import BlogList from "../../components/blogs/blogs";
+import BlogList from "../../components/Blogs/Blogs";
 
 import "./dashboard.css";
 import Cookies from "js-cookie";
@@ -52,7 +52,7 @@ export default function Dashboard() {
     { isLoggedIn? (<NavbarDashboard handleBlogAdd={handleBlogAdd}/>) : (<Navbar />) }
       <div className="dashboard">
         <h1 style={{fontSize:'1.5rem', marginBottom: '2rem'}}><u>Recent Blogs</u></h1>
-        <BlogList blogAdded={blogAdded} pageNumber={pageNumber}/>
+        <BlogList blogAdded={blogAdded} pageNumber={pageNumber} author={null}/>
         <PaginationRounded changePageNumber={changePageNumber}/>
       </div>
     </>

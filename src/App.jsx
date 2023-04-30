@@ -8,6 +8,8 @@ import Dashboard from './pages/dashboard/dashboard';
 import Users from './pages/enrolledusers/enrolledusers';
 import Protected from './components/Protected';
 import Profile from './pages/profile/profile';
+import UsersProfile from './pages/usersProfile/usersProfile';
+import PageNotFound from './pages/pageNotFound';
 
 function App() {
 
@@ -26,6 +28,8 @@ function App() {
           </Protected>
         }/>
         <Route path="/enrolledusers" element={<Users />}/>
+        <Route path="/user/:username" element={<UsersProfile />} /> 
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>
   )

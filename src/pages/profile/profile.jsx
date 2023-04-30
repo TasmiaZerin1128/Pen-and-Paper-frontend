@@ -93,7 +93,7 @@ function UserInfo() {
         <div className="infoForm">
           <form>
             <div className="individual">
-              <h4>Full Name</h4>
+              <h4 style={{marginRight: '2rem'}}>Full Name</h4>
               <TextField
                 id="fullname"
                 label={fullName === "" ? "Full Name" : ""}
@@ -106,7 +106,7 @@ function UserInfo() {
               />
             </div>
             <div className="individual">
-              <h4>Username</h4>
+              <h4 style={{marginRight: '2rem'}}>Username</h4>
               <TextField
                 id="username"
                 label={username === "" ? "Username" : ""}
@@ -119,7 +119,7 @@ function UserInfo() {
               />
             </div>
             <div className="individual">
-              <h4>Email</h4>
+              <h4 style={{marginRight: '2rem'}}>Email</h4>
               <TextField
                 id="email"
                 label={email === "" ? "Email" : ""}
@@ -136,7 +136,7 @@ function UserInfo() {
         <hr style={{border: '1px solid #e0d8c3'}} />
         <div className="infoForm" style={{padding: '1.5rem 4rem'}}>
           <div className="individual">
-            <h4 style={{marginTop: '0rem'}}>Password</h4>
+            <h4 style={{marginTop: '0rem', marginRight: '2rem'}}>Password</h4>
             <TextField
                 id="password"
                 label={password === "" ? "Enter New Password" : ""}

@@ -3,7 +3,8 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 
-import { getAllBlogs } from "../../services/blog";
+import { getAllBlogs, getBlogsByAuthorId } from "../../services/blog";
+import { getUserByUsername } from "../../services/user";
 
 import './Blogs.css';
 
@@ -41,7 +42,7 @@ function ReadMore({ text, length = 400 }) {
   );
 }
 
-function AllBlogs({blogAdded, pageNumber}) {
+function AllBlogs({blogAdded, pageNumber, authorId}) {
   const [blogs, setBlogs] = useState(null);
 
   useEffect(() => {
@@ -54,7 +55,15 @@ function AllBlogs({blogAdded, pageNumber}) {
   }, [pageNumber]);
 
   const fetchAllBlogs = async (pageNumber) => {
-    const allBlogs = await getAllBlogs(pageNumber);
+    let allBlogs = null;
+
+    console.log(authorId);
+
+    if(authorId){
+      allBlogs = await getBlogsByAuthorId(authorId);
+    } else {
+      allBlogs = await getAllBlogs(pageNumber);
+    }
     console.log(allBlogs.data);
     if(typeof(allBlogs.data) === 'object'){
       setBlogs(allBlogs.data);
@@ -100,14 +109,14 @@ function AllBlogs({blogAdded, pageNumber}) {
   } 
     return (
       <>
-      <h1 style={{ marginBottom: "1rem" }}>No blog found</h1>
+      <h1 style={{ marginBottom: "1rem", textAlign: "center" }}>No blog found</h1>
       </>
     )
   
 }
 
-export default function BlogList({blogAdded, pageNumber}) {
+export default function BlogList({blogAdded, pageNumber, authorId}) {
   return (
-        <AllBlogs blogAdded={blogAdded} pageNumber={pageNumber}/>
+        <AllBlogs blogAdded={blogAdded} pageNumber={pageNumber} authorId={authorId}/>
   );
 }

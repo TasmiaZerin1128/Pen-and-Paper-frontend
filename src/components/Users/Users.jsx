@@ -4,8 +4,9 @@ import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import { getAllUsers } from "../../services/user";
-import { Grid, ListItem } from "@mui/material";
+import { Button, Grid, ListItem } from "@mui/material";
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
+import { useNavigate } from "react-router-dom";
 
 import './users.css';
 
@@ -35,6 +36,8 @@ function formatTimestamp(timestamp, createOrUpdate) {
 }
 
 function AllUsers() {
+  const navigate = useNavigate();
+
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -45,6 +48,10 @@ function AllUsers() {
     }
     fetchUsers();
   }, []);
+
+  const viewUserBlogs = (user) => {
+    navigate("/user/"+user.username, { state: { data: user } });
+  }
 
   return (
     <>
@@ -89,7 +96,9 @@ function AllUsers() {
           </CardContent>
           <hr style={{border: '1px solid #e0d8c3'}} />
           <CardActions>
-            <h4 style={{margin: '0px'}}>View all blogs →</h4>
+            <Button className="viewBlogs" onClick={() => viewUserBlogs(item)}>
+              View all blogs →
+            </Button>
           </CardActions>
         </Card>
       ))}
