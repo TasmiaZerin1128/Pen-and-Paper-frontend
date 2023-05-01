@@ -2,10 +2,18 @@ import "./home.css";
 import Navbar from "../../components/navbar/navbar";
 import { Button, Grid, ListItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { isLoggedIn } from "../../services/loggedIn";
 
 export default function Home() {
   
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(isLoggedIn()){
+      navigate("/dashboard");
+    }
+  })
 
   return (
     <>
@@ -16,7 +24,7 @@ export default function Home() {
         A Platform for Your Voice: Share Your Stories and Ideas on Our Blog
         </p>
         <a href="./dashboard" className="learnMore">
-          START READING BLOGS
+          START BLOGGING
         </a>
       </div>
 

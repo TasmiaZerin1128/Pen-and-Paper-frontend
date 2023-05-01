@@ -17,9 +17,8 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import "./profile.css";
 import { useState, useEffect } from "react";
-import Cookies from "js-cookie";
-import jwt_decode from "jwt-decode";
-import { ToastContainer , toast } from 'react-toastify';
+import { getCookieUsername } from "../../services/loggedIn";
+import { ToastContainer , Zoom } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import { getUserByUsername, updateUserByUsername } from "../../services/user";
 import DeleteAccount from "../../components/DeleteAccount/DeleteAccount";
@@ -28,11 +27,14 @@ import { showToast } from "../../services/toast";
 
 const drawerWidth = 200;
 
-function UserInfo() {
+function UserInfo({cookieUsername}) {
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [errorPassword, setErrorPassword] = useState(false);
+  const [errorLinePassword, setErrorLinePassword] = useState("");
 
   const [userDetails, setUserDetails] = useState(null);
 
@@ -53,8 +55,13 @@ function UserInfo() {
       if(response.status === 200){
         console.log("successful");
         setPassword("");
+        setErrorPassword(false);
+        setErrorLinePassword("");
         showToast("Password updated successfully","passwordChanged" );
       }
+    } else {
+      setErrorPassword(true);
+      setErrorLinePassword("Password must be atleast of 6 characters");
     }
   }
 
@@ -67,21 +74,19 @@ function UserInfo() {
   }, [password])
 
   useEffect(() => {
-    let cookie = Cookies.get("jwt");
-    let { username } = jwt_decode(cookie);
     async function getUserDetails() {
-      let details = await getUserByUsername(username);
+      let details = await getUserByUsername(cookieUsername);
       setUserDetails(details.data);
       setFullName(details.data.fullName);
       setUsername(details.data.username);
       setEmail(details.data.email);
     }
     getUserDetails();
-  }, []);
+  }, [cookieUsername]);
 
   return (
     <div className="userInfoWrapper">
-      <ToastContainer limit={1} toastStyle={{ backgroundColor: "#863812" }}/>
+      <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#863812" }}/>
       <div className="profilePicWrap">
         <img
           src="src\assets\images\profile-pic2.jpg"
@@ -141,10 +146,12 @@ function UserInfo() {
                 id="password"
                 label={password === "" ? "Enter New Password" : ""}
                 variant="outlined"
+                type="password"
                 InputLabelProps={{ shrink: false }}
                 value={password}
                 onChange={(e) => handlePassword(e)}
                 style={{ width: "70%", color: "#863812" }}
+                error={errorPassword} helperText={errorLinePassword}
               />
           </div>
         </div>
@@ -164,10 +171,16 @@ function UserInfo() {
 export default function Profile() {
 
   const [selectedOption, setSelectedOption] = useState("userInfo");
+  const [cookieUsername, setCookieUsername] = useState("");
 
   const handleOptionClick = (option) => {
     setSelectedOption(option);
   }
+
+  useEffect(() => {
+    let cookieName = getCookieUsername();
+    setCookieUsername(cookieName);
+  });
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -261,9 +274,9 @@ export default function Profile() {
         sx={{ flexGrow: 1, bgcolor: "#EBE4D2", p: 3, margin: "auto" }}
       >
         <Toolbar />
-        {selectedOption === "userInfo" ? (<UserInfo />) : null}
-        {selectedOption === "deleteAccount" ? (<DeleteAccount />) : null}
-        {selectedOption === "ownBlogs" ? (<OwnBlogs />) : null}
+        {selectedOption === "userInfo" ? (<UserInfo cookieUsername={cookieUsername}/>) : null}
+        {selectedOption === "deleteAccount" ? (<DeleteAccount cookieUsername={cookieUsername}/>) : null}
+        {selectedOption === "ownBlogs" ? (<OwnBlogs cookieUsername={cookieUsername}/>) : null}
       </Box>
     </Box>
   );

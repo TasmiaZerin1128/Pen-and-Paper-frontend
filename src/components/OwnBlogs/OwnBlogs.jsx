@@ -9,8 +9,6 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
-import Cookies from "js-cookie";
-import jwt_decode from "jwt-decode";
 import { useEffect, useState } from "react";
 import { ToastContainer, Slide, Zoom } from "react-toastify";
 import { editBlog, deleteBlog } from "../../services/blog";
@@ -89,20 +87,18 @@ function EditBlogs({blog, setBlogList}) {
   );
 }
 
-export default function OwnBlogs() {
+export default function OwnBlogs({cookieUsername}) {
     const [blogList, setBlogList] = useState([]);
     const [authorId, setAuthorId] = useState("");
 
     useEffect(() => {
         async function getUser() {
-            let cookie = Cookies.get("jwt");
-            let { username } = jwt_decode(cookie);
-            const user = await getUserByUsername(username);
+            const user = await getUserByUsername(cookieUsername);
             setAuthorId(user.data.id);
             await getAllBlgsByAuthorId(user.data.id);
         }
         getUser();
-    }, []);
+    }, [cookieUsername]);
 
     const deleteBlogs = async (blogId) => {
       const response = await deleteBlog(blogId);
@@ -115,8 +111,10 @@ export default function OwnBlogs() {
 
     const getAllBlgsByAuthorId = async (authorId) => {
       const userBlogs = await getBlogsByAuthorId(authorId);
-      if(typeof(userBlogs) === 'object'){
+      if(typeof(userBlogs.data) === 'object'){
           setBlogList(userBlogs.data);
+      } else {
+        setBlogList(null);
       }
     }
 
@@ -182,7 +180,8 @@ export default function OwnBlogs() {
       } 
         return (
           <>
-          <h1>No blog found</h1>
+          <h4><a href="/dashboard" style={{ fontSize: '16px', color: '#863812', textDecoration: 'none', marginBottom: '2rem'}}>←  Go back to Dashboard</a></h4>
+          <h1 style={{ marginBottom: "1rem", textAlign: "center" }}>No blog found</h1>
           </>
         )
 }

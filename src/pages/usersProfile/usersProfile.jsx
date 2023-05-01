@@ -76,7 +76,7 @@ export default function UsersProfile() {
       setUserFullName(user.fullName);
       setUserEmail(user.email);
     } else {
-      navigate("/enrolledusers");
+      navigate("*");
     }
 }, [location]);
 

@@ -35,24 +35,29 @@ function formatTimestamp(timestamp, createOrUpdate) {
   );
 }
 
-function AllUsers() {
+export default function AllUsers({pageNumber}) {
   const navigate = useNavigate();
 
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
     async function fetchUsers() {
-      const allUsers = await getAllUsers();
+      const allUsers = await getAllUsers(pageNumber);
       console.log(allUsers.data);
-      setUsers(allUsers.data);
+      if(typeof(allUsers.data) === 'object'){
+        setUsers(allUsers.data);
+      } else {
+        setUsers(null);
+      }
     }
     fetchUsers();
-  }, []);
+  }, [pageNumber]);
 
   const viewUserBlogs = (user) => {
     navigate("/user/"+user.username, { state: { data: user } });
   }
 
+  if(users) {
   return (
     <>
       {users.map((item) => (
@@ -104,10 +109,10 @@ function AllUsers() {
       ))}
     </>
   );
-}
-
-export default function UsersList() {
-  return (
-        <AllUsers />
-  );
-}
+} 
+return (
+  <>
+  <h1 style={{ marginBottom: "1rem", textAlign: "center" }}>No User found</h1>
+  </>
+)
+} 

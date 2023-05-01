@@ -22,12 +22,14 @@ function App() {
         <Route path="/login" element={<Login setIsSignedIn={setIsSignedIn} />}/>
         <Route path="/" element={<Home />}/>
         <Route path="/dashboard" element={<Dashboard />}/>
+        <Route path="/dashboard/:pagenumber" element={<Dashboard />}/>
         <Route path="/profile" element={
           <Protected setIsSignedIn={setIsSignedIn} >
           <Profile />
           </Protected>
         }/>
         <Route path="/enrolledusers" element={<Users />}/>
+        <Route path="/enrolledusers/:pagenumber" element={<Users />}/>
         <Route path="/user/:username" element={<UsersProfile />} /> 
         <Route path="*" element={<PageNotFound />} />
       </Routes>

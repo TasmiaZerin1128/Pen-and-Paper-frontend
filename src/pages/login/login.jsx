@@ -4,8 +4,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer , Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { login } from "../../services/auth";
-import Cookies from 'js-cookie';
 import { showToast } from "../../services/toast";
+import { isLoggedIn } from "../../services/loggedIn";
 import "./login.css";
 
 export default function Login({setIsSignedIn}){
@@ -55,8 +55,7 @@ export default function Login({setIsSignedIn}){
 
 
     useEffect(() => {
-        let cookie = Cookies.get('jwt');
-        if(cookie){
+        if(isLoggedIn()){
             navigate("/dashboard");
         }
         if (location.state) {

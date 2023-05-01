@@ -37,6 +37,11 @@ function FormDialog({handleBlogAdd}) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
+  const [errorTitle, setErrorTitle] = useState(false);
+  const [errorDescription, setErrorDescription] = useState(false);
+  const [errorLineTitle, setErrorLineTitle] = useState("");
+  const [errorLineDescription, setErrorLineDescription] = useState("");
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -46,6 +51,7 @@ function FormDialog({handleBlogAdd}) {
   };
 
   const create = async () => {
+    if(title && description){
     const newBlog = {
       title: title,
       description: description
@@ -59,6 +65,22 @@ function FormDialog({handleBlogAdd}) {
     } else {
       console.log(response.data);
     }
+  } else {
+    if(!title){
+      setErrorTitle(true);
+      setErrorLineTitle("Title of the blog is required");
+    } else {
+      setErrorTitle(false);
+      setErrorLineTitle("");
+    }
+    if(!description){
+      setErrorDescription(true);
+      setErrorLineDescription("Description is required");
+    } else {
+      setErrorDescription(false);
+      setErrorLineDescription("");
+    }
+  }
   }
 
   return (
@@ -76,6 +98,7 @@ function FormDialog({handleBlogAdd}) {
             inputProps={{style: {fontSize: 40}}}
             sx={{marginBottom: '1.4rem'}}
             onChange={(e) => setTitle(e.target.value)}
+            error={errorTitle} helperText={errorLineTitle}
           />
           <TextField
           id="body"
@@ -88,6 +111,7 @@ function FormDialog({handleBlogAdd}) {
           maxRows={8}
           minRows={8}
           onChange={(e) => setDescription(e.target.value)}
+          error={errorDescription} helperText={errorLineDescription}
         />
         </DialogContent>
         <DialogActions sx={{backgroundColor: '#EBE4D2', color: '#863812', padding: '0 3rem 3rem'}}>
@@ -124,7 +148,7 @@ export default function NavbarDashboard({handleBlogAdd}) {
       const response = await logout();
       Cookies.remove('jwt');
       console.log(response);
-      navigate("/login");
+      navigate("/");
       } catch (err) {
         console.log(err);
       }
@@ -135,18 +159,18 @@ export default function NavbarDashboard({handleBlogAdd}) {
     <>
     <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#863812" }}/>
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" style={{ backgroundColor: '#EBE4D2', borderBottom: '#5B3203 1px solid', padding: '0 10rem', boxShadow: 'none' }}>
+      <AppBar position="static" style={{ backgroundColor: '#EBE4D2', borderBottom: '#5B3203 1px solid', boxShadow: 'none' }}>
         <Toolbar>
           <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-            <img src='src\assets\images\logo-sm.svg' style={{ width: '4rem', marginTop: '0.5rem' }} onClick={(e)=> navigate('../')}/>
+            <img src='\src\assets\images\logo-sm.svg' style={{ width: '4rem', marginTop: '0.5rem' }} onClick={(e)=> navigate('../')}/>
           </Typography>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
           {/* <SearchBar /> */}
           <FormDialog handleBlogAdd={handleBlogAdd}/>
-          <Button title="View enrolled users" sx={{ marginRight: '0.5rem', borderRadius: '50%' }} onClick={() => navigate('/enrolledUsers')}><GroupIcon  sx={{ color: '#863812'}}/></Button>
+          <Button title="View enrolled users" sx={{ marginRight: '0.5rem', borderRadius: '50%' }} onClick={() => navigate('/enrolledusers')}><GroupIcon  sx={{ color: '#863812'}}/></Button>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="profile icon" src="src\assets\images\profile-pic2.jpg" />
+                <Avatar alt="profile icon" src="\src\assets\images\profile-pic2.jpg" />
               </IconButton>
             </Tooltip>
             <Menu

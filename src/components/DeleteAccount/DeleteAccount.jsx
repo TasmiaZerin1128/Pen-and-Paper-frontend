@@ -2,17 +2,13 @@ import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import { deleteUserByUsername } from '../../services/user';
 import Cookies from 'js-cookie';
-import jwt_decode from 'jwt-decode';
 import './DeleteAccount.css';
 
-export default function DeleteAccount() {
+export default function DeleteAccount({cookieUsername}) {
     const navigate = useNavigate();
 
     const deleteUserAccount = async () => {
-        let cookie = Cookies.get("jwt");
-        let { username } = jwt_decode(cookie);
-        console.log(username);
-        const response = await deleteUserByUsername(username);
+        const response = await deleteUserByUsername(cookieUsername);
         console.log(response.data);
         if(response.status === 200) {
             Cookies.remove("jwt");
