@@ -75,12 +75,13 @@ function AllBlogs({blogAdded, pageNumber, authorId}) {
         <Card className="blogCards" key={item.id}>
           <CardContent style={{ overflowWrap: "break-word" }}>
             <Typography
-              sx={{ fontSize: 14, fontFamily: "Poppins", display: "flex", alignItems: "center" }}
+              sx={{ fontSize: 14, fontFamily: "Poppins", display: "inline-block", alignItems: "center" }}
               color="text.secondary"
-              gutterBottom
-            >
-              {item.authorFullName}
-              <Typography sx={{ fontSize: 13, fontFamily: "Poppins", padding: "0" }} color="#863812">&nbsp;@{item.authorUsername}</Typography>
+              gutterBottom>
+                {item.authorFullName}
+                </Typography>
+            <Typography sx={{ fontSize: 13, fontFamily: "Poppins", padding: "0", display: "inline-block", alignItems: "center" }} color="#863812">
+              &nbsp;@{item.authorUsername}
             </Typography>
             <Typography
               variant="h5"

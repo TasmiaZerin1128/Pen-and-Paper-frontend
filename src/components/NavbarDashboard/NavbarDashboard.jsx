@@ -30,7 +30,7 @@ import { logout } from '../../services/auth';
 import './NavbarDashboard.css';
 import { showToast } from '../../services/toast';
 import Cookies from 'js-cookie';
-import { getCookieUsername } from '../../services/loggedIn';
+import { getTokenUsername } from '../../services/loggedIn';
 
 function FormDialog({handleBlogAdd}) {
   const [open, setOpen] = useState(false);
@@ -135,7 +135,7 @@ export default function NavbarDashboard({handleBlogAdd}) {
     const [username, setUsername] = useState('');
 
     useEffect(() => {
-      let username = getCookieUsername();
+      let username = getTokenUsername();
       if(username){
         setUsername(username);
       } else {

@@ -6,21 +6,28 @@ import { showToast } from "../../services/toast";
 import Navbar from "../../components/Navbar/navbar";
 import PaginationBar from "../../components/Pagination/Pagination";
 import { isLoggedIn } from "../../services/loggedIn";
-import { ToastContainer, Zoom } from "react-toastify";
+import ErrorPopUp from "../../components/ErrorPopUp/ErrorPopUp";
+import { getTokenUsername } from "../../services/loggedIn";
 import "./dashboard.css";
 
 export default function Dashboard() {
   const [blogAdded, setBlogAdded] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [expired, setExpired] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
 
   useEffect(() => {
-    if (isLoggedIn()) {
-      setLoggedIn(true);
+    if (!isLoggedIn() || getTokenUsername() === "expired") {
+      if(getTokenUsername() === "expired"){
+        setExpired(true);
+      } else {
+        setExpired(false);
+      }
+      setLoggedIn(false);
     } else {
-      showToast("Session Expired! Please Log In again","sessionexpired" );
+      setLoggedIn(true);
     }
-  }, [loggedIn]);
+  }, [isLoggedIn()]);
 
   const handleBlogAdd = () => {
     console.log("Working");
@@ -33,7 +40,7 @@ export default function Dashboard() {
 
   return (
     <>
-    <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#4fb677" }}/>
+    {expired ? (<ErrorPopUp loggedIn={loggedIn}/>) : null}
       {loggedIn ? (
         <NavbarDashboard handleBlogAdd={handleBlogAdd} />
       ) : (

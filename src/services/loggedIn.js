@@ -6,7 +6,7 @@ function isLoggedIn() {
   return false;
 }
 
-function getCookieUsername() {
+function getTokenUsername() {
   return parseCookie();
 }
 
@@ -21,7 +21,7 @@ function parseCookie() {
       if (expirationTime < current_time) {
         Cookies.remove("jwt");
         console.log("Session expired");
-        return false;
+        return "expired";
       }
       return token.username;
     }
@@ -33,4 +33,4 @@ function parseCookie() {
   }
 }
 
-export { isLoggedIn, getCookieUsername };
+export { isLoggedIn, getTokenUsername };

@@ -17,7 +17,7 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import "./profile.css";
 import { useState, useEffect } from "react";
-import { getCookieUsername } from "../../services/loggedIn";
+import { getTokenUsername } from "../../services/loggedIn";
 import { ToastContainer , Zoom } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import { getUserByUsername, updateUserByUsername } from "../../services/user";
@@ -150,7 +150,7 @@ function UserInfo({cookieUsername}) {
           <div className="individual">
             <h4 style={{marginTop: '2rem', marginRight: '2rem'}}>Old Password</h4>
             <TextField
-                id="password"
+                id="oldpassword"
                 label={oldPassword === "" ? "Enter Old Password" : ""}
                 variant="outlined"
                 type="password"
@@ -198,7 +198,7 @@ export default function Profile() {
   }
 
   useEffect(() => {
-    let cookieName = getCookieUsername();
+    let cookieName = getTokenUsername();
     setCookieUsername(cookieName);
   });
 

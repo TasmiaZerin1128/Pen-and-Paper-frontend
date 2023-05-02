@@ -8,6 +8,8 @@ import Typography from "@mui/material/Typography";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import { useEffect, useState } from "react";
 import { ToastContainer, Slide, Zoom } from "react-toastify";
@@ -87,6 +89,54 @@ function EditBlogs({blog, setBlogList}) {
   );
 }
 
+function DeleteBlog({blog, setBlogList}) {
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const confirmDelete = async () => {
+    const response = await deleteBlog(blog.id);
+      console.log(response.data);
+      if(response.status === 200){
+        handleClose();
+        showToast("Blog deleted", "deleted");
+        const userBlogs = await getBlogsByAuthorId(blog.authorId);
+        console.log(userBlogs);
+        if(typeof(userBlogs) === 'object'){
+            setBlogList(userBlogs.data);
+        }
+      } else {
+      console.log(response.data);
+    }
+  }
+
+  return (
+    <div>
+      <Button size="small" disableElevation variant="outlined" style={{ borderColor: '#b11e1e', color: '#b11e1e', marginRight: '0.5rem', marginBottom: '0.5rem'}} onClick={() => handleClickOpen()}>Delete</Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogContent sx={{backgroundColor: '#EBE4D2', color: '#863812', padding: '3rem'}}>
+        <DialogTitle id="alert-dialog-title" sx={{margin: 0, padding: 0}}>
+          <b><h3>Confirm Delete</h3></b>
+        </DialogTitle>
+          <DialogContentText id="alert-dialog-description">
+            Do you want to delete the blog? You cannot undo this action
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{backgroundColor: '#EBE4D2', color: '#863812', padding: '0 3rem 3rem'}}>
+          <Button sx={{backgroundColor: '#EBE4D2', color: '#863812'}} onClick={handleClose}>Cancel</Button>
+          <Button style={{backgroundColor: '#863812', color: '#EBE4D2', padding: '0.6rem 1.5rem', borderRadius: '5px'}} onClick={confirmDelete}>Delete</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+}
+
 export default function OwnBlogs({cookieUsername}) {
     const [blogList, setBlogList] = useState([]);
     const [authorId, setAuthorId] = useState("");
@@ -144,14 +194,15 @@ export default function OwnBlogs({cookieUsername}) {
           {blogList.map((item) => (
             <Card className="blogCards" key={item.id}>
               <CardContent style={{ overflowWrap: "break-word" }}>
-                <Typography
-                  sx={{ fontSize: 14, fontFamily: "Poppins", display: "flex", alignItems: "center" }}
-                  color="text.secondary"
-                  gutterBottom
-                >
-                  {item.authorFullName}
-                  <Typography sx={{ fontSize: 13, fontFamily: "Poppins", padding: "0" }} color="#863812">&nbsp;@{item.authorUsername}</Typography>
+              <Typography
+              sx={{ fontSize: 14, fontFamily: "Poppins", display: "inline-block", alignItems: "center" }}
+              color="text.secondary"
+              gutterBottom>
+                {item.authorFullName}
                 </Typography>
+            <Typography sx={{ fontSize: 13, fontFamily: "Poppins", padding: "0", display: "inline-block", alignItems: "center" }} color="#863812">
+              &nbsp;@{item.authorUsername}
+            </Typography>
                 <Typography
                   variant="h5"
                   component="div"
@@ -171,8 +222,8 @@ export default function OwnBlogs({cookieUsername}) {
               <hr style={{border: '1px solid #e0d8c3'}} />
               <CardActions>
                 <EditBlogs blog={item} setBlogList={setBlogList} />
-                <Button size="small" variant="outlined" onClick={() => deleteBlogs(item.id)} style={{ borderColor: '#b11e1e', color: '#b11e1e', marginRight: '0.5rem', marginBottom: '0.5rem'}}>Delete</Button>
-            </CardActions>
+                <DeleteBlog blog={item} setBlogList={setBlogList} />
+              </CardActions>
             </Card>
           ))}
         </>
