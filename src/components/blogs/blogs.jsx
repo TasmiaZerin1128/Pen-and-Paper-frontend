@@ -4,7 +4,6 @@ import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 
 import { getAllBlogs, getBlogsByAuthorId } from "../../services/blog";
-import { getUserByUsername } from "../../services/user";
 
 import './Blogs.css';
 
@@ -33,7 +32,7 @@ function ReadMore({ text, length = 400 }) {
   }
 
   return (
-    <div>
+    <div style={{ textAlign: 'justify' }}>
       {showLess ? `${text.slice(0, length)}...` : text}
       <button className="moreOrLess" onClick={() => setShowLess(!showLess)}>
         {showLess ? "Read more" : "Read less"}
@@ -46,13 +45,10 @@ function AllBlogs({blogAdded, pageNumber, authorId}) {
   const [blogs, setBlogs] = useState(null);
 
   useEffect(() => {
-    fetchAllBlogs(pageNumber);
-  }, [blogAdded]);
-
-  useEffect(() => {
     console.log(pageNumber);
     fetchAllBlogs(pageNumber);
-  }, [pageNumber]);
+  }, [blogAdded, pageNumber]);
+
 
   const fetchAllBlogs = async (pageNumber) => {
     let allBlogs = null;

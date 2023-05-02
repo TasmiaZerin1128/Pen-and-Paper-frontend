@@ -31,10 +31,14 @@ function UserInfo({cookieUsername}) {
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
   const [password, setPassword] = useState("");
 
   const [errorPassword, setErrorPassword] = useState(false);
   const [errorLinePassword, setErrorLinePassword] = useState("");
+
+  const [errorOldPassword, setErrorOldPassword] = useState(false);
+  const [errorLineOldPassword, setErrorLineOldPassword] = useState("");
 
   const [userDetails, setUserDetails] = useState(null);
 
@@ -42,22 +46,25 @@ function UserInfo({cookieUsername}) {
 
   const navigate = useNavigate();
 
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-  }
-
   const updatePassword = async () => {
     const updatedUser = {
-      password: password
+      oldPassword: oldPassword,
+      newPassword: password
     }
     if(password.length >= 6){
       let response = await updateUserByUsername(username, updatedUser);
       if(response.status === 200){
         console.log("successful");
         setPassword("");
+        setOldPassword("");
         setErrorPassword(false);
         setErrorLinePassword("");
+        setErrorOldPassword(false);
+        setErrorLineOldPassword("");
         showToast("Password updated successfully","passwordChanged" );
+      } else {
+        setErrorOldPassword(true);
+        setErrorLineOldPassword(response.data);
       }
     } else {
       setErrorPassword(true);
@@ -86,7 +93,7 @@ function UserInfo({cookieUsername}) {
 
   return (
     <div className="userInfoWrapper">
-      <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#863812" }}/>
+      <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#4fb677" }}/>
       <div className="profilePicWrap">
         <img
           src="src\assets\images\profile-pic2.jpg"
@@ -139,9 +146,22 @@ function UserInfo({cookieUsername}) {
           </form>
         </div>
         <hr style={{border: '1px solid #e0d8c3'}} />
-        <div className="infoForm" style={{padding: '1.5rem 4rem'}}>
+        <div className="infoForm" style={{padding: '0rem 4rem 1.5rem'}}>
           <div className="individual">
-            <h4 style={{marginTop: '0rem', marginRight: '2rem'}}>Password</h4>
+            <h4 style={{marginTop: '2rem', marginRight: '2rem'}}>Old Password</h4>
+            <TextField
+                id="password"
+                label={oldPassword === "" ? "Enter Old Password" : ""}
+                variant="outlined"
+                type="password"
+                InputLabelProps={{ shrink: false }}
+                value={oldPassword}
+                onChange={(e) => setOldPassword(e.target.value)}
+                style={{ width: "70%"}}
+              />
+          </div>
+          <div className="individual">
+            <h4 style={{marginTop: '1rem', marginRight: '2rem'}}>New Password</h4>
             <TextField
                 id="password"
                 label={password === "" ? "Enter New Password" : ""}
@@ -149,8 +169,8 @@ function UserInfo({cookieUsername}) {
                 type="password"
                 InputLabelProps={{ shrink: false }}
                 value={password}
-                onChange={(e) => handlePassword(e)}
-                style={{ width: "70%", color: "#863812" }}
+                onChange={(e) => setPassword(e.target.value)}
+                style={{ width: "70%"}}
                 error={errorPassword} helperText={errorLinePassword}
               />
           </div>

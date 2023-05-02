@@ -79,15 +79,12 @@ const SearchBar = ({onSearch}) => {
 
 export default function NavbarUsers({onSearch}) {
 
-    const navigate = useNavigate();
-
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={{ backgroundColor: '#EBE4D2', borderBottom: '#5B3203 1px solid', boxShadow: 'none' }}>
         <Toolbar>
           <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-            <img src='\src\assets\images\logo-sm.svg' onClick={(e)=> navigate('../')} style={{ width: '4rem', marginTop: '0.5rem' }} />
+            <a href="/"><img src='\src\assets\images\logo-sm.svg' style={{ width: '4rem', marginTop: '0.5rem' }} /></a>
           </Typography>
           <SearchBar onSearch={onSearch}/>
         </Toolbar>

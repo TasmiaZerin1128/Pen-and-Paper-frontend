@@ -139,7 +139,7 @@ export default function OwnBlogs({cookieUsername}) {
     if(blogList) {
         return (
         <>
-        <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#863812" }}/>
+        <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#4fb677" }}/>
         <h4><a href="/dashboard" style={{ fontSize: '16px', color: '#863812', textDecoration: 'none', marginBottom: '2rem'}}>←  Go back to Dashboard</a></h4>
           {blogList.map((item) => (
             <Card className="blogCards" key={item.id}>
@@ -164,7 +164,7 @@ export default function OwnBlogs({cookieUsername}) {
                   {item.title}
                 </Typography>
                 {formatTimestamp(item.updatedAt)}
-                <div className="description">
+                <div className="description" style={{ textAlign: 'justify' }}>
                     {item.description}
                 </div>
               </CardContent>

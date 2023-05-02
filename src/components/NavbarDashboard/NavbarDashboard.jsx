@@ -30,7 +30,7 @@ import { logout } from '../../services/auth';
 import './NavbarDashboard.css';
 import { showToast } from '../../services/toast';
 import Cookies from 'js-cookie';
-import jwt_decode from 'jwt-decode';
+import { getCookieUsername } from '../../services/loggedIn';
 
 function FormDialog({handleBlogAdd}) {
   const [open, setOpen] = useState(false);
@@ -51,7 +51,8 @@ function FormDialog({handleBlogAdd}) {
   };
 
   const create = async () => {
-    if(title && description){
+
+    if(title.trim() && description.trim()){
     const newBlog = {
       title: title,
       description: description
@@ -62,20 +63,24 @@ function FormDialog({handleBlogAdd}) {
         showToast("Blog added to timeline", "newBlog");
         handleClose();
         handleBlogAdd();
+        setErrorTitle(false);
+        setErrorLineTitle("");
+        setErrorDescription(false);
+        setErrorLineDescription("");
     } else {
       console.log(response.data);
     }
   } else {
-    if(!title){
+    if(!title.trim()){
       setErrorTitle(true);
       setErrorLineTitle("Title of the blog is required");
     } else {
       setErrorTitle(false);
       setErrorLineTitle("");
     }
-    if(!description){
+    if(!description.trim()){
       setErrorDescription(true);
-      setErrorLineDescription("Description is required");
+      setErrorLineDescription("Description cannot be blank");
     } else {
       setErrorDescription(false);
       setErrorLineDescription("");
@@ -130,9 +135,13 @@ export default function NavbarDashboard({handleBlogAdd}) {
     const [username, setUsername] = useState('');
 
     useEffect(() => {
-      let cookie = Cookies.get("jwt");
-      let { username } = jwt_decode(cookie);
-      setUsername(username);
+      let username = getCookieUsername();
+      if(username){
+        setUsername(username);
+      } else {
+        // Cookies.remove('jwt');
+        navigate("/");
+      }
     })
 
     const handleOpenUserMenu = (event) => {
@@ -157,12 +166,12 @@ export default function NavbarDashboard({handleBlogAdd}) {
 
   return (
     <>
-    <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#863812" }}/>
+    <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#4fb677" }}/>
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={{ backgroundColor: '#EBE4D2', borderBottom: '#5B3203 1px solid', boxShadow: 'none' }}>
         <Toolbar>
           <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-            <img src='\src\assets\images\logo-sm.svg' style={{ width: '4rem', marginTop: '0.5rem' }} onClick={(e)=> navigate('../')}/>
+            <a href="./"><img src='\src\assets\images\logo-sm.svg' style={{ width: '4rem', marginTop: '0.5rem' }} /></a>
           </Typography>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
           {/* <SearchBar /> */}

@@ -1,6 +1,7 @@
 import { Box, AppBar, Toolbar, Typography } from "@mui/material";
 import MailIcon from "@mui/icons-material/Mail";
-import BlogList from "../../components/Blogs/Blogs";
+import BlogList from "../../components/blogs/blogs";
+import PaginationBar from "../../components/Pagination/Pagination";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./usersProfile.css";
@@ -66,6 +67,11 @@ export default function UsersProfile() {
   const [userName, setUserName] = useState(null);
   const [userFullName, setUserFullName] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
+  // const [pageNumber, setPageNumber] = useState(1);
+
+  // const changePageNumber = (page) => {
+  //   setPageNumber(page);
+  // };
 
   useEffect(() => {
     if (location.state) {
