@@ -15,6 +15,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 import { useNavigate } from "react-router-dom";
 import { showToast } from "../../services/toast";
+import './SingleBlogCard.css';
 
 import '../Blogs/Blogs.css';
 
@@ -162,15 +163,20 @@ function ReadMore({ blog, length = 400 }) {
   const navigate = useNavigate();
     const location = useLocation();
 
-
-  if (text.length < length) {
-    return <div>{text}</div>;
-  }
-
     const showBlog = () => {
+      console.log("clicked on text");
         if(!location.state){
         navigate("/"+ blog.authorUsername + "/blogs/"+ blog.id, { state: { data: blog } });
         }
+    }
+
+    if (text.length < length) {
+      return(
+        <div>
+          <span onClick={() => showBlog()}>
+            {text}
+          </span>
+        </div>);
     }
 
   return (
@@ -191,13 +197,15 @@ export default function SingleBlogCard({singleBlog, editMode, setSingleBlog}) {
     <>
         <Card className="blogCards" key={singleBlog.id}>
           <CardContent style={{ overflowWrap: "break-word" }}>
-            <Typography onClick={() => navigate("/profile/"+ singleBlog.username, { state: { data: user } })}
+            <Typography className="blogAuthor" onClick={() => navigate("/profile/"+ singleBlog.authorUsername)}
               sx={{ fontSize: 14, fontFamily: "Poppins", display: "inline-block", alignItems: "center" }}
               color="text.secondary"
               gutterBottom>
                 {singleBlog.authorFullName}
                 </Typography>
-            <Typography sx={{ fontSize: 13, fontFamily: "Poppins", padding: "0", display: "inline-block", alignItems: "center" }} color="#863812">
+            <Typography className="blogAuthor" onClick={() => navigate("/profile/"+ singleBlog.authorUsername)} 
+            sx={{ fontSize: 13, fontFamily: "Poppins", padding: "0", display: "inline-block", alignItems: "center" }} 
+            color="#863812">
               &nbsp;@{singleBlog.authorUsername}
             </Typography>
             <Typography

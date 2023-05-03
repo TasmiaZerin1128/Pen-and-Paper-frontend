@@ -17,7 +17,9 @@ export default function Home() {
 
   return (
     <>
-      <Navbar />
+    <div style={{ position: 'sticky', top: 0, zIndex: 100}}>
+      <Navbar/>
+    </div>
       <div className="container">
         <h1 className="title">Your Ideas, Your Platform</h1>
         <p>

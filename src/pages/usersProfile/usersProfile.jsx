@@ -11,13 +11,16 @@ import "./usersProfile.css";
 function UsersNavbar({ userName }) {
   return (
     <>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: "flex", flexGrow: 1 }}>
         <AppBar
           position="fixed"
           className="profileNav"
           sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
         >
           <Toolbar>
+          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} >
+            <a href="/"><img src='\src\assets\images\logo-sm.svg' style={{ width: '4rem', marginTop: '0.5rem' }}/></a>
+          </Typography>
             <Typography variant="h6" noWrap component="div">
               <h1>{userName}'s Profile</h1>
             </Typography>

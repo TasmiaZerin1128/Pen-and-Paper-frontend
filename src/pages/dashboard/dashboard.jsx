@@ -40,12 +40,14 @@ export default function Dashboard() {
 
   return (
     <>
+    <div style={{ position: 'sticky', top: 0, zIndex: 100}}>
     {expired ? (<ErrorPopUp loggedIn={loggedIn}/>) : null}
       {loggedIn ? (
         <NavbarDashboard handleBlogAdd={handleBlogAdd} />
       ) : (
         <Navbar />
       )}
+      </div>
       <div className="dashboard">
         <h1 style={{ fontSize: "1.5rem", marginBottom: "2rem" }}>
           <u>Recent Blogs</u>
