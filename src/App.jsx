@@ -5,6 +5,7 @@ import './App.css'
 import { useEffect, useState } from 'react';
 import Home from './pages/home/home';
 import Dashboard from './pages/dashboard/dashboard';
+import ShowSingleBlog from './pages/showSingleBlog/showSingleBlog';
 import Users from './pages/enrolledusers/enrolledusers';
 import Protected from './components/Protected';
 import Profile from './pages/profile/profile';
@@ -23,6 +24,7 @@ function App() {
         <Route path="/" element={<Home />}/>
         <Route path="/dashboard" element={<Dashboard />}/>
         <Route path="/dashboard/:pagenumber" element={<Dashboard />}/>
+        <Route path="/blog/:blogid" element={<ShowSingleBlog />}/>
         <Route path="/profile" element={
           <Protected setIsSignedIn={setIsSignedIn} >
           <Profile />

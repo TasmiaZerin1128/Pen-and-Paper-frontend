@@ -1,53 +1,25 @@
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
+import SingleBlog from "../SingleBlogCard/SingleBlogCard";
+import { useNavigate } from "react-router-dom";
 
 import { getAllBlogs, getBlogsByAuthorId } from "../../services/blog";
 
 import './Blogs.css';
 
-function formatTimestamp(timestamp) {
-  const options = {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true
-  };
-  const formatted = new Date(timestamp).toLocaleString(undefined, options);
-  return (
-    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-      {formatted}
-    </Typography>
-  );
-}
-
-function ReadMore({ text, length = 400 }) {
-  const [showLess, setShowLess] = useState(true);
-
-  if (text.length < length) {
-    return <div>{text}</div>;
-  }
-
-  return (
-    <div style={{ textAlign: 'justify' }}>
-      {showLess ? `${text.slice(0, length)}...` : text}
-      <button className="moreOrLess" onClick={() => setShowLess(!showLess)}>
-        {showLess ? "Read more" : "Read less"}
-      </button>
-    </div>
-  );
-}
-
 function AllBlogs({blogAdded, pageNumber, authorId}) {
   const [blogs, setBlogs] = useState(null);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
+    window.scrollTo({ top: 0 });
     console.log(pageNumber);
     fetchAllBlogs(pageNumber);
   }, [blogAdded, pageNumber]);
+
+  const showBlog = (singleBlog) => {
+    navigate("/blog/" + singleBlog.id, { state: { data: singleBlog } });
+  };
 
 
   const fetchAllBlogs = async (pageNumber) => {
@@ -72,34 +44,9 @@ function AllBlogs({blogAdded, pageNumber, authorId}) {
     return (
     <>
       {blogs.map((item) => (
-        <Card className="blogCards" key={item.id}>
-          <CardContent style={{ overflowWrap: "break-word" }}>
-            <Typography
-              sx={{ fontSize: 14, fontFamily: "Poppins", display: "inline-block", alignItems: "center" }}
-              color="text.secondary"
-              gutterBottom>
-                {item.authorFullName}
-                </Typography>
-            <Typography sx={{ fontSize: 13, fontFamily: "Poppins", padding: "0", display: "inline-block", alignItems: "center" }} color="#863812">
-              &nbsp;@{item.authorUsername}
-            </Typography>
-            <Typography
-              variant="h5"
-              component="div"
-              style={{
-                fontFamily: "Poppins",
-                fontWeight: "bold",
-                color: "#863812",
-              }}
-            >
-              {item.title}
-            </Typography>
-            {formatTimestamp(item.updatedAt)}
-            <div className="description">
-              <ReadMore text={item.description} />
-            </div>
-          </CardContent>
-        </Card>
+        <div onClick={() => showBlog(item)}>
+          <SingleBlog key={item.id} singleBlog={item} />
+        </div>
       ))}
     </>
   );
