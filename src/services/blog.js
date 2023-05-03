@@ -9,9 +9,11 @@ const getAllBlogs = async (pageNumber) => {
     }
 }
 
-const getBlogsByAuthorId = async (authorId) => {
+const getBlogsByAuthorId = async (authorId, pageNumber) => {
     try {
-        const response = await api.get("/blogs/author/"+ authorId);
+        console.log(authorId);
+        const response = await api.get("/blogs/author/"+ authorId + "?pagenumber=" + pageNumber + "&pagesize=5");
+        console.log(response);
         return response;
     } catch (err) {
         return err.response;

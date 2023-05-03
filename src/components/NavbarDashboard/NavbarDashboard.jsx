@@ -166,7 +166,7 @@ export default function NavbarDashboard({handleBlogAdd}) {
 
   return (
     <>
-    <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#4fb677" }}/>
+    <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#168030" }}/>
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={{ backgroundColor: '#EBE4D2', borderBottom: '#5B3203 1px solid', boxShadow: 'none' }}>
         <Toolbar>
@@ -207,7 +207,7 @@ export default function NavbarDashboard({handleBlogAdd}) {
                 <ListItemIcon>
                   <AccountCircleIcon fontSize="small" />
                 </ListItemIcon>
-                  <Typography textAlign="center" sx={{padding: 0}} onClick={(e) => navigate('/profile')}>Profile</Typography>
+                  <Typography textAlign="center" sx={{padding: 0}} onClick={(e) => navigate(`/profile/${username}`)}>Profile</Typography>
                 </MenuItem>
                 <MenuItem onClick={handleCloseUserMenu}>
                 <ListItemIcon>

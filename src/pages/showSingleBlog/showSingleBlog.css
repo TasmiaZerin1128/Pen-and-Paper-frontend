@@ -1,0 +1,8 @@
+.goBackButton, .goBackButton:focus, .goBackButton:active {
+    margin-bottom: 2rem;
+    height: 3rem;
+}
+
+.MuiButton-root.Mui-active {
+    background-color: transparent;
+  }

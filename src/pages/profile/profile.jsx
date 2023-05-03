@@ -96,7 +96,7 @@ function UserInfo({cookieUsername}) {
       <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#4fb677" }}/>
       <div className="profilePicWrap">
         <img
-          src="src\assets\images\profile-pic2.jpg"
+          src="\src\assets\images\profile-pic2.jpg"
           alt="profile"
           className="profilePic"
         />

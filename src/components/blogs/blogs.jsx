@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import SingleBlog from "../SingleBlogCard/SingleBlogCard";
+import SingleBlogCard from "../SingleBlogCard/SingleBlogCard";
 import { useNavigate } from "react-router-dom";
 
 import { getAllBlogs, getBlogsByAuthorId } from "../../services/blog";
@@ -16,11 +16,6 @@ function AllBlogs({blogAdded, pageNumber, authorId}) {
     console.log(pageNumber);
     fetchAllBlogs(pageNumber);
   }, [blogAdded, pageNumber]);
-
-  const showBlog = (singleBlog) => {
-    navigate("/blog/" + singleBlog.id, { state: { data: singleBlog } });
-  };
-
 
   const fetchAllBlogs = async (pageNumber) => {
     let allBlogs = null;
@@ -44,9 +39,7 @@ function AllBlogs({blogAdded, pageNumber, authorId}) {
     return (
     <>
       {blogs.map((item) => (
-        <div onClick={() => showBlog(item)}>
-          <SingleBlog key={item.id} singleBlog={item} />
-        </div>
+          <SingleBlogCard key={item.id} singleBlog={item} editMode={false} />
       ))}
     </>
   );

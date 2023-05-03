@@ -11,10 +11,13 @@ import Protected from './components/Protected';
 import Profile from './pages/profile/profile';
 import UsersProfile from './pages/usersProfile/usersProfile';
 import PageNotFound from './pages/pageNotFound';
+import { getTokenUsername } from './services/loggedIn';
 
 function App() {
 
   const [isSignedIn, setIsSignedIn] = useState(false);
+
+  const tokenUsername = getTokenUsername();
 
   return (
     <>
@@ -24,15 +27,15 @@ function App() {
         <Route path="/" element={<Home />}/>
         <Route path="/dashboard" element={<Dashboard />}/>
         <Route path="/dashboard/:pagenumber" element={<Dashboard />}/>
-        <Route path="/blog/:blogid" element={<ShowSingleBlog />}/>
-        <Route path="/profile" element={
+        <Route path="/:username/blogs/:blogid" element={<ShowSingleBlog />}/>
+        <Route path={`/profile/${tokenUsername}`} element={
           <Protected setIsSignedIn={setIsSignedIn} >
           <Profile />
           </Protected>
         }/>
         <Route path="/enrolledusers" element={<Users />}/>
         <Route path="/enrolledusers/:pagenumber" element={<Users />}/>
-        <Route path="/user/:username" element={<UsersProfile />} /> 
+        <Route path="/profile/:username" element={<UsersProfile />} /> 
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>

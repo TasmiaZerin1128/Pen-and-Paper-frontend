@@ -31,10 +31,9 @@ export default function Login({setIsSignedIn}){
             if(String(response.status)[0] == 2){
                 setIsSignedIn(true);
                 navigate("/dashboard");
-            } else {
+            }
                 setError(true);
                 setStatus(response.data);
-            }
         } catch (err) {
             setStatus("An error occured");
         }
@@ -67,7 +66,7 @@ export default function Login({setIsSignedIn}){
 
     return(
         <>
-        <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#863812" }}/>
+        <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#168030" }}/>
         <div className="wrapper">
             <img className="logoRaw" src="src\assets\images\raw-logo.png" onClick={(e)=> navigate('/')}/>
             <h1>Welcome Back!</h1>

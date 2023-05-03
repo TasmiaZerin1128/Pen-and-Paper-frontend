@@ -3,7 +3,9 @@ import MailIcon from "@mui/icons-material/Mail";
 import BlogList from "../../components/blogs/blogs";
 import PaginationBar from "../../components/Pagination/Pagination";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
+import { getUserByUsername } from "../../services/user";
 import "./usersProfile.css";
 
 function UsersNavbar({ userName }) {
@@ -59,9 +61,7 @@ function ProfileInformation ({userName, userFullName, userEmail}) {
 
 export default function UsersProfile() {
 
-  const location = useLocation();
   const navigate = useNavigate();
-
   // const [userDetails, setUserDetails] = useState(null);
   const [userId, setUserId] = useState(null);
   const [userName, setUserName] = useState(null);
@@ -73,18 +73,23 @@ export default function UsersProfile() {
   //   setPageNumber(page);
   // };
 
+  const { username } = useParams();
+  console.log(username);
+
   useEffect(() => {
-    if (location.state) {
-      const user = location.state.data;
-      // setUserDetails(user);
-      setUserId(user.id);
-      setUserName(user.username);
-      setUserFullName(user.fullName);
-      setUserEmail(user.email);
-    } else {
-      navigate("*");
+    async function fetchUserDetails() {
+      const response = await getUserByUsername(username);
+      if(response.status === 200){
+        setUserId(response.data.id);
+        setUserName(response.data.username);
+        setUserFullName(response.data.fullName);
+        setUserEmail(response.data.email);
+      } else {
+        navigate("*");
+      }
     }
-}, [location]);
+    fetchUserDetails();
+}, [username]);
 
   return(
     <>

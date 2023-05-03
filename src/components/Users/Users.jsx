@@ -54,7 +54,7 @@ export default function AllUsers({pageNumber}) {
   }, [pageNumber]);
 
   const viewUserBlogs = (user) => {
-    navigate("/user/"+user.username, { state: { data: user } });
+    navigate("/profile/"+user.username);
   }
 
   if(users) {
