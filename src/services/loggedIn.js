@@ -17,7 +17,7 @@ function parseCookie() {
     if (token.username) {
       let expirationTime = token.exp;
       let current_time = Date.now() / 1000;
-      console.log(token.exp + " " + current_time);
+      // console.log(token.exp + " " + current_time);
       if (expirationTime < current_time) {
         Cookies.remove("jwt");
         console.log("Session expired");
@@ -27,7 +27,7 @@ function parseCookie() {
     }
     return false;
   } catch {
-    console.log("No correct token found");
+    // console.log("No correct token found");
     Cookies.remove("jwt");
     return false;
   }

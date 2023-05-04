@@ -207,7 +207,7 @@ export default function NavbarDashboard({handleBlogAdd}) {
                 <ListItemIcon>
                   <AccountCircleIcon fontSize="small" />
                 </ListItemIcon>
-                  <Typography textAlign="center" sx={{padding: 0}} onClick={(e) => navigate(`/profile/${username}`)}>Profile</Typography>
+                  <Typography textAlign="center" sx={{padding: 0}} onClick={(e) => navigate(`/profile/${username}/user-info`)}>Profile</Typography>
                 </MenuItem>
                 <MenuItem onClick={handleCloseUserMenu}>
                 <ListItemIcon>

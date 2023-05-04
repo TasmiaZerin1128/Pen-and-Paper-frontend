@@ -1,18 +1,18 @@
 import api from "../api";
 
-const getAllBlogs = async (pageNumber) => {
+const getAllBlogs = async (pageNumber, pageSize) => {
     try {
-        const response = await api.get("/blogs" + "?pagenumber=" + pageNumber + "&pagesize=5"); 
+        const response = await api.get("/blogs" + "?pagenumber=" + pageNumber + "&pagesize=" + pageSize); 
         return response;
     } catch (err) {
         return err.response;
     }
 }
 
-const getBlogsByAuthorId = async (authorId, pageNumber) => {
+const getBlogsByAuthorId = async (authorId, pageNumber, pageSize) => {
     try {
         console.log(authorId);
-        const response = await api.get("/blogs/author/"+ authorId + "?pagenumber=" + pageNumber + "&pagesize=5");
+        const response = await api.get("/blogs/author/"+ authorId + "?pagenumber=" + pageNumber + "&pagesize=" + pageSize);
         console.log(response);
         return response;
     } catch (err) {

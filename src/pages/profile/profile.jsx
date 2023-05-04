@@ -19,7 +19,7 @@ import "./profile.css";
 import { useState, useEffect } from "react";
 import { getTokenUsername } from "../../services/loggedIn";
 import { ToastContainer , Zoom } from 'react-toastify';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getUserByUsername, updateUserByUsername } from "../../services/user";
 import DeleteAccount from "../../components/DeleteAccount/DeleteAccount";
 import OwnBlogs from "../../components/OwnBlogs/OwnBlogs";
@@ -93,7 +93,7 @@ function UserInfo({cookieUsername}) {
 
   return (
     <div className="userInfoWrapper">
-      <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#4fb677" }}/>
+      <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#168030" }}/>
       <div className="profilePicWrap">
         <img
           src="\src\assets\images\profile-pic2.jpg"
@@ -146,11 +146,12 @@ function UserInfo({cookieUsername}) {
           </form>
         </div>
         <hr style={{border: '1px solid #e0d8c3'}} />
-        <div className="infoForm" style={{padding: '0rem 4rem 1.5rem'}}>
+        <div className="infoForm" style={{padding: '1rem 4rem 1.5rem'}}>
           <div className="individual">
-            <h4 style={{marginTop: '2rem', marginRight: '2rem'}}>Old Password</h4>
+            <h4 style={{marginRight: '2rem'}}>Old Password</h4>
             <TextField
                 id="oldpassword"
+                size="small"
                 label={oldPassword === "" ? "Enter Old Password" : ""}
                 variant="outlined"
                 type="password"
@@ -158,12 +159,14 @@ function UserInfo({cookieUsername}) {
                 value={oldPassword}
                 onChange={(e) => setOldPassword(e.target.value)}
                 style={{ width: "70%"}}
+                error={errorOldPassword} helperText={errorLineOldPassword}
               />
           </div>
           <div className="individual">
-            <h4 style={{marginTop: '1rem', marginRight: '2rem'}}>New Password</h4>
+            <h4 style={{marginRight: '2rem'}}>New Password</h4>
             <TextField
                 id="password"
+                size="small"
                 label={password === "" ? "Enter New Password" : ""}
                 variant="outlined"
                 type="password"
@@ -190,16 +193,29 @@ function UserInfo({cookieUsername}) {
 
 export default function Profile() {
 
-  const [selectedOption, setSelectedOption] = useState("userInfo");
+  const [selectedOption, setSelectedOption] = useState("");
   const [cookieUsername, setCookieUsername] = useState("");
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleOptionClick = (option) => {
     setSelectedOption(option);
+    let optionPage = option;
+    navigate(`/profile/${cookieUsername}/${optionPage}`);
   }
 
   useEffect(() => {
     let cookieName = getTokenUsername();
     setCookieUsername(cookieName);
+
+    const options = location.pathname.split('/');
+    const currentOption = options.at(-1);
+    if(currentOption !== cookieName){
+      setSelectedOption(currentOption);
+    } else {
+      setSelectedOption("user-info");
+    }
   });
 
   return (
@@ -211,9 +227,12 @@ export default function Profile() {
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
         <Toolbar>
-          <Typography variant="h6" noWrap component="div">
-            <h1>User Profile</h1>
+        <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} >
+            <a href="/"><img src='\src\assets\images\logo-sm.svg' style={{ width: '4rem', marginTop: '0.5rem' }}/></a>
           </Typography>
+            <Typography variant="h6" noWrap component="div">
+              <h1>My Profile</h1>
+            </Typography>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -234,8 +253,8 @@ export default function Profile() {
         <Divider />
         <List>
           <ListItem disablePadding >
-            <ListItemButton selected={selectedOption === "userInfo"} 
-            onClick={() => handleOptionClick("userInfo")}
+            <ListItemButton selected={selectedOption === "user-info"} 
+            onClick={() => handleOptionClick("user-info")}
             sx={{
               color: '#5B3203',
               "&.Mui-selected": {
@@ -252,8 +271,8 @@ export default function Profile() {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton selected={selectedOption === "ownBlogs"}
-            onClick={() => handleOptionClick("ownBlogs")}
+            <ListItemButton selected={selectedOption === "own-blogs"}
+            onClick={() => handleOptionClick("own-blogs")}
             sx={{
               color: '#5B3203',
               "&.Mui-selected": {
@@ -270,8 +289,8 @@ export default function Profile() {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton selected={selectedOption === "deleteAccount"} 
-            onClick={() => handleOptionClick("deleteAccount")}
+            <ListItemButton selected={selectedOption === "delete-account"} 
+            onClick={() => handleOptionClick("delete-account")}
             sx={{
               color:"#5B3203",
               "&.Mui-selected": {
@@ -294,9 +313,9 @@ export default function Profile() {
         sx={{ flexGrow: 1, bgcolor: "#EBE4D2", p: 3, margin: "auto" }}
       >
         <Toolbar />
-        {selectedOption === "userInfo" ? (<UserInfo cookieUsername={cookieUsername}/>) : null}
-        {selectedOption === "deleteAccount" ? (<DeleteAccount cookieUsername={cookieUsername}/>) : null}
-        {selectedOption === "ownBlogs" ? (<OwnBlogs cookieUsername={cookieUsername}/>) : null}
+        {selectedOption === "user-info" ? (<UserInfo cookieUsername={cookieUsername}/>) : null}
+        {selectedOption === "delete-account" ? (<DeleteAccount cookieUsername={cookieUsername}/>) : null}
+        {selectedOption === "own-blogs" ? (<OwnBlogs cookieUsername={cookieUsername}/>) : null}
       </Box>
     </Box>
   );

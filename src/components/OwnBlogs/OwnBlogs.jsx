@@ -5,17 +5,21 @@ import { useNavigate } from "react-router-dom";
 import SingleBlogCard from "../SingleBlogCard/SingleBlogCard";
 import { ToastContainer, Zoom } from "react-toastify";
 import PaginationBar from "../Pagination/Pagination";
+import { useSearchParams } from "react-router-dom";
 
 
 export default function OwnBlogs({cookieUsername}) {
+    const [searchParams] = useSearchParams();
+
     const [blogList, setBlogList] = useState([]);
     const [authorId, setAuthorId] = useState("");
     const [pageNumber, setPageNumber] = useState(1);
+    const [pageSize, setPageSize] = useState(5);
 
     const navigate = useNavigate();
 
     const changePageNumber = (page) => {
-      setPageNumber(page);
+      if(page) setPageNumber(page);
     };
 
     useEffect(() => {
@@ -23,13 +27,19 @@ export default function OwnBlogs({cookieUsername}) {
             const user = await getUserByUsername(cookieUsername);
             console.log(cookieUsername);
             setAuthorId(user.data.id);
-            await getAllBlgsByAuthorId(user.data.id, 1);
+            await getAllBlgsByAuthorId(user.data.id, pageNumber, pageSize);
         }
         getUser();
-    }, [cookieUsername]);
 
-    const getAllBlgsByAuthorId = async (authorId, pageNumber) => {
-      const userBlogs = await getBlogsByAuthorId(authorId, pageNumber);
+        const pgNo = searchParams.get('pagenumber');
+        const pgSize = searchParams.get('pagesize');
+        if(pgNo) setPageNumber(pgNo);
+        if(pgSize) setPageSize(pgSize);
+
+    }, [cookieUsername, pageNumber, pageSize]);
+
+    const getAllBlgsByAuthorId = async (authorId, pageNumber, pageSize) => {
+      const userBlogs = await getBlogsByAuthorId(authorId, pageNumber, pageSize);
       if(typeof(userBlogs.data) === 'object'){
           setBlogList(userBlogs.data);
       } else {
@@ -45,9 +55,8 @@ export default function OwnBlogs({cookieUsername}) {
           {blogList.map((item) => (
               <SingleBlogCard key={item.id} singleBlog={item} editMode={true} setSingleBlog={setBlogList}/>
           ))}
-          <PaginationBar
-          changePageNumber={changePageNumber}
-          navigationPage={"profile"}
+        <PaginationBar
+          changePage={changePageNumber} pageSize={pageSize} pageNumber={pageNumber}
         />
         </>
       );

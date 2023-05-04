@@ -26,15 +26,18 @@ function App() {
         <Route path="/login" element={<Login setIsSignedIn={setIsSignedIn} />}/>
         <Route path="/" element={<Home />}/>
         <Route path="/dashboard" element={<Dashboard />}/>
-        <Route path="/dashboard/:pagenumber" element={<Dashboard />}/>
         <Route path="/:username/blogs/:blogid" element={<ShowSingleBlog />}/>
         <Route path={`/profile/${tokenUsername}`} element={
           <Protected setIsSignedIn={setIsSignedIn} >
           <Profile />
           </Protected>
         }/>
+        <Route path={`/profile/${tokenUsername}/:options`} element={
+          <Protected setIsSignedIn={setIsSignedIn} >
+          <Profile />
+          </Protected>
+        }/>
         <Route path="/enrolledusers" element={<Users />}/>
-        <Route path="/enrolledusers/:pagenumber" element={<Users />}/>
         <Route path="/profile/:username" element={<UsersProfile />} /> 
         <Route path="*" element={<PageNotFound />} />
       </Routes>

@@ -173,7 +173,7 @@ function ReadMore({ blog, length = 400 }) {
     if (text.length < length) {
       return(
         <div>
-          <span onClick={() => showBlog()}>
+          <span style={{whiteSpace: 'pre-line'}} onClick={() => showBlog()}>
             {text}
           </span>
         </div>);
@@ -181,7 +181,7 @@ function ReadMore({ blog, length = 400 }) {
 
   return (
     <div style={{ textAlign: 'justify' }}>
-        <span onClick={() => showBlog()}>{showLess ? `${text.slice(0, length)}...` : text}</span>
+        <span style={{whiteSpace: 'pre-line'}} onClick={() => showBlog()}>{showLess ? `${text.slice(0, length)}...` : text}</span>
       <button className="moreOrLess" onClick={() => setShowLess(!showLess)}>
         {showLess ? "Read more" : "Read less"}
       </button>

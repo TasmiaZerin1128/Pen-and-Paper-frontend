@@ -8,34 +8,44 @@ import PaginationBar from "../../components/Pagination/Pagination";
 import { isLoggedIn } from "../../services/loggedIn";
 import ErrorPopUp from "../../components/ErrorPopUp/ErrorPopUp";
 import { getTokenUsername } from "../../services/loggedIn";
+import { useSearchParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import "./dashboard.css";
 
 export default function Dashboard() {
+  const [searchParams] = useSearchParams();
+  // const location = useLocation();
+  
   const [blogAdded, setBlogAdded] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [expired, setExpired] = useState(false);
-  const [pageNumber, setPageNumber] = useState(1);
+  const [pageNumber, setPageNumber] = useState(null);
+  const [pageSize, setPageSize] = useState(null);
+
+
+  const changePage = (number) => {
+    if(number) setPageNumber(number);
+  };
 
   useEffect(() => {
     if (!isLoggedIn() || getTokenUsername() === "expired") {
-      if(getTokenUsername() === "expired"){
-        setExpired(true);
-      } else {
-        setExpired(false);
-      }
       setLoggedIn(false);
     } else {
       setLoggedIn(true);
     }
+
+    const pgNo = searchParams.get('pagenumber');
+    console.log("Page number: " + pgNo);
+    const pgSize = searchParams.get('pagesize');
+    console.log("Page Size: " + pgSize);
+    if(pgNo) setPageNumber(pgNo);
+    if(pgSize) setPageSize(pgSize);
+
   }, [isLoggedIn()]);
 
   const handleBlogAdd = () => {
     console.log("Working");
     setBlogAdded(!blogAdded);
-  };
-
-  const changePageNumber = (page) => {
-    setPageNumber(page);
   };
 
   return (
@@ -52,10 +62,9 @@ export default function Dashboard() {
         <h1 style={{ fontSize: "1.5rem", marginBottom: "2rem" }}>
           <u>Recent Blogs</u>
         </h1>
-        <BlogList blogAdded={blogAdded} pageNumber={pageNumber} author={null} />
+        <BlogList blogAdded={blogAdded} pageNumber={pageNumber} pageSize={pageSize} author={null} />
         <PaginationBar
-          changePageNumber={changePageNumber}
-          navigationPage={"dashboard"}
+          changePage={changePage} pageSize={pageSize} pageNumber={pageNumber}
         />
       </div>
     </>
