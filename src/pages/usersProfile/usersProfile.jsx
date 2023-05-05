@@ -33,12 +33,14 @@ function UsersNavbar({ userName }) {
 }
 
 function ProfileInformation ({userName, userFullName, userEmail}) {
+  const profilepic = "https://api.multiavatar.com/" + userName + ".png";
+  // https://picsum.photos/200
   return (
     <>
       <div className="profile">
         <div className="profilePicWrap">
           <img
-            src="https://picsum.photos/200"
+            src={profilepic}
             alt="profile"
             className="profilePicture"
           />
@@ -75,15 +77,18 @@ export default function UsersProfile() {
   const [userEmail, setUserEmail] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(5);
+  const [blogCount, setBlogCount] = useState(0);
 
   const changePage = (page) => {
-    if(page) setPageNumber(page);
+    setPageNumber(page);
   };
 
   const { username } = useParams();
   console.log(username);
 
   useEffect(() => {
+    window.scrollTo({ top: 0 });
+
     async function fetchUserDetails() {
       const response = await getUserByUsername(username);
       if(response.status === 200){
@@ -94,24 +99,24 @@ export default function UsersProfile() {
 
         const pgNo = searchParams.get('pagenumber');
         const pgSize = searchParams.get('pagesize');
-        if(pgNo) setPageNumber(pgNo);
-        if(pgSize) setPageSize(pgSize);
+        if(pgNo && pgNo!== 'null') setPageNumber(pgNo);
+        if(pgSize && pgSize!== 'null') setPageSize(pgSize);
 
       } else {
         navigate("*");
       }
     }
     fetchUserDetails();
-}, [username]);
+}, [username, searchParams]);
 
   return(
     <>
     <UsersNavbar userName={userName} />
     <ProfileInformation userName={userName} userFullName={userFullName} userEmail={userEmail}/>
     <div style={{margin: '1rem 10rem 3rem'}}>
-      { userId && <BlogList blogAdded={null} pageNumber={pageNumber} pageSize={pageSize} authorId={userId}/>}
+      { userId && <BlogList blogAdded={null} setPageNumber={setPageNumber} setPageSize={setPageSize} authorId={userId} setBlogCount={setBlogCount}/>}
       <PaginationBar
-          changePage={changePage} pageSize={pageSize} pageNumber={pageNumber}
+          changePage={changePage} pageSize={pageSize} pageNumber={pageNumber} blogCount={blogCount}
       />
     </div>
     </>

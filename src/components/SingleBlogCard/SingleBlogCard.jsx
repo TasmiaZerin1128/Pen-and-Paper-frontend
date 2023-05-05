@@ -44,8 +44,8 @@ function EditBlogs({blog, setBlogList}) {
           showToast("Blog updated", "blogUpdated");
           const userBlogs = await getBlogsByAuthorId(blog.authorId);
           console.log(userBlogs);
-          if(typeof(userBlogs) === 'object'){
-              setBlogList(userBlogs.data);
+          if(typeof(userBlogs.data) === 'object'){
+              setBlogList(userBlogs.data.rows);
           }
       } else {
         console.log(response.data);
@@ -110,8 +110,8 @@ function EditBlogs({blog, setBlogList}) {
           showToast("Blog deleted", "deleted");
           const userBlogs = await getBlogsByAuthorId(blog.authorId);
           console.log(userBlogs);
-          if(typeof(userBlogs) === 'object'){
-              setBlogList(userBlogs.data);
+          if(typeof(userBlogs.data.rows) === 'object'){
+              setBlogList(userBlogs.data.rows);
           }
         } else {
         console.log(response.data);

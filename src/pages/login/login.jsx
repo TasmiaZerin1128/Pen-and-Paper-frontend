@@ -6,6 +6,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { login } from "../../services/auth";
 import { showToast } from "../../services/toast";
 import { isLoggedIn } from "../../services/loggedIn";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/Contexts";
 import "./login.css";
 
 export default function Login({setIsSignedIn}){
@@ -17,6 +19,19 @@ export default function Login({setIsSignedIn}){
     const location = useLocation();
     const navigate = useNavigate();
 
+    const { isSignedIn, setStatusSignedIn } = useContext(AuthContext);
+
+    useEffect(() => {
+        console.log(isSignedIn);
+        if(isSignedIn){
+            navigate("/dashboard");
+        }
+        if (location.state) {
+            showToast(location.state.message, "loginSuccessful");
+            location.state = null;
+        }
+    }, [location]);
+
     const submit = async (e) => {
         e.preventDefault();
         if(username !== "" && password !== ""){
@@ -26,10 +41,12 @@ export default function Login({setIsSignedIn}){
         }
         
         try{
+            console.log(isSignedIn);
             const response = await login(loginUser);
             console.log(response.data);
             if(String(response.status)[0] == 2){
-                setIsSignedIn(true);
+                setStatusSignedIn();
+                console.log(isSignedIn);
                 navigate("/dashboard");
             }
                 setError(true);
@@ -51,18 +68,6 @@ export default function Login({setIsSignedIn}){
           </div>
         );
       };
-
-
-    useEffect(() => {
-        if(isLoggedIn()){
-            navigate("/dashboard");
-        }
-        if (location.state) {
-            showToast(location.state.message, "loginSuccessful");
-            location.state = null;
-        }
-    }, [location]);
-
 
     return(
         <>

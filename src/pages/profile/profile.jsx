@@ -191,7 +191,7 @@ function UserInfo({cookieUsername}) {
   );
 }
 
-export default function Profile() {
+export default function Profile({setUsername}) {
 
   const [selectedOption, setSelectedOption] = useState("");
   const [cookieUsername, setCookieUsername] = useState("");
@@ -207,7 +207,10 @@ export default function Profile() {
 
   useEffect(() => {
     let cookieName = getTokenUsername();
-    setCookieUsername(cookieName);
+    if(cookieName){
+      setCookieUsername(cookieName);
+      if(setUsername) setUsername(cookieName);
+    }
 
     const options = location.pathname.split('/');
     const currentOption = options.at(-1);

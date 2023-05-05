@@ -30,7 +30,8 @@ import { logout } from '../../services/auth';
 import './NavbarDashboard.css';
 import { showToast } from '../../services/toast';
 import Cookies from 'js-cookie';
-import { getTokenUsername } from '../../services/loggedIn';
+import { useContext } from 'react';
+import { AuthContext } from '../../contexts/Contexts';
 
 function FormDialog({handleBlogAdd}) {
   const [open, setOpen] = useState(false);
@@ -134,15 +135,16 @@ export default function NavbarDashboard({handleBlogAdd}) {
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [username, setUsername] = useState('');
 
+    const { isSignedIn, loggedInUsername, setStatusSignedOut } = useContext(AuthContext);
+
     useEffect(() => {
-      let username = getTokenUsername();
-      if(username){
-        setUsername(username);
+      console.log(isSignedIn);
+      if(isSignedIn){
+        setUsername(loggedInUsername);
       } else {
-        // Cookies.remove('jwt');
         navigate("/");
       }
-    })
+    }, [isSignedIn]);
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -155,7 +157,7 @@ export default function NavbarDashboard({handleBlogAdd}) {
     const logoutUser = async () => {
       try {
       const response = await logout();
-      Cookies.remove('jwt');
+      setStatusSignedOut();
       console.log(response);
       navigate("/");
       } catch (err) {
@@ -207,7 +209,7 @@ export default function NavbarDashboard({handleBlogAdd}) {
                 <ListItemIcon>
                   <AccountCircleIcon fontSize="small" />
                 </ListItemIcon>
-                  <Typography textAlign="center" sx={{padding: 0}} onClick={(e) => navigate(`/profile/${username}/user-info`)}>Profile</Typography>
+                  <Typography textAlign="center" sx={{padding: 0}} onClick={(e) => navigate(`/profile/${username}`)}>Profile</Typography>
                 </MenuItem>
                 <MenuItem onClick={handleCloseUserMenu}>
                 <ListItemIcon>

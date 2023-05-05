@@ -1,22 +1,27 @@
 import { useEffect, useState } from "react";
 import SingleBlogCard from "../SingleBlogCard/SingleBlogCard";
 import { useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 import { getAllBlogs, getBlogsByAuthorId } from "../../services/blog";
 
 import './Blogs.css';
 
-export default function BlogList({blogAdded, pageNumber, pageSize, authorId}) {
+export default function BlogList({blogAdded, setPageNumber, setPageSize, authorId, setBlogCount}) {
   const [blogs, setBlogs] = useState(null);
 
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
-    // console.log(pageNumber);
-    console.log(pageNumber+ " "+ pageSize);
-    fetchAllBlogs(pageNumber, pageSize);
-  }, [blogAdded, pageNumber, pageSize]);
+    const pgNo = searchParams.get('pagenumber');
+    const pgSize = searchParams.get('pagesize');
+    if(pgNo && pgNo!== 'null') setPageNumber(pgNo);
+    if(pgSize && pgSize!== 'null') setPageSize(pgSize);
+
+    fetchAllBlogs(pgNo, pgSize);
+  }, [blogAdded, searchParams]);
 
   const fetchAllBlogs = async (pageNumber, pageSize) => {
     let allBlogs = null;
@@ -27,10 +32,12 @@ export default function BlogList({blogAdded, pageNumber, pageSize, authorId}) {
       allBlogs = await getAllBlogs(pageNumber, pageSize);
     }
     console.log(allBlogs.data);
-    if(typeof(allBlogs.data) === 'object'){
-      setBlogs(allBlogs.data);
+    if(typeof(allBlogs.data.rows) === 'object'){
+      setBlogs(allBlogs.data.rows);
+      setBlogCount(allBlogs.data.count);
     } else {
       setBlogs(null);
+      setBlogCount(0);
     }
   }
 

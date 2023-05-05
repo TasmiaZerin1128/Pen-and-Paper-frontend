@@ -13,6 +13,7 @@ export default function OwnBlogs({cookieUsername}) {
 
     const [blogList, setBlogList] = useState([]);
     const [authorId, setAuthorId] = useState("");
+    const [blogCount, setBlogCount] = useState(0);
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(5);
 
@@ -23,25 +24,29 @@ export default function OwnBlogs({cookieUsername}) {
     };
 
     useEffect(() => {
+        window.scrollTo({ top: 0 });
+
+        const pgNo = searchParams.get('pagenumber');
+        const pgSize = searchParams.get('pagesize');
+        if(pgNo && pgNo!== 'null') setPageNumber(pgNo);
+        if(pgSize && pgSize!== 'null') setPageSize(pgSize);
+
         async function getUser() {
             const user = await getUserByUsername(cookieUsername);
             console.log(cookieUsername);
             setAuthorId(user.data.id);
-            await getAllBlgsByAuthorId(user.data.id, pageNumber, pageSize);
+            await getAllBlgsByAuthorId(user.data.id, pgNo, pgSize);
         }
+
         getUser();
 
-        const pgNo = searchParams.get('pagenumber');
-        const pgSize = searchParams.get('pagesize');
-        if(pgNo) setPageNumber(pgNo);
-        if(pgSize) setPageSize(pgSize);
-
-    }, [cookieUsername, pageNumber, pageSize]);
+    }, [cookieUsername, searchParams]);
 
     const getAllBlgsByAuthorId = async (authorId, pageNumber, pageSize) => {
       const userBlogs = await getBlogsByAuthorId(authorId, pageNumber, pageSize);
-      if(typeof(userBlogs.data) === 'object'){
-          setBlogList(userBlogs.data);
+      if(typeof(userBlogs.data.rows) === 'object'){
+          setBlogList(userBlogs.data.rows);
+          setBlogCount(userBlogs.data.count);
       } else {
         setBlogList(null);
       }
@@ -56,7 +61,7 @@ export default function OwnBlogs({cookieUsername}) {
               <SingleBlogCard key={item.id} singleBlog={item} editMode={true} setSingleBlog={setBlogList}/>
           ))}
         <PaginationBar
-          changePage={changePageNumber} pageSize={pageSize} pageNumber={pageNumber}
+          changePage={changePageNumber} pageSize={pageSize} pageNumber={pageNumber} blogCount={blogCount}
         />
         </>
       );

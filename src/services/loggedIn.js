@@ -11,6 +11,7 @@ function getTokenUsername() {
 }
 
 function parseCookie() {
+
   let jwtcookie = Cookies.get("jwt");
   try {
     let token = jwt_decode(jwtcookie);
@@ -19,15 +20,16 @@ function parseCookie() {
       let current_time = Date.now() / 1000;
       // console.log(token.exp + " " + current_time);
       if (expirationTime < current_time) {
-        Cookies.remove("jwt");
+        // Cookies.remove("jwt");
         console.log("Session expired");
         return "expired";
       }
+      console.log("Signed In");
       return token.username;
     }
     return false;
   } catch {
-    // console.log("No correct token found");
+    console.log("No correct token found");
     Cookies.remove("jwt");
     return false;
   }

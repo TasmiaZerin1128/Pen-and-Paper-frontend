@@ -1,22 +1,25 @@
-import Register from './pages/register/register';
-import Login from './pages/login/login';
-import { Routes, Route } from 'react-router-dom';
-import './App.css'
-import { useEffect, useState } from 'react';
-import Home from './pages/home/home';
-import Dashboard from './pages/dashboard/dashboard';
-import ShowSingleBlog from './pages/showSingleBlog/showSingleBlog';
-import Users from './pages/enrolledusers/enrolledusers';
+import { createContext, useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import './App.css';
 import Protected from './components/Protected';
-import Profile from './pages/profile/profile';
-import UsersProfile from './pages/usersProfile/usersProfile';
+import Dashboard from './pages/dashboard/dashboard';
+import Users from './pages/enrolledusers/enrolledusers';
+import Home from './pages/home/home';
+import Login from './pages/login/login';
 import PageNotFound from './pages/pageNotFound';
+import Profile from './pages/profile/profile';
+import Register from './pages/register/register';
+import ShowSingleBlog from './pages/showSingleBlog/showSingleBlog';
+import UsersProfile from './pages/usersProfile/usersProfile';
 import { getTokenUsername } from './services/loggedIn';
+import { AuthContext } from './contexts/Contexts';
+import { useContext } from 'react';
 
-function App() {
+export default function App() {
 
   const [isSignedIn, setIsSignedIn] = useState(false);
-
+  const [loggedInUsername, setLoggedInUsername] = useState(getTokenUsername);
+  
   const tokenUsername = getTokenUsername();
 
   return (
@@ -29,12 +32,12 @@ function App() {
         <Route path="/:username/blogs/:blogid" element={<ShowSingleBlog />}/>
         <Route path={`/profile/${tokenUsername}`} element={
           <Protected setIsSignedIn={setIsSignedIn} >
-          <Profile />
+          <Profile setUsername={setLoggedInUsername}/>
           </Protected>
         }/>
         <Route path={`/profile/${tokenUsername}/:options`} element={
           <Protected setIsSignedIn={setIsSignedIn} >
-          <Profile />
+          <Profile setUsername={setLoggedInUsername}/>
           </Protected>
         }/>
         <Route path="/enrolledusers" element={<Users />}/>
@@ -44,5 +47,3 @@ function App() {
     </>
   )
 }
-
-export default App
