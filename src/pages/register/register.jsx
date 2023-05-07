@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TextField, Button } from "@mui/material";
 import { register } from "../../services/auth";
 import "./register.css";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/Contexts";
 
 export default function Form() {
   const [fullName, setName] = useState("");
@@ -25,6 +27,14 @@ export default function Form() {
 
   const navigate = useNavigate();
 
+  const { checkLoggedIn, setStatusSignedIn } = useContext(AuthContext);
+
+    useEffect(() => {
+        if(checkLoggedIn()){
+            navigate("/dashboard");
+        }
+    }, []);
+
   const submit = async (e) => {
     e.preventDefault();
     if(validateFullName(fullName) && validateUsername(username) && validateEmail(email) && validatePassword(password)) {
@@ -43,6 +53,7 @@ export default function Form() {
       setSubmitted(true);
       setErrorOrSuccessLine("User successfully registered! Please go to the login section");
       console.log(response.data);
+      setStatusSignedIn();
       navigate("/login", { state: { message: "User registered successfully" } });
     } else {
       setSubmitted(false);

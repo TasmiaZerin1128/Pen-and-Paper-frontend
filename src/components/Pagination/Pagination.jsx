@@ -18,9 +18,12 @@ export default function PaginationBar({changePage, pageSize, pageNumber, blogCou
       changePage(value);
     }
   
+    if(blogCount) {
     return (
       <Stack spacing={2}>
         <Pagination style={{marginTop: "1rem"}} count={totalPages} page={parseInt(pageNumber) || 1} shape="rounded" onChange={onChangePage}/>
       </Stack>
     );
+    }
+    return ( <></> );
   }

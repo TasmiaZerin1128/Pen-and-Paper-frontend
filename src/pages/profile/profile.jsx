@@ -17,13 +17,14 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import "./profile.css";
 import { useState, useEffect } from "react";
-import { getTokenUsername } from "../../services/loggedIn";
 import { ToastContainer , Zoom } from 'react-toastify';
 import { useLocation, useNavigate } from "react-router-dom";
 import { getUserByUsername, updateUserByUsername } from "../../services/user";
 import DeleteAccount from "../../components/DeleteAccount/DeleteAccount";
 import OwnBlogs from "../../components/OwnBlogs/OwnBlogs";
 import { showToast } from "../../services/toast";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/Contexts";
 
 const drawerWidth = 200;
 
@@ -194,7 +195,8 @@ function UserInfo({cookieUsername}) {
 export default function Profile({setUsername}) {
 
   const [selectedOption, setSelectedOption] = useState("");
-  const [cookieUsername, setCookieUsername] = useState("");
+
+  const { isSignedIn, loggedInUsername } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -202,19 +204,17 @@ export default function Profile({setUsername}) {
   const handleOptionClick = (option) => {
     setSelectedOption(option);
     let optionPage = option;
-    navigate(`/profile/${cookieUsername}/${optionPage}`);
+    navigate(`/profile/${loggedInUsername}/${optionPage}`);
   }
 
   useEffect(() => {
-    let cookieName = getTokenUsername();
-    if(cookieName){
-      setCookieUsername(cookieName);
-      if(setUsername) setUsername(cookieName);
+    if(isSignedIn){
+      if(setUsername) setUsername(loggedInUsername);
     }
 
     const options = location.pathname.split('/');
     const currentOption = options.at(-1);
-    if(currentOption !== cookieName){
+    if(currentOption !== loggedInUsername){
       setSelectedOption(currentOption);
     } else {
       setSelectedOption("user-info");
@@ -316,9 +316,9 @@ export default function Profile({setUsername}) {
         sx={{ flexGrow: 1, bgcolor: "#EBE4D2", p: 3, margin: "auto" }}
       >
         <Toolbar />
-        {selectedOption === "user-info" ? (<UserInfo cookieUsername={cookieUsername}/>) : null}
-        {selectedOption === "delete-account" ? (<DeleteAccount cookieUsername={cookieUsername}/>) : null}
-        {selectedOption === "own-blogs" ? (<OwnBlogs cookieUsername={cookieUsername}/>) : null}
+        {selectedOption === "user-info" ? (<UserInfo cookieUsername={loggedInUsername}/>) : null}
+        {selectedOption === "delete-account" ? (<DeleteAccount cookieUsername={loggedInUsername}/>) : null}
+        {selectedOption === "own-blogs" ? (<OwnBlogs cookieUsername={loggedInUsername}/>) : null}
       </Box>
     </Box>
   );

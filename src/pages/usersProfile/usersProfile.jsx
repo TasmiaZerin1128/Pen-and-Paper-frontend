@@ -33,14 +33,14 @@ function UsersNavbar({ userName }) {
 }
 
 function ProfileInformation ({userName, userFullName, userEmail}) {
-  const profilepic = "https://api.multiavatar.com/" + userName + ".png";
+  // const profilepic = "https://api.multiavatar.com/" + userName + ".png";
   // https://picsum.photos/200
   return (
     <>
       <div className="profile">
         <div className="profilePicWrap">
           <img
-            src={profilepic}
+            src="https://picsum.photos/200"
             alt="profile"
             className="profilePicture"
           />

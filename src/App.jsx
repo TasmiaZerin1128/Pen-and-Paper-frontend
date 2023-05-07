@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Protected from './components/Protected';
@@ -11,33 +11,45 @@ import Profile from './pages/profile/profile';
 import Register from './pages/register/register';
 import ShowSingleBlog from './pages/showSingleBlog/showSingleBlog';
 import UsersProfile from './pages/usersProfile/usersProfile';
-import { getTokenUsername } from './services/loggedIn';
-import { AuthContext } from './contexts/Contexts';
-import { useContext } from 'react';
+import { parseCookie } from './services/loggedIn';
+import { isLoggedIn } from './services/loggedIn';
+import ErrorPopUp from './components/ErrorPopUp/ErrorPopUp';
 
 export default function App() {
 
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const [loggedInUsername, setLoggedInUsername] = useState(getTokenUsername);
+  const [profileUsername, setProfileUsername] = useState(null);
+  const [expired, setExpired] = useState(false);
+
+
+  useEffect(() => {
+    const tokenUsername = parseCookie();
+    if(tokenUsername === 'expired'){
+      setExpired(true);
+    } 
+    if(isLoggedIn()){
+      setProfileUsername(tokenUsername);
+      setExpired(false);
+    }
+  }, []);
   
-  const tokenUsername = getTokenUsername();
 
   return (
     <>
+     {expired ? (<ErrorPopUp/>) : null }
       <Routes>
-        <Route path="/register" element={<Register />}/>
-        <Route path="/login" element={<Login setIsSignedIn={setIsSignedIn} />}/>
+        <Route path="/register" element={<Register/>}/>
+        <Route path="/login" element={<Login/>}/>
         <Route path="/" element={<Home />}/>
-        <Route path="/dashboard" element={<Dashboard />}/>
+        <Route path="/dashboard" element={<Dashboard setProfileUsername={setProfileUsername}/>}/>
         <Route path="/:username/blogs/:blogid" element={<ShowSingleBlog />}/>
-        <Route path={`/profile/${tokenUsername}`} element={
-          <Protected setIsSignedIn={setIsSignedIn} >
-          <Profile setUsername={setLoggedInUsername}/>
+        <Route path={`/profile/${profileUsername}`} element={
+          <Protected>
+          <Profile />
           </Protected>
         }/>
-        <Route path={`/profile/${tokenUsername}/:options`} element={
-          <Protected setIsSignedIn={setIsSignedIn} >
-          <Profile setUsername={setLoggedInUsername}/>
+        <Route path={`/profile/${profileUsername}/:options`} element={
+          <Protected>
+          <Profile/>
           </Protected>
         }/>
         <Route path="/enrolledusers" element={<Users />}/>

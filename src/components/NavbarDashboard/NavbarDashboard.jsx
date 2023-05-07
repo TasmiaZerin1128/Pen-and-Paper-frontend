@@ -10,12 +10,15 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import MenuIcon from "@mui/icons-material/Menu";
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
+import { DialogContentText } from '@mui/material';
 import DialogTitle from '@mui/material/DialogTitle';
+import Container from "@mui/material/Container";
 import GroupIcon from '@mui/icons-material/Group';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Logout from '@mui/icons-material/Logout';
@@ -29,7 +32,6 @@ import { logout } from '../../services/auth';
 
 import './NavbarDashboard.css';
 import { showToast } from '../../services/toast';
-import Cookies from 'js-cookie';
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/Contexts';
 
@@ -38,13 +40,21 @@ function FormDialog({handleBlogAdd}) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
+  const [serverError, setServerError] = useState('');
   const [errorTitle, setErrorTitle] = useState(false);
   const [errorDescription, setErrorDescription] = useState(false);
   const [errorLineTitle, setErrorLineTitle] = useState("");
   const [errorLineDescription, setErrorLineDescription] = useState("");
 
+  const { checkLoggedIn } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
   const handleClickOpen = () => {
-    setOpen(true);
+    if(checkLoggedIn()){
+      console.log("truee");
+      setOpen(true);
+    } else navigate('/login');
   };
 
   const handleClose = () => {
@@ -58,19 +68,20 @@ function FormDialog({handleBlogAdd}) {
       title: title,
       description: description
     };
-    const response = await createBlog(newBlog);
-    console.log(response.data);
-    if(String(response.status)[0] == 2){
-        showToast("Blog added to timeline", "newBlog");
-        handleClose();
-        handleBlogAdd();
-        setErrorTitle(false);
-        setErrorLineTitle("");
-        setErrorDescription(false);
-        setErrorLineDescription("");
-    } else {
+      const response = await createBlog(newBlog);
       console.log(response.data);
-    }
+      if(String(response.status)[0] == 2){
+          showToast("Blog added to timeline", "newBlog");
+          handleClose();
+          handleBlogAdd();
+          setErrorTitle(false);
+          setErrorLineTitle("");
+          setErrorDescription(false);
+          setErrorLineDescription("");
+      } else {
+        console.log(response.data);
+        setServerError(response.data);
+      }
   } else {
     if(!title.trim()){
       setErrorTitle(true);
@@ -93,8 +104,11 @@ function FormDialog({handleBlogAdd}) {
     <div>
       <Button className="create" onClick={handleClickOpen} >+ Create Blog</Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle sx={{backgroundColor: '#EBE4D2', color: '#863812', paddingLeft: '3rem', fontFamily: 'Poppins'}}><b><h3>Create a New Blog</h3></b></DialogTitle>
-        <DialogContent sx={{backgroundColor: '#EBE4D2', color: '#863812', padding: '3rem'}}>
+        <DialogTitle sx={{backgroundColor: '#EBE4D2', color: '#863812',paddingTop: '3rem', paddingLeft: '2.7rem', fontFamily: 'Poppins'}}><b>Create a New Blog</b></DialogTitle>
+        <DialogContent sx={{backgroundColor: '#EBE4D2', padding: '3rem'}}>
+        <DialogContentText id="alert-dialog-slide-description" sx={{ color: '#b11e1e'}}>
+            {serverError}
+          </DialogContentText>
           <TextField
             id="title"
             label="Title"
@@ -133,18 +147,22 @@ export default function NavbarDashboard({handleBlogAdd}) {
 
     const navigate = useNavigate();
     const [anchorElUser, setAnchorElUser] = useState(null);
-    const [username, setUsername] = useState('');
+    const [anchorElNav, setAnchorElNav] = useState(null);
 
-    const { isSignedIn, loggedInUsername, setStatusSignedOut } = useContext(AuthContext);
+    const { checkLoggedIn, loggedInUsername, setStatusSignedOut } = useContext(AuthContext);
 
     useEffect(() => {
-      console.log(isSignedIn);
-      if(isSignedIn){
-        setUsername(loggedInUsername);
-      } else {
+      if(!checkLoggedIn()){
         navigate("/");
       }
-    }, [isSignedIn]);
+    }, []);
+
+    const handleOpenNavMenu = (event) => {
+      setAnchorElNav(event.currentTarget);
+    };
+    const handleCloseNavMenu = () => {
+      setAnchorElNav(null);
+    };
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -164,64 +182,168 @@ export default function NavbarDashboard({handleBlogAdd}) {
         console.log(err);
       }
     }
-    
 
-  return (
-    <>
-    <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#168030" }}/>
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="sticky" style={{ backgroundColor: '#EBE4D2', borderBottom: '#5B3203 1px solid', boxShadow: 'none' }}>
-        <Toolbar>
-          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-            <a href="/"><img src='\src\assets\images\logo-sm.svg' style={{ width: '4rem', marginTop: '0.5rem' }} /></a>
-          </Typography>
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-          {/* <SearchBar /> */}
-          <FormDialog handleBlogAdd={handleBlogAdd}/>
-          <Button title="View enrolled users" sx={{ marginRight: '0.5rem', borderRadius: '50%' }} onClick={() => navigate('/enrolledusers')}><GroupIcon  sx={{ color: '#863812'}}/></Button>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="profile icon" src="\src\assets\images\profile-pic2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              elevation={1}
-              sx={{ mt: '45px'}}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+    return (
+      <>
+      <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#168030" }}/>
+      <AppBar
+        position="sticky"
+        style={{
+          backgroundColor: "#EBE4D2",
+          borderBottom: "#5B3203 1px solid",
+          boxShadow: "none"
+        }}
+      >
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              href="/"
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none"
               }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
             >
-              <MenuItem disabled>
-                  <Typography textAlign="left" variant='body1' sx={{padding: 0, fontSize: '14px'}}>Signed in as <br /><b>{username}</b></Typography>
+                <img
+                  src="\src\assets\images\logo-sm.svg"
+                  alt="logo"
+                  style={{ width: "4rem", marginTop: "0.5rem" }}
+                />
+            </Typography>
+  
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon style={{ color: '#863812'}}/>
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left"
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left"
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: "block", md: "none" }
+                }}
+              >
+                <MenuItem style={{ backgroundColor: 'transparent'}}>
+                  <FormDialog handleBlogAdd={handleBlogAdd}/>
+                </MenuItem>
+              </Menu>
+            </Box>
+            <Typography
+              variant="h5"
+              noWrap
+              component="a"
+              href="/"
+              sx={{
+                mr: 2,
+                display: { xs: "flex", md: "none" },
+                flexGrow: 1,
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none"
+              }}
+            >
+                <img
+                  src="\src\assets\images\logo-sm.svg"
+                  alt="logo"
+                  style={{ width: "4rem", marginTop: "0.5rem" }}
+                />
+            </Typography>
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              <FormDialog handleBlogAdd={handleBlogAdd}/>
+            </Box>
+  
+            <Box sx={{ flexGrow: 0 }}>
+              <div style={{ display: 'flex', flexDirection: 'row'}}>
+              { checkLoggedIn ? (<Typography textAlign="left" variant='body1' sx={{padding: '0.5rem', fontSize: '15px', color: '#863812', fontFamily: 'Poppins'}}>Welcome <br/><b>{loggedInUsername}</b>!</Typography>) : <></>} 
+              <Tooltip title="Open Profile">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar
+                    alt="profile icon"
+                    src="\src\assets\images\profile-pic2.jpg"
+                  />
+                </IconButton>
+              </Tooltip>
+              </div>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right"
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right"
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                <MenuItem disabled>
+                  <Typography
+                    textAlign="left"
+                    variant="body1"
+                    sx={{ padding: 0, fontSize: "14px" }}
+                  >
+                    Signed in as <br />
+                    <b>{loggedInUsername}</b>
+                  </Typography>
                 </MenuItem>
                 <Divider />
-                <MenuItem onClick={handleCloseUserMenu}>
-                <ListItemIcon>
-                  <AccountCircleIcon fontSize="small" />
-                </ListItemIcon>
-                  <Typography textAlign="center" sx={{padding: 0}} onClick={(e) => navigate(`/profile/${username}`)}>Profile</Typography>
+                <MenuItem onClick={(e) => navigate(`/profile/${loggedInUsername}`)}>
+                  <ListItemIcon>
+                    <AccountCircleIcon fontSize="small" />
+                  </ListItemIcon>
+                  <Typography
+                    textAlign="center"
+                    sx={{ padding: 0 }}
+                  >
+                    Profile
+                  </Typography>
                 </MenuItem>
-                <MenuItem onClick={handleCloseUserMenu}>
-                <ListItemIcon>
-                  <Logout fontSize="small" />
-                </ListItemIcon>
-                  <Typography textAlign="center" sx={{padding: 0}} onClick={(e) => logoutUser()}>Logout</Typography>
+                <MenuItem onClick={(e) => logoutUser()}>
+                  <ListItemIcon>
+                    <Logout fontSize="small" />
+                  </ListItemIcon>
+                  <Typography
+                    textAlign="center"
+                    sx={{ padding: 0 }}
+                  >
+                    Logout
+                  </Typography>
                 </MenuItem>
-            </Menu>
-          </Box>
-        </Toolbar>
+              </Menu>
+            </Box>
+          </Toolbar>
+        </Container>
       </AppBar>
-    </Box>
-    </>
-  );
+      </>
+    );
 }

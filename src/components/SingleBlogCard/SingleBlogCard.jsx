@@ -23,6 +23,7 @@ function EditBlogs({blog, setBlogList}) {
     const [open, setOpen] = useState(false);
     const [editTitle, setEditTitle] = useState(blog.title);
     const [editDescription, setEditDescription] = useState(blog.description);
+    const [serverError, setServerError] = useState('');
   
     const handleClickOpen = () => {
       setOpen(true);
@@ -48,6 +49,7 @@ function EditBlogs({blog, setBlogList}) {
               setBlogList(userBlogs.data.rows);
           }
       } else {
+        setServerError(response.data);
         console.log(response.data);
       }
     }
@@ -56,7 +58,10 @@ function EditBlogs({blog, setBlogList}) {
       <div>
         <Button size="small" disableElevation variant="contained" style={{ backgroundColor: '#863812', marginRight: '0.5rem', marginBottom: '0.5rem'}} onClick={() => handleClickOpen()}>Edit</Button>
         <Dialog open={open} onClose={handleClose}>
-          <DialogContent sx={{backgroundColor: '#EBE4D2', color: '#863812', padding: '3rem'}}>
+          <DialogContent sx={{backgroundColor: '#EBE4D2', padding: '3rem'}}>
+          <DialogContentText id="alert-dialog-slide-description" sx={{ color: '#b11e1e'}}>
+            {serverError}
+          </DialogContentText>
             <TextField
               id="title"
               label="Title"
@@ -93,6 +98,7 @@ function EditBlogs({blog, setBlogList}) {
   
   function DeleteBlog({blog, setBlogList}) {
     const [open, setOpen] = useState(false);
+    const [serverError, setServerError] = useState('');
   
     const handleClickOpen = () => {
       setOpen(true);
@@ -114,7 +120,8 @@ function EditBlogs({blog, setBlogList}) {
               setBlogList(userBlogs.data.rows);
           }
         } else {
-        console.log(response.data);
+          setServerError(response.data);
+          console.log(response.data);
       }
     }
   
@@ -129,6 +136,9 @@ function EditBlogs({blog, setBlogList}) {
             <DialogContentText id="alert-dialog-description">
               Do you want to delete the blog? You cannot undo this action
             </DialogContentText>
+            <DialogContentText id="alert-dialog-slide-description" sx={{ color: '#b11e1e'}}>
+            {serverError}
+          </DialogContentText>
           </DialogContent>
           <DialogActions sx={{backgroundColor: '#EBE4D2', color: '#863812', padding: '0 3rem 3rem'}}>
             <Button sx={{backgroundColor: '#EBE4D2', color: '#863812'}} onClick={handleClose}>Cancel</Button>

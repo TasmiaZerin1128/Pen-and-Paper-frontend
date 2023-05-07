@@ -2,12 +2,11 @@ import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 
 function isLoggedIn() {
-  if (parseCookie()) return true;
+  const tokenUsername = parseCookie();
+  if(tokenUsername && tokenUsername!== 'expired'){
+    return true;
+  }
   return false;
-}
-
-function getTokenUsername() {
-  return parseCookie();
 }
 
 function parseCookie() {
@@ -20,7 +19,6 @@ function parseCookie() {
       let current_time = Date.now() / 1000;
       // console.log(token.exp + " " + current_time);
       if (expirationTime < current_time) {
-        // Cookies.remove("jwt");
         console.log("Session expired");
         return "expired";
       }
@@ -35,4 +33,4 @@ function parseCookie() {
   }
 }
 
-export { isLoggedIn, getTokenUsername };
+export { parseCookie, isLoggedIn };

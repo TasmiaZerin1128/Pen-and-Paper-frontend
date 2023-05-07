@@ -5,12 +5,11 @@ import { ToastContainer , Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { login } from "../../services/auth";
 import { showToast } from "../../services/toast";
-import { isLoggedIn } from "../../services/loggedIn";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/Contexts";
 import "./login.css";
 
-export default function Login({setIsSignedIn}){
+export default function Login(){
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
@@ -19,15 +18,14 @@ export default function Login({setIsSignedIn}){
     const location = useLocation();
     const navigate = useNavigate();
 
-    const { isSignedIn, setStatusSignedIn } = useContext(AuthContext);
+    const { checkLoggedIn, setStatusSignedIn } = useContext(AuthContext);
 
     useEffect(() => {
-        console.log(isSignedIn);
-        if(isSignedIn){
+        if(checkLoggedIn()){
             navigate("/dashboard");
         }
         if (location.state) {
-            showToast(location.state.message, "loginSuccessful");
+            showToast(location.state.message, location.state.message);
             location.state = null;
         }
     }, [location]);
@@ -41,12 +39,10 @@ export default function Login({setIsSignedIn}){
         }
         
         try{
-            console.log(isSignedIn);
             const response = await login(loginUser);
             console.log(response.data);
             if(String(response.status)[0] == 2){
                 setStatusSignedIn();
-                console.log(isSignedIn);
                 navigate("/dashboard");
             }
                 setError(true);
