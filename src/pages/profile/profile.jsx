@@ -219,7 +219,7 @@ export default function Profile({setUsername}) {
     } else {
       setSelectedOption("user-info");
     }
-  });
+  }, [isSignedIn]);
 
   return (
     <Box sx={{ display: "flex" }}>
