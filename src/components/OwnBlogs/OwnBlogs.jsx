@@ -1,7 +1,6 @@
 import { getUserByUsername } from "../../services/user";
 import { getBlogsByAuthorId } from "../../services/blog";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import SingleBlogCard from "../SingleBlogCard/SingleBlogCard";
 import { ToastContainer, Zoom } from "react-toastify";
 import PaginationBar from "../Pagination/Pagination";
@@ -16,8 +15,6 @@ export default function OwnBlogs({cookieUsername}) {
     const [blogCount, setBlogCount] = useState(0);
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(5);
-
-    const navigate = useNavigate();
 
     const changePageNumber = (page) => {
       if(page) setPageNumber(page);

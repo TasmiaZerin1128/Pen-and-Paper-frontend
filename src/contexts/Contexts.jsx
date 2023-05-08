@@ -8,6 +8,7 @@ export const AuthContext = createContext(null);
 export const AuthProvider = (props) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [loggedInUsername, setLoggedInUsername] = useState(null);
+  const [expired, setExpired] = useState(false);
 
   useEffect(() => {
     checkLoggedIn();
@@ -16,10 +17,18 @@ export const AuthProvider = (props) => {
   const checkLoggedIn = () => {
     const tokenUsername = parseCookie();
     if(tokenUsername && tokenUsername!== 'expired'){
+      setExpired(false);
       setIsSignedIn(true);
       setLoggedInUsername(tokenUsername);
       return true;
     }
+    if(tokenUsername === 'expired'){
+      setExpired(true);
+      setIsSignedIn(false);
+      setLoggedInUsername(null);
+      return false;
+    }
+    setExpired(false);
     setIsSignedIn(false);
     setLoggedInUsername(null);
     return false;
@@ -30,11 +39,13 @@ export const AuthProvider = (props) => {
       let jwtcookie = Cookies.get("jwt");
       let { username } = jwt_decode(jwtcookie);
       console.log("Signed In " + username);
+      setExpired(false);
       setIsSignedIn(true);
       setLoggedInUsername(username);
     } catch {
       console.log("No correct token found");
       Cookies.remove("jwt");
+      setExpired(false);
       setIsSignedIn(false);
       setLoggedInUsername(null);
     }
@@ -42,6 +53,7 @@ export const AuthProvider = (props) => {
 
   const setStatusSignedOut = () => {
     Cookies.remove("jwt");
+    setExpired(false);
     setIsSignedIn(false);
     setLoggedInUsername(null);
   };
@@ -49,6 +61,8 @@ export const AuthProvider = (props) => {
   return (
     <AuthContext.Provider
       value={{
+        expired,
+        setExpired,
         isSignedIn,
         checkLoggedIn,
         loggedInUsername,

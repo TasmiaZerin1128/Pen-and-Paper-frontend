@@ -1,12 +1,17 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { isLoggedIn } from "../services/loggedIn";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/Contexts";
 
 export default function Protected({ children }){
     const navigate = useNavigate();
+
+    const { checkLoggedIn, setExpired } = useContext(AuthContext);
+
     useEffect(() => {
-        if(!isLoggedIn()){
-         navigate("/login", {replace: true});
+        if(!checkLoggedIn()){
+            setExpired(true);
+            navigate("/login", {replace: true});
         }
     }, []);
     return children

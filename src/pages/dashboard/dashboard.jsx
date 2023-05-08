@@ -16,39 +16,33 @@ export default function Dashboard({setProfileUsername}) {
   
   const [blogAdded, setBlogAdded] = useState(false);
   const [blogCount, setBlogCount] = useState(0);
-  const [expired, setExpired] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(5);
-  const [username, setUsername] = useState(null);
   const [signedIn, setSignedIn] = useState(false);
 
-  const { isSignedIn, loggedInUsername } = useContext(AuthContext);
+  const { checkLoggedIn, loggedInUsername, setExpired } = useContext(AuthContext);
 
   const changePage = (number) => {
     setPageNumber(number);
   };
 
   useEffect(() => {
-    console.log(loggedInUsername);
-    if(isSignedIn){
+    if(checkLoggedIn()){
       setProfileUsername(loggedInUsername);
-      setUsername(loggedInUsername);
       setSignedIn(true);
     } else {
-      setUsername('');
       setSignedIn(false);
     }
   }, []);
 
   const handleBlogAdd = () => {
-    console.log("Working");
     setBlogAdded(!blogAdded);
   };
 
   return (
     <>
     <div style={{ position: 'sticky', top: 0, zIndex: 100}}>
-      {isSignedIn ? (
+      {signedIn ? (
         <NavbarDashboard handleBlogAdd={handleBlogAdd} />
       ) : (
         <Navbar />

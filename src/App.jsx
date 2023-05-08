@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Protected from './components/Protected';
@@ -12,25 +12,27 @@ import Register from './pages/register/register';
 import ShowSingleBlog from './pages/showSingleBlog/showSingleBlog';
 import UsersProfile from './pages/usersProfile/usersProfile';
 import { parseCookie } from './services/loggedIn';
-import { isLoggedIn } from './services/loggedIn';
 import ErrorPopUp from './components/ErrorPopUp/ErrorPopUp';
+import { useContext } from 'react';
+import { AuthContext } from './contexts/Contexts';
 
 export default function App() {
 
   const [profileUsername, setProfileUsername] = useState(null);
-  const [expired, setExpired] = useState(false);
 
+  const { expired, setExpired } = useContext(AuthContext);
 
   useEffect(() => {
     const tokenUsername = parseCookie();
     if(tokenUsername === 'expired'){
       setExpired(true);
+      setProfileUsername(null);
     } 
-    if(isLoggedIn()){
+    else if(tokenUsername){
       setProfileUsername(tokenUsername);
       setExpired(false);
     }
-  }, []);
+  });
   
 
   return (

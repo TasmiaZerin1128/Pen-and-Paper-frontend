@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import SingleBlogCard from "../SingleBlogCard/SingleBlogCard";
-import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 
 import { getAllBlogs, getBlogsByAuthorId } from "../../services/blog";
@@ -10,7 +9,6 @@ import './Blogs.css';
 export default function BlogList({blogAdded, setPageNumber, setPageSize, authorId, setBlogCount}) {
   const [blogs, setBlogs] = useState(null);
 
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   useEffect(() => {

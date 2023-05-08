@@ -1,4 +1,4 @@
-import Navbar from "../components/navbar/navbar";
+import Navbar from "../components/Navbar/navbar"
 
 export default function PageNotFound () {
     return (

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import SingleBlogCard from "../../components/SingleBlogCard/SingleBlogCard";
 import Button from "@mui/material/Button";
 import { useLocation, useNavigate } from "react-router-dom";

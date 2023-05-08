@@ -10,7 +10,6 @@ export default function PaginationBar({changePage, pageSize, pageNumber, blogCou
 
     if(blogCount) {
       totalPages = Math.ceil(blogCount/pageSize);
-      console.log("Total pages: " + totalPages + " " + blogCount + " " + pageSize);
     }
   
     const onChangePage = (event, value) => {

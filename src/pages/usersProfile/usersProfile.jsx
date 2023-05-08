@@ -84,7 +84,6 @@ export default function UsersProfile() {
   };
 
   const { username } = useParams();
-  console.log(username);
 
   useEffect(() => {
     window.scrollTo({ top: 0 });

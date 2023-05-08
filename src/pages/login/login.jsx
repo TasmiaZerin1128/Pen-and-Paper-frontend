@@ -40,7 +40,6 @@ export default function Login(){
         
         try{
             const response = await login(loginUser);
-            console.log(response.data);
             if(String(response.status)[0] == 2){
                 setStatusSignedIn();
                 navigate("/dashboard");

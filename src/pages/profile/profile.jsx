@@ -196,7 +196,7 @@ export default function Profile({setUsername}) {
 
   const [selectedOption, setSelectedOption] = useState("");
 
-  const { isSignedIn, loggedInUsername } = useContext(AuthContext);
+  const { checkLoggedIn, loggedInUsername } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -208,7 +208,7 @@ export default function Profile({setUsername}) {
   }
 
   useEffect(() => {
-    if(isSignedIn){
+    if(checkLoggedIn()){
       if(setUsername) setUsername(loggedInUsername);
     }
 
@@ -219,7 +219,7 @@ export default function Profile({setUsername}) {
     } else {
       setSelectedOption("user-info");
     }
-  }, [isSignedIn]);
+  }, [loggedInUsername]);
 
   return (
     <Box sx={{ display: "flex" }}>

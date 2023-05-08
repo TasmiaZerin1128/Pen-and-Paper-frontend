@@ -69,6 +69,8 @@ function DeleteConfirm({cookieUsername}) {
 
 export default function DeleteAccount({cookieUsername}) {
 
+  const navigate = useNavigate();
+  
   return (
     <>
     <div className="deleteSection">
