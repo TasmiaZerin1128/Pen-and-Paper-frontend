@@ -1,7 +1,7 @@
 import { Button, Grid, ListItem } from "@mui/material";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../../components/Navbar/navbar";
+import Navbar from "../../components/Navbar/Navbar";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/Contexts";
 import "./home.css";

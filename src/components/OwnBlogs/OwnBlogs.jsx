@@ -41,12 +41,12 @@ export default function OwnBlogs({cookieUsername}) {
 
     const getAllBlgsByAuthorId = async (authorId, pageNumber, pageSize) => {
       const userBlogs = await getBlogsByAuthorId(authorId, pageNumber, pageSize);
-      if(typeof(userBlogs.data.rows) === 'object'){
+      if(userBlogs.data.count > 0){
           setBlogList(userBlogs.data.rows);
-          setBlogCount(userBlogs.data.count);
       } else {
         setBlogList(null);
       }
+      setBlogCount(userBlogs.data.count);
     }      
 
     if(blogList) {

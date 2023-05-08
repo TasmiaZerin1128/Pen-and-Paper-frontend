@@ -7,17 +7,14 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import TextField from '@mui/material/TextField';
-import '../SingleBlogCard/SingleBlogCard.css';
 import '../Blogs/Blogs.css';
 
 export default function EditBlog({blog, setBlogList, showToast}) {
     const [open, setOpen] = useState(false);
     const [editTitle, setEditTitle] = useState(blog.title);
     const [editDescription, setEditDescription] = useState(blog.description);
-    const [errorTitle, setErrorTitle] = useState(false);
-    const [errorDescription, setErrorDescription] = useState(false);
-    const [errorLineTitle, setErrorLineTitle] = useState("");
-    const [errorLineDescription, setErrorLineDescription] = useState("");
+    const [errorTitle, setErrorTitle] = useState(null);
+    const [errorDescription, setErrorDescription] = useState(null);
     const [serverError, setServerError] = useState('');
   
     const handleClickOpen = () => {
@@ -31,10 +28,8 @@ export default function EditBlog({blog, setBlogList, showToast}) {
     const cancel = () => {
         setEditTitle(blog.title);
         setEditDescription(blog.description);
-        setErrorTitle(false);
-        setErrorLineTitle("");
-        setErrorDescription(false);
-        setErrorLineDescription("");
+        setErrorTitle(null);
+        setErrorDescription(null);
         handleClose();
     }
   
@@ -60,18 +55,14 @@ export default function EditBlog({blog, setBlogList, showToast}) {
       }
     } else {
       if(!editTitle.trim()){
-        setErrorTitle(true);
-        setErrorLineTitle("Title of the blog is required");
+        setErrorTitle("Title of the blog is required");
       } else {
-        setErrorTitle(false);
-        setErrorLineTitle("");
+        setErrorTitle(null);
       }
       if(!editDescription.trim()){
-        setErrorDescription(true);
-        setErrorLineDescription("Description cannot be blank");
+        setErrorDescription("Description cannot be blank");
       } else {
-        setErrorDescription(false);
-        setErrorLineDescription("");
+        setErrorDescription(null);
       }
     }
     }
@@ -94,7 +85,7 @@ export default function EditBlog({blog, setBlogList, showToast}) {
               inputProps={{style: {fontSize: 40}}}
               sx={{marginBottom: '1.4rem'}}
               onChange={(e) => setEditTitle(e.target.value)}
-              error={errorTitle} helperText={errorLineTitle}
+              error={errorTitle ? true : false} helperText={errorTitle}
             />
             <TextField
             id="body"
@@ -108,7 +99,7 @@ export default function EditBlog({blog, setBlogList, showToast}) {
             maxRows={8}
             minRows={8}
             onChange={(e) => setEditDescription(e.target.value)}
-            error={errorDescription} helperText={errorLineDescription}
+            error={errorDescription ? true : false} helperText={errorDescription}
           />
           </DialogContent>
           <DialogActions sx={{backgroundColor: '#EBE4D2', color: '#863812', padding: '0 3rem 3rem'}}>

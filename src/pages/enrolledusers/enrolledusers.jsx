@@ -26,7 +26,7 @@ export default function Users () {
         <div style={{ padding: '1rem 6rem 2rem' }}>
             <h1 style={{fontSize:'1.5rem', marginBottom: '2rem'}}><u>Enrolled Users</u></h1>
             {searchedUser ? (<SearchedUser searchedUser={searchedUser} />) : (<UsersList pageNumber={pageNumber}/>) }
-            <PaginationBar changePageNumber={changePageNumber} navigationPage={'enrolledusers'}/>
+            <PaginationBar changePageNumber={changePageNumber} navigationPage={'users'}/>
         </div>
         </>
     )

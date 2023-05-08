@@ -29,14 +29,12 @@ export default function BlogList({blogAdded, setPageNumber, setPageSize, authorI
     } else {
       allBlogs = await getAllBlogs(pageNumber, pageSize);
     }
-    console.log(allBlogs.data);
-    if(typeof(allBlogs.data.rows) === 'object'){
+    if(allBlogs.data.count > 0){
       setBlogs(allBlogs.data.rows);
-      setBlogCount(allBlogs.data.count);
     } else {
       setBlogs(null);
-      setBlogCount(0);
     }
+    setBlogCount(allBlogs.data.count);
   }
 
   if(blogs) {

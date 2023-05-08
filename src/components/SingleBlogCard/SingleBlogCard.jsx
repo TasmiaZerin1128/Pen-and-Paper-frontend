@@ -37,7 +37,7 @@ function ReadMore({ blog, length = 400 }) {
 
     const showBlog = () => {
         if(!location.state){
-        navigate(`/${blog.authorUsername}/blogs/${blog.id}`, { state: { data: blog } });
+        navigate(`/blogs/${blog.id}`, { state: { data: blog } });
         }
     }
 
