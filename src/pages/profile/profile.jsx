@@ -28,20 +28,14 @@ import { AuthContext } from "../../contexts/Contexts";
 
 const drawerWidth = 200;
 
-function UserInfo({cookieUsername}) {
+function UserInfo({cookieUsername, setUserId}) {
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [password, setPassword] = useState("");
 
-  const [errorPassword, setErrorPassword] = useState(false);
-  const [errorLinePassword, setErrorLinePassword] = useState("");
-
-  const [errorOldPassword, setErrorOldPassword] = useState(false);
-  const [errorLineOldPassword, setErrorLineOldPassword] = useState("");
-
-  const [userDetails, setUserDetails] = useState(null);
+  const [error, setError] = useState(null);
 
   const [disableSave, setDisableSave] = useState(true);
 
@@ -58,18 +52,13 @@ function UserInfo({cookieUsername}) {
         console.log("successful");
         setPassword("");
         setOldPassword("");
-        setErrorPassword(false);
-        setErrorLinePassword("");
-        setErrorOldPassword(false);
-        setErrorLineOldPassword("");
+        setError(null);
         showToast("Password updated successfully","passwordChanged" );
       } else {
-        setErrorOldPassword(true);
-        setErrorLineOldPassword(response.data);
+        setError(response.data);
       }
     } else {
-      setErrorPassword(true);
-      setErrorLinePassword("Password must be atleast of 6 characters");
+      setError("Password must be atleast of 6 characters");
     }
   }
 
@@ -84,7 +73,7 @@ function UserInfo({cookieUsername}) {
   useEffect(() => {
     async function getUserDetails() {
       let details = await getUserByUsername(cookieUsername);
-      setUserDetails(details.data);
+      setUserId(details.data.id);
       setFullName(details.data.fullName);
       setUsername(details.data.username);
       setEmail(details.data.email);
@@ -149,6 +138,9 @@ function UserInfo({cookieUsername}) {
         <hr style={{border: '1px solid #e0d8c3'}} />
         <div className="infoForm" style={{padding: '1rem 4rem 1.5rem'}}>
           <div className="individual">
+            { error ? (<h4 style={{ backgroundColor: '#d6817d', borderRadius: '5px', color: 'white', padding: '0.5rem 1rem'}}>{error}</h4>) : null }
+          </div>
+          <div className="individual">
             <h4 style={{marginRight: '2rem'}}>Old Password</h4>
             <TextField
                 id="oldpassword"
@@ -160,7 +152,6 @@ function UserInfo({cookieUsername}) {
                 value={oldPassword}
                 onChange={(e) => setOldPassword(e.target.value)}
                 style={{ width: "70%"}}
-                error={errorOldPassword} helperText={errorLineOldPassword}
               />
           </div>
           <div className="individual">
@@ -175,7 +166,6 @@ function UserInfo({cookieUsername}) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 style={{ width: "70%"}}
-                error={errorPassword} helperText={errorLinePassword}
               />
           </div>
         </div>
@@ -197,6 +187,8 @@ export default function Profile({setUsername}) {
   const [selectedOption, setSelectedOption] = useState("");
 
   const { checkLoggedIn, loggedInUsername } = useContext(AuthContext);
+
+  const [userId, setUserId] = useState("");
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -316,9 +308,9 @@ export default function Profile({setUsername}) {
         sx={{ flexGrow: 1, bgcolor: "#EBE4D2", p: 3, margin: "auto" }}
       >
         <Toolbar />
-        {selectedOption === "user-info" ? (<UserInfo cookieUsername={loggedInUsername}/>) : null}
+        {selectedOption === "user-info" ? (<UserInfo cookieUsername={loggedInUsername} setUserId={setUserId}/>) : null}
         {selectedOption === "delete-account" ? (<DeleteAccount cookieUsername={loggedInUsername}/>) : null}
-        {selectedOption === "own-blogs" ? (<OwnBlogs cookieUsername={loggedInUsername}/>) : null}
+        {selectedOption === "own-blogs" ? (<OwnBlogs cookieUsername={loggedInUsername} userId={userId}/>) : null}
       </Box>
     </Box>
   );

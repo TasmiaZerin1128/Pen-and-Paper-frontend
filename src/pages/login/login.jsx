@@ -68,7 +68,7 @@ export default function Login(){
         <>
         <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#168030" }}/>
         <div className="wrapper">
-            <img className="logoRaw" src="src\assets\images\raw-logo.png" onClick={(e)=> navigate('/')}/>
+            <img className="logoLogin" src='\src\assets\images\logo-sm.svg' onClick={() => navigate("/")}/>
             <h1>Welcome Back!</h1>
             <h3>Let's start imagining again</h3>
             <div className="loginForm">

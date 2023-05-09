@@ -33,7 +33,7 @@ function ReadMore({ blog, length = 400 }) {
   const text = blog.description;
 
   const navigate = useNavigate();
-    const location = useLocation();
+  const location = useLocation();
 
     const showBlog = () => {
         if(!location.state){
@@ -63,26 +63,32 @@ function ReadMore({ blog, length = 400 }) {
 export default function SingleBlogCard({singleBlog, editMode, setSingleBlog}) {
 
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const showBlog = () => {
+      if(!location.state){
+        navigate(`/blogs/${singleBlog.id}`, { state: { data: singleBlog } });
+      }
+    }
 
     return (
     <>
         <Card className="blogCards" key={singleBlog.id}>
           <CardContent style={{ overflowWrap: "break-word" }}>
-            <Typography className="blogAuthor" onClick={() => navigate(`/profile/${singleBlog.authorUsername}`)}
-              sx={{ fontSize: 14, fontFamily: "Poppins", display: "inline-block", alignItems: "center" }}
-              color="text.secondary"
+            <Typography 
+              className="blogAuthor" 
+              style={{ fontFamily: "Poppins", display: "inline-block", alignItems: "center" }} 
+              onClick={() => navigate(`/profile/${singleBlog.authorUsername}`)}
               gutterBottom>
-                {singleBlog.authorFullName}
-            </Typography>
-            <Typography className="blogAuthor" onClick={() => navigate(`/profile/${singleBlog.authorUsername}`)} 
-            sx={{ fontSize: 13, fontFamily: "Poppins", padding: "0", display: "inline-block", alignItems: "center" }} 
-            color="#863812">
-              &nbsp;@{singleBlog.authorUsername}
+                <span style={{ fontSize: 14, color: "#555558" }} >{singleBlog.authorFullName}</span>
+                <span style={{ fontSize: 13, padding: "0", color: "#863812"}}>&nbsp;@{singleBlog.authorUsername}</span>
             </Typography>
             <Typography
               variant="h5"
               component="div"
+              onClick={() => showBlog()}
               style={{
+                cursor: "pointer",
                 fontFamily: "Poppins",
                 fontWeight: "bold",
                 color: "#863812",

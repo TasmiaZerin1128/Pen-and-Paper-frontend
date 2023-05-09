@@ -85,6 +85,7 @@ export default function Navbar({ handleBlogAdd }) {
               sx={{
                 mr: 2,
                 display: { xs: "none", md: "flex" },
+                cursor: "pointer",
                 color: "inherit",
                 textDecoration: "none",
               }}
@@ -141,6 +142,7 @@ export default function Navbar({ handleBlogAdd }) {
               sx={{
                 mr: 2,
                 display: { xs: "flex", md: "none" },
+                cursor: "pointer",
                 flexGrow: 1,
                 color: "inherit",
                 textDecoration: "none",
@@ -237,10 +239,11 @@ export default function Navbar({ handleBlogAdd }) {
           <Typography
               variant="h5"
               noWrap
-              component="div"
+              component="a"
               href="/"
               sx={{
                 mr: 2,
+                cursor: "pointer",
                 flexGrow: 1,
                 color: "inherit",
                 textDecoration: "none",

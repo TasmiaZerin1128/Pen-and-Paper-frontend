@@ -22,9 +22,10 @@ h3{
     text-align: center;
 }
 
-.logoRaw{
-    margin-top: 4%;
-    width: 7%;  /* 30rem */
+.logoLogin{
+    margin: 4% 15% 1%;
+    width: 10%;
+    cursor: pointer;
 }
 
 .signUp{

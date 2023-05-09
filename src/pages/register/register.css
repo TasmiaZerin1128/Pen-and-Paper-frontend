@@ -19,14 +19,13 @@
 }
 
 .left{
-    width: 55%;
+    width: 50%;
 }
 
 .logo{
-    margin-top: 25%;
-    margin-left: 5%;
-    width: 70%;  /* 30rem */
-    
+    margin: 25% 15% 0;
+    width: 55%;  /* 30rem */
+    cursor: pointer;
 }
 
 .right{
