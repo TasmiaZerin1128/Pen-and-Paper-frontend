@@ -178,7 +178,7 @@ export default function Navbar({ handleBlogAdd }) {
                   <></>
                 )}
                 <Tooltip title="Open Profile">
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <IconButton style={{ width: '10%', height: '10%', margin: '0.6rem 0 0 1rem'}} onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
                       alt="profile icon"
                       src="\src\assets\images\profile-pic2.jpg"

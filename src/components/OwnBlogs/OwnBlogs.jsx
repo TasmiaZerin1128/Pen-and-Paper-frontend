@@ -25,8 +25,8 @@ export default function OwnBlogs({cookieUsername}) {
 
         const pgNo = searchParams.get('pagenumber');
         const pgSize = searchParams.get('pagesize');
-        if(pgNo && pgNo!== 'null') setPageNumber(pgNo);
-        if(pgSize && pgSize!== 'null') setPageSize(pgSize);
+        if(parseInt(pgNo)>0 && pgNo!== 'null') setPageNumber(pgNo);
+        if(parseInt(pgSize)>0 && pgSize!== 'null') setPageSize(pgSize);
 
         async function getUser() {
             const user = await getUserByUsername(cookieUsername);

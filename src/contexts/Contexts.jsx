@@ -8,6 +8,8 @@ export const AuthContext = createContext(null);
 export const AuthProvider = (props) => {
   const [loggedInUsername, setLoggedInUsername] = useState(null);
   const [expired, setExpired] = useState(false);
+  const pageNumber = 1;
+  const pageSize = 5;
 
   useEffect(() => {
     checkLoggedIn();
@@ -55,6 +57,8 @@ export const AuthProvider = (props) => {
   return (
     <AuthContext.Provider
       value={{
+        pageNumber,
+        pageSize,
         expired,
         setExpired,
         checkLoggedIn,

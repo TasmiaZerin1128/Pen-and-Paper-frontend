@@ -15,8 +15,8 @@ export default function BlogList({blogAdded, setPageNumber, setPageSize, authorI
     window.scrollTo({ top: 0 });
     const pgNo = searchParams.get('pagenumber');
     const pgSize = searchParams.get('pagesize');
-    if(pgNo && pgNo!== 'null') setPageNumber(pgNo);
-    if(pgSize && pgSize!== 'null') setPageSize(pgSize);
+    if(parseInt(pgNo)>0 && pgNo!== 'null') setPageNumber(pgNo);
+    if(parseInt(pgSize)>0 && pgSize!== 'null') setPageSize(pgSize);
 
     fetchAllBlogs(pgNo, pgSize);
   }, [blogAdded, searchParams]);
