@@ -13,21 +13,15 @@ import Profile from "./pages/profile/profile";
 import Register from "./pages/register/register";
 import ShowSingleBlog from "./pages/showSingleBlog/showSingleBlog";
 import UsersProfile from "./pages/usersProfile/usersProfile";
-import { parseCookie } from "./services/loggedIn";
 
 export default function App() {
   const [profileUsername, setProfileUsername] = useState(null);
 
-  const { expired, setExpired } = useContext(AuthContext);
+  const { expired, loggedInUsername, checkLoggedIn } = useContext(AuthContext);
 
   useEffect(() => {
-    const tokenUsername = parseCookie();
-    if (expired) {
-      setExpired(true);
-      setProfileUsername(null);
-    } else if (tokenUsername) {
-      setProfileUsername(tokenUsername);
-      setExpired(false);
+    if(checkLoggedIn()){
+      setProfileUsername(loggedInUsername);
     }
   });
 

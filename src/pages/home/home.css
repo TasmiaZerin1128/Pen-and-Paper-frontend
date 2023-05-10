@@ -74,6 +74,10 @@ h3 {
   margin-top: 1em;
 }
 
+.card {
+  padding-top: 1.3rem;
+}
+
 .cardsList{
   display: flex;
   flex-direction: column;
@@ -100,7 +104,7 @@ h3 {
 
 .blank-1 .left-line{
   width: 60%;
-  margin: 7rem 0 0 7rem;
+  margin: 5rem 0 0 7rem;
 }
 
 .blank-1 .right-button{
@@ -114,7 +118,7 @@ h3 {
   color: #863812;
   text-decoration: none;
   border-radius: 0.5rem;
-  font-weight: 300;
+  font-weight: 800;
   font-size: 1.2rem;
   margin: 9em 0 0 3em;
 }
@@ -153,4 +157,49 @@ h3 {
 .copyright {
   margin: auto;
   text-align: center;
+}
+
+.show, .showCR {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateX(0%);
+  transition: all 1s;
+}
+
+.hide, .hideCR {
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateX(-30%);
+  transition: all 1s;
+}
+
+.showCards {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateX(0%);
+  transition: all 0.8s;
+}
+
+.hideCards {
+  opacity: 0;
+  filter: blur(5px);
+  transform: translateX(-20%);
+  transition: all 0.5s;
+}
+
+.item:nth-child(2) {
+  transition-delay: 200ms;
+}
+.item:nth-child(3) {
+  transition-delay: 500ms;
+}
+
+.showCR {
+  transform: translateX(0%);
+  transition: all 0.8s;
+}
+
+.hideCR {
+  transform: translateX(0%);
+  transition: all 0.8s;
 }
