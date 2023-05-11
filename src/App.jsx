@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Protected from "./components/Protected";
 import SessionExpiredPopUp from "./components/SessionExpiredPopUp/SessionExpired";
@@ -13,6 +13,7 @@ import Profile from "./pages/profile/profile";
 import Register from "./pages/register/register";
 import ShowSingleBlog from "./pages/showSingleBlog/showSingleBlog";
 import UsersProfile from "./pages/usersProfile/usersProfile";
+import { loginStatus } from "./services/loggedIn";
 
 export default function App() {
   const [profileUsername, setProfileUsername] = useState(null);
@@ -29,8 +30,8 @@ export default function App() {
     <>
       {expired ? <SessionExpiredPopUp /> : null}
       <Routes>
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={ loginStatus() ? <Navigate to='/dashboard'/> : <Register /> } />
+        <Route path="/login" element={ loginStatus() ? <Navigate to='/dashboard'/> : <Login />} />
         <Route path="/" element={<Home />} />
         <Route
           path="/dashboard"

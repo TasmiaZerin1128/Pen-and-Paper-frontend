@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import SingleBlogCard from "../SingleBlogCard/SingleBlogCard";
 import { ToastContainer, Zoom } from "react-toastify";
 import PaginationBar from "../Pagination/Pagination";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 import { useSearchParams } from "react-router-dom";
 
 
@@ -15,6 +17,8 @@ export default function OwnBlogs({cookieUsername}) {
     const [blogCount, setBlogCount] = useState(0);
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(5);
+
+    const [isLoading, setLoading] = useState(true);
 
     const changePageNumber = (page) => {
       if(page) setPageNumber(page);
@@ -46,27 +50,38 @@ export default function OwnBlogs({cookieUsername}) {
       } else {
         setBlogList(null);
       }
+      setLoading(false);
       setBlogCount(userBlogs.data.count);
     }      
 
-    if(blogList) {
-        return (
-        <>
-        <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#168030" }}/>
-        <h4><a href="/dashboard" style={{ fontSize: '16px', color: '#863812', textDecoration: 'none', marginBottom: '2rem'}}>←  Go back to Dashboard</a></h4>
-          {blogList.map((item) => (
-              <SingleBlogCard key={item.id} singleBlog={item} editMode={true} setSingleBlog={setBlogList}/>
-          ))}
-        <PaginationBar
-          changePage={changePageNumber} pageSize={pageSize} pageNumber={pageNumber} blogCount={blogCount}
-        />
-        </>
-      );
-      } 
-        return (
+
+    return (
+      <>
+        {isLoading ? (
+          <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center"}} >
+            <CircularProgress color="inherit" />
+          </Box>
+        ) : (
           <>
-          <h4><a href="/dashboard" style={{ fontSize: '16px', color: '#863812', textDecoration: 'none', marginBottom: '2rem'}}>←  Go back to Dashboard</a></h4>
-          <h1 style={{ marginBottom: "1rem", textAlign: "center" }}>No blog found</h1>
+            {blogList ? (
+              <>
+              <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#168030" }}/>
+              <h4><a href="/dashboard" style={{ fontSize: '16px', color: '#863812', textDecoration: 'none', marginBottom: '2rem'}}>←  Go back to Dashboard</a></h4>
+                {blogList.map((item) => (
+                    <SingleBlogCard key={item.id} singleBlog={item} editMode={true} setSingleBlog={setBlogList}/>
+                ))}
+              <PaginationBar
+                changePage={changePageNumber} pageSize={pageSize} pageNumber={pageNumber} blogCount={blogCount}
+              />
+              </>
+            ) : (
+              <>
+                <h4><a href="/dashboard" style={{ fontSize: '16px', color: '#863812', textDecoration: 'none', marginBottom: '2rem'}}>←  Go back to Dashboard</a></h4>
+                <h1 style={{ marginBottom: "1rem", textAlign: "center" }}>No blog found</h1>
+              </>
+            )}
           </>
-        )
+        )}
+      </>
+    );
 }

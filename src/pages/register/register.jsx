@@ -21,13 +21,7 @@ export default function Form() {
 
   const navigate = useNavigate();
 
-  const { checkLoggedIn, setStatusSignedIn } = useContext(AuthContext);
-
-  useEffect(() => {
-    if (checkLoggedIn()) {
-      navigate("/dashboard");
-    }
-  }, []);
+  const { setStatusSignedIn } = useContext(AuthContext);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -197,7 +191,7 @@ export default function Form() {
               Already have an account?
               <span>
                 <a href="/login" className="signIn">
-                  Sign In
+                  &nbsp;Sign In
                 </a>
               </span>
             </h4>

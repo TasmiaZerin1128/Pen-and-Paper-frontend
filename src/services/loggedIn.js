@@ -27,4 +27,16 @@ function tokenExpired() {
   }
 }
 
-export { parseCookie, tokenExpired };
+function loginStatus() {
+  if(!tokenExpired()){
+  const tokenUsername = parseCookie();
+  if(tokenUsername){
+    return true;
+  }
+  return false;
+ } else {
+    return false;
+ }
+}
+
+export { parseCookie, tokenExpired, loginStatus };

@@ -18,12 +18,9 @@ export default function Login(){
     const location = useLocation();
     const navigate = useNavigate();
 
-    const { checkLoggedIn, setStatusSignedIn } = useContext(AuthContext);
+    const { setStatusSignedIn } = useContext(AuthContext);
 
     useEffect(() => {
-        if(checkLoggedIn()){
-            navigate("/dashboard");
-        }
         if (location.state) {
             showToast(location.state.message, location.state.message);
             location.state = null;
