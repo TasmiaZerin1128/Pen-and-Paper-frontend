@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Contexts";
 import { register } from "../../services/auth";
+import validator from "validator";
 import "./register.css";
 
 export default function Form() {
@@ -66,7 +67,7 @@ export default function Form() {
   };
 
   const validateFullName = (value) => {
-    if (value === "") {
+    if (value.trim() === "") {
       setErrorFullName("\u{26A0} Full Name is required");
       return false;
     }
@@ -90,6 +91,10 @@ export default function Form() {
   const validateEmail = (value) => {
     if (value === "") {
       setErrorEmail("\u{26A0} Email is required");
+      return false;
+    }
+    if(!validator.isEmail(value)) {
+      setErrorEmail("\u{26A0} Email is invalid");
       return false;
     }
     setErrorEmail(null);
