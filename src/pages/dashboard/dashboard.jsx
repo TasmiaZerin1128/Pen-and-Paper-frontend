@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
+import BlogList from "../../components/Blogs/Blogs"
 import Navbar from "../../components/Navbar/Navbar";
-import BlogList from "../../components/blogs/blogs";
-
 import { useContext } from "react";
 import PaginationBar from "../../components/Pagination/Pagination";
 import { AuthContext } from "../../contexts/Contexts";
-import { useNavigate } from "react-router-dom";
 import "./dashboard.css";
 
 export default function Dashboard({ setProfileUsername }) {
@@ -25,7 +23,7 @@ export default function Dashboard({ setProfileUsername }) {
   useEffect(() => {
     if (checkLoggedIn()) {
       setProfileUsername(loggedInUsername);
-    } 
+    }
   }, []);
 
   const handleBlogAdd = () => {
