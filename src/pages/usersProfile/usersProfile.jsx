@@ -1,11 +1,11 @@
 import { Box, AppBar, Toolbar, Typography } from "@mui/material";
 import MailIcon from "@mui/icons-material/Mail";
-import BlogList from "../../components/blogs/blogs";
+import BlogList from "../../components/BlogList/BlogList";
 import PaginationBar from "../../components/Pagination/Pagination";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getUserByUsername } from "../../services/user";
 import "./usersProfile.css";
 

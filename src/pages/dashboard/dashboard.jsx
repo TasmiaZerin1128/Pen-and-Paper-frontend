@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-import BlogList from "../../components/Blogs/Blogs"
+import { useContext, useEffect, useState } from "react";
+import BlogList from "../../components/BlogList/BlogList";
 import Navbar from "../../components/Navbar/Navbar";
-import { useContext } from "react";
 import PaginationBar from "../../components/Pagination/Pagination";
 import { AuthContext } from "../../contexts/Contexts";
 import "./dashboard.css";

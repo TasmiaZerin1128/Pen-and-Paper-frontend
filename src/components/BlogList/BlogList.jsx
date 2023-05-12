@@ -6,7 +6,7 @@ import { useSearchParams } from "react-router-dom";
 
 import { getAllBlogs, getBlogsByAuthorId } from "../../services/blog";
 
-import "./Blogs.css";
+import "./BlogList.css";
 
 export default function BlogList({
   blogAdded,
