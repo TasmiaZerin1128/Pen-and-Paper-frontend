@@ -1,4 +1,4 @@
-import UsersList from "../../components/users/users";
+import UsersList from "../../components/Users/Users";
 import Navbar from "../../components/Navbar/Navbar";
 import { useState, useRef, useEffect } from "react";
 import SearchedUser from "../../components/SearchedUser/SearchedUser";

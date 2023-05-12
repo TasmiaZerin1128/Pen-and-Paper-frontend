@@ -99,7 +99,7 @@ export default function Login(){
                 >
                 Login
                 </Button>
-		        <h4 className="registerLine">Don't have an account?<span><a href="/register" className="signUp"> Sign Up</a></span></h4>
+		        <h4 className="registerLine">Don't have an account?<span className="signUp" onClick={() => navigate("/register")}> Sign Up</span></h4>
             </form>
             </div>
         </div>

@@ -8,7 +8,7 @@ import { Button, Grid, ListItem } from "@mui/material";
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import { useNavigate } from "react-router-dom";
 
-import './users.css';
+import './Users.css';
 
 function formatTimestamp(timestamp, createOrUpdate) {
   const options = {

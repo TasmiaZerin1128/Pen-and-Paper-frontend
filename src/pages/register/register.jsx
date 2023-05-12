@@ -189,10 +189,8 @@ export default function Form() {
             </Button>
             <h4 className="loginLine">
               Already have an account?
-              <span>
-                <a href="/login" className="signIn">
+              <span className="signIn" onClick={() => navigate("/login")}>
                   &nbsp;Sign In
-                </a>
               </span>
             </h4>
           </form>
