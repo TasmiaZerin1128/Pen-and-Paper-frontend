@@ -21,6 +21,7 @@ export default function App() {
   const { expired, loggedInUsername, checkLoggedIn } = useContext(AuthContext);
 
   useEffect(() => {
+    console.log(loggedInUsername);
     if(checkLoggedIn()){
       setProfileUsername(loggedInUsername);
     }
@@ -41,17 +42,18 @@ export default function App() {
         <Route
           path={`/profile/${profileUsername}`}
           element={
-            <Protected>
+            // <Protected>
               <Profile />
-            </Protected>
+            // </Protected>
           }
         />
         <Route
           path={`/profile/${profileUsername}/:options`}
-          element={
+          element={ loggedInUsername ? (
             <Protected>
               <Profile />
             </Protected>
+          ) : null
           }
         />
         <Route path="/users" element={<Users />} />

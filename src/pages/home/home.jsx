@@ -33,12 +33,6 @@ export default function Home() {
   });
 
 
-  useEffect(() => {
-    if(checkLoggedIn()){
-      navigate("/dashboard");
-    }
-  }, [])
-
   return (
     <>
     <div style={{ position: 'sticky', top: 0, zIndex: 100}}>
@@ -49,16 +43,16 @@ export default function Home() {
         <p ref={refTitle} className={inViewTitle ? 'show' : 'hide'}>
         A Platform for Your Voice: Share Your Stories and Ideas on Our Blog
         </p>
-        <a href="./dashboard" ref={refTitle} className={`learnMore ${inViewTitle ? 'show' : 'hide'}`}>
+        <span onClick={() => navigate("/dashboard")} ref={refTitle} className={`learnMore ${inViewTitle ? 'show' : 'hide'}`}>
           START BLOGGING
-        </a>
+        </span>
       </div>
 
       <div className="blank-1">
         <div className="left-line">
           <h2 style={{ fontSize: '2.5rem', marginTop: '0rem' }} ref={refConnect} className={inViewConnect ? 'show' : 'hide'}>Connect, Create and Grow</h2>
           <p ref={refConnect} className={inViewConnect ? 'show' : 'hide'}>Create blogs, get idea and inspiration from other’s blogs</p>
-          <a href="./enrolledusers" style={{ color: '#EBE4D2'}} ref={refConnect} className={inViewConnect ? 'show' : 'hide'}><b>View Enrolled Users →</b></a>
+          <span onClick={() => navigate("/users")} style={{ color: '#EBE4D2', cursor: 'pointer'}} ref={refConnect} className={inViewConnect ? 'show' : 'hide'}><b>View Enrolled Users →</b></span>
         </div>
         <div className="right-button">
           <Button ref={refConnect} className={`get-started ${inViewConnect ? 'show' : 'hide'}`} onClick={() => navigate("/login")}>Get Started</Button>

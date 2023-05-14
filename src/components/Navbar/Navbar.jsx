@@ -9,71 +9,23 @@ import Menu from "@mui/material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import MenuIcon from "@mui/icons-material/Menu";
 import Divider from "@mui/material/Divider";
 import Container from "@mui/material/Container";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import Logout from "@mui/icons-material/Logout";
-import Button from "@mui/material/Button";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, Zoom } from "react-toastify";
-import { logout } from "../../services/auth";
 import { showToast } from "../../services/toast";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/Contexts";
-import CreateBlog from "../CreateBlog/CreateBlog";
+import LeftSide from "./NavbarLeftSide";
+import ProfileMenu from "./NavbarProfileMenu";
+import NavbarGeneral from "./NavbarGeneral";
 import "./Navbar.css";
-
-function NavbarGeneral() {
-  const navigate = useNavigate();
-
-  return (
-    <Toolbar>
-      <Typography
-        variant="h5"
-        noWrap
-        component="a"
-        href="/"
-        sx={{
-          mr: 2,
-          cursor: "pointer",
-          flexGrow: 1,
-          color: "inherit",
-          textDecoration: "none",
-        }}
-      >
-        <img
-          src="\src\assets\images\logo-sm.svg"
-          style={{ width: "4rem", marginTop: "0.5rem" }}
-        />
-      </Typography>
-      <Box sx={{ flexGrow: 0 }}>
-        <Button className="loginNav" onClick={() => navigate("/login")}>
-          Sign In
-        </Button>
-        <Button className="registerNav" onClick={() => navigate("/register")}>
-          Get Started
-        </Button>
-      </Box>
-    </Toolbar>
-  );
-}
 
 function NavbarLoggedIn({ handleBlogAdd }) {
   const navigate = useNavigate();
-  const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
 
-  const { checkLoggedIn, loggedInUsername, setStatusSignedOut } =
-    useContext(AuthContext);
-
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+  const { checkLoggedIn, loggedInUsername } = useContext(AuthContext);
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -83,97 +35,10 @@ function NavbarLoggedIn({ handleBlogAdd }) {
     setAnchorElUser(null);
   };
 
-  const logoutUser = async () => {
-    try {
-      const response = await logout();
-      setStatusSignedOut();
-      console.log(response);
-      navigate("/");
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   return (
     <Container maxWidth="xl">
       <Toolbar disableGutters>
-        <Typography
-          variant="h6"
-          noWrap
-          component="a"
-          href="/"
-          sx={{
-            mr: 2,
-            display: { xs: "none", md: "flex" },
-            cursor: "pointer",
-            color: "inherit",
-            textDecoration: "none",
-          }}
-        >
-          <img
-            src="\src\assets\images\logo-sm.svg"
-            alt="logo"
-            style={{ width: "4rem", marginTop: "0.5rem" }}
-          />
-        </Typography>
-
-        <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleOpenNavMenu}
-            color="inherit"
-          >
-            <MenuIcon style={{ color: "#863812" }} />
-          </IconButton>
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorElNav}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-            open={Boolean(anchorElNav)}
-            onClose={handleCloseNavMenu}
-            sx={{
-              display: { xs: "block", md: "none" },
-            }}
-          >
-            <MenuItem style={{ backgroundColor: "transparent" }}>
-              <CreateBlog handleBlogAdd={handleBlogAdd} showToast={showToast} />
-            </MenuItem>
-          </Menu>
-        </Box>
-        <Typography
-          variant="h5"
-          noWrap
-          component="a"
-          href="/"
-          sx={{
-            mr: 2,
-            display: { xs: "flex", md: "none" },
-            cursor: "pointer",
-            flexGrow: 1,
-            color: "inherit",
-            textDecoration: "none",
-          }}
-        >
-          <img
-            src="\src\assets\images\logo-sm.svg"
-            alt="logo"
-            style={{ width: "4rem", marginTop: "0.5rem" }}
-          />
-        </Typography>
-        <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-          <CreateBlog handleBlogAdd={handleBlogAdd} showToast={showToast} />
-        </Box>
+        <LeftSide handleBlogAdd={handleBlogAdd} showToast={showToast} />
 
         <Box sx={{ flexGrow: 0 }}>
           <div style={{ display: "flex", flexDirection: "row" }}>
@@ -238,22 +103,7 @@ function NavbarLoggedIn({ handleBlogAdd }) {
               </Typography>
             </MenuItem>
             <Divider />
-            <MenuItem onClick={(e) => navigate(`/profile/${loggedInUsername}`)}>
-              <ListItemIcon>
-                <AccountCircleIcon fontSize="small" />
-              </ListItemIcon>
-              <Typography textAlign="center" sx={{ padding: 0 }}>
-                Profile
-              </Typography>
-            </MenuItem>
-            <MenuItem onClick={(e) => logoutUser()}>
-              <ListItemIcon>
-                <Logout fontSize="small" />
-              </ListItemIcon>
-              <Typography textAlign="center" sx={{ padding: 0 }}>
-                Logout
-              </Typography>
-            </MenuItem>
+            <ProfileMenu />
           </Menu>
         </Box>
       </Toolbar>
@@ -262,11 +112,7 @@ function NavbarLoggedIn({ handleBlogAdd }) {
 }
 
 export default function Navbar({ handleBlogAdd }) {
-  const { checkLoggedIn, loggedInUsername } = useContext(AuthContext);
-
-  useEffect(() => {
-    checkLoggedIn();
-  }, []);
+  const { loggedInUsername } = useContext(AuthContext);
 
   return (
     <>

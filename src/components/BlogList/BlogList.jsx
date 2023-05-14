@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import SingleBlogCard from "../SingleBlogCard/SingleBlogCard";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
+import Loading from "../Loading/Loading";
 import { useSearchParams } from "react-router-dom";
 
 import { getAllBlogs, getBlogsByAuthorId } from "../../services/blog";
@@ -51,15 +50,7 @@ export default function BlogList({
   return (
     <>
       {isLoading ? (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <CircularProgress color="inherit" />
-        </Box>
+        <Loading />
       ) : (
         <>
           {blogs ? (

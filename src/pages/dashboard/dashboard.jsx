@@ -3,6 +3,7 @@ import BlogList from "../../components/BlogList/BlogList";
 import Navbar from "../../components/Navbar/Navbar";
 import PaginationBar from "../../components/Pagination/Pagination";
 import { AuthContext } from "../../contexts/Contexts";
+import Loading from "../../components/Loading/Loading";
 import "./dashboard.css";
 
 export default function Dashboard({ setProfileUsername }) {
@@ -12,6 +13,7 @@ export default function Dashboard({ setProfileUsername }) {
   const [blogCount, setBlogCount] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(5);
+  const [isLoading, setLoading] = useState(true);
 
   const { checkLoggedIn, loggedInUsername } = useContext(AuthContext);
 
@@ -23,6 +25,7 @@ export default function Dashboard({ setProfileUsername }) {
     if (checkLoggedIn()) {
       setProfileUsername(loggedInUsername);
     }
+    setLoading(false);
   }, []);
 
   const handleBlogAdd = () => {
@@ -30,6 +33,8 @@ export default function Dashboard({ setProfileUsername }) {
   };
 
   return (
+    <>
+    { isLoading ? <Loading /> : 
     <>
       <div style={{ position: "sticky", top: 0, zIndex: 100 }}>
         <Navbar handleBlogAdd={handleBlogAdd} />
@@ -44,7 +49,7 @@ export default function Dashboard({ setProfileUsername }) {
           setPageSize={setPageSize}
           setBlogCount={setBlogCount}
         />
-        <PaginationBar
+        <PaginationBar style={{display: "flex"}}
           changePage={changePage}
           pageSize={pageSize}
           pageNumber={pageNumber}
@@ -52,5 +57,7 @@ export default function Dashboard({ setProfileUsername }) {
         />
       </div>
     </>
+  }
+  </>
   );
 }

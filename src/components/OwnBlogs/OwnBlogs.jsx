@@ -4,12 +4,13 @@ import { useEffect, useState } from "react";
 import SingleBlogCard from "../SingleBlogCard/SingleBlogCard";
 import { ToastContainer, Zoom } from "react-toastify";
 import PaginationBar from "../Pagination/Pagination";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
-import { useSearchParams } from "react-router-dom";
+import Loading from "../Loading/Loading";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 
 export default function OwnBlogs({cookieUsername}) {
+
+    const navigate = useNavigate();
     const [searchParams] = useSearchParams();
 
     const [blogList, setBlogList] = useState([]);
@@ -57,16 +58,13 @@ export default function OwnBlogs({cookieUsername}) {
 
     return (
       <>
-        {isLoading ? (
-          <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center"}} >
-            <CircularProgress color="inherit" />
-          </Box>
-        ) : (
+        {isLoading ? 
+        ( <Loading /> ) : (
           <>
             {blogList ? (
               <>
               <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#168030" }}/>
-              <h4><a href="/dashboard" style={{ fontSize: '16px', color: '#863812', textDecoration: 'none', marginBottom: '2rem'}}>←  Go back to Dashboard</a></h4>
+              <h4 onClick={()=> navigate("/dashboard")} style={{ fontSize: '16px', color: '#863812', cursor: 'pointer', marginBottom: '2rem'}}>←  Go back to Dashboard</h4>
                 {blogList.map((item) => (
                     <SingleBlogCard key={item.id} singleBlog={item} editMode={true} setSingleBlog={setBlogList}/>
                 ))}
@@ -76,7 +74,7 @@ export default function OwnBlogs({cookieUsername}) {
               </>
             ) : (
               <>
-                <h4><a href="/dashboard" style={{ fontSize: '16px', color: '#863812', textDecoration: 'none', marginBottom: '2rem'}}>←  Go back to Dashboard</a></h4>
+                <h4 onClick={navigate("/dashboard")} style={{ fontSize: '16px', color: '#863812', textDecoration: 'none', marginBottom: '2rem'}}>←  Go back to Dashboard</h4>
                 <h1 style={{ marginBottom: "1rem", textAlign: "center" }}>No blog found</h1>
               </>
             )}

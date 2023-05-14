@@ -1,4 +1,3 @@
-import Navbar from "../components/Navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 
 export default function PageNotFound () {
