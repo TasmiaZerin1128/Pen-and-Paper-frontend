@@ -14,7 +14,7 @@ import ListItemText from "@mui/material/ListItemText";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import DescriptionIcon from "@mui/icons-material/Description";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import "./profile.css";
+import "./ownProfile.css";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import DeleteAccount from "../../components/DeleteAccount/DeleteAccount";
@@ -25,7 +25,7 @@ import UserInfo from "../../components/UserInfo/UserInfo";
 
 const drawerWidth = 200;
 
-export default function Profile({setUsername}) {
+export default function OwnProfile({setUsername}) {
 
   const [selectedOption, setSelectedOption] = useState("");
 

@@ -29,7 +29,7 @@ export default function Login(){
 
     const submit = async (e) => {
         e.preventDefault();
-        if(username !== "" && password !== ""){
+        if(username.trim() !== "" && password.trim() !== ""){
         const loginUser = {
             username: username,
             password: password

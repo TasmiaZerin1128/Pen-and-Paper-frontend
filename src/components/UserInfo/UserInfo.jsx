@@ -1,6 +1,6 @@
 import * as React from "react";
 import { TextField, Button, Typography } from "@mui/material";
-import "../../pages/profile/profile.css";
+import "../../pages/ownProfile/ownProfile.css";
 import { useState, useEffect } from "react";
 import { ToastContainer , Zoom } from 'react-toastify';
 import { useLocation, useNavigate } from "react-router-dom";
@@ -27,7 +27,7 @@ export default function UserInfo({cookieUsername, setUserId}) {
         oldPassword: oldPassword,
         newPassword: password
       }
-      if(password.length >= 6){
+      if(password.trim().length >= 6){
         let response = await updateUserByUsername(username, updatedUser);
         if(response.status === 200){
           console.log("successful");

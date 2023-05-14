@@ -102,7 +102,7 @@ export default function Form() {
   };
 
   const validatePassword = (value) => {
-    if (value === "") {
+    if (value.trim() === "") {
       setErrorPassword("\u{26A0} Password is required");
       return false;
     }

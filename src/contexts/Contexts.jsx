@@ -6,7 +6,7 @@ import { parseCookie, tokenExpired } from "../services/loggedIn";
 export const AuthContext = createContext(null);
 
 export const AuthProvider = (props) => {
-  const [loggedInUsername, setLoggedInUsername] = useState(null);
+  const [loggedInUsername, setLoggedInUsername] = useState(localStorage.getItem("username"));
   const [expired, setExpired] = useState(false);
   const pageNumber = 1;
   const pageSize = 5;
@@ -21,14 +21,17 @@ export const AuthProvider = (props) => {
     if(tokenUsername){
       setExpired(false);
       setLoggedInUsername(tokenUsername);
+      localStorage.setItem("username", tokenUsername);
       return true;
     }
     setExpired(false);
     setLoggedInUsername(null);
+    localStorage.removeItem("username");
     return false;
    } else {
       setExpired(true);
       setLoggedInUsername(null);
+      localStorage.removeItem("username");
       return false;
    }
   }
@@ -40,6 +43,7 @@ export const AuthProvider = (props) => {
       console.log("Signed In " + username);
       setExpired(false);
       setLoggedInUsername(username);
+      localStorage.setItem("username", username);
     } catch {
       console.log("No correct token found");
       Cookies.remove("jwt");
@@ -50,6 +54,7 @@ export const AuthProvider = (props) => {
 
   const setStatusSignedOut = () => {
     Cookies.remove("jwt");
+    localStorage.removeItem("username");
     setExpired(false);
     setLoggedInUsername(null);
   };
