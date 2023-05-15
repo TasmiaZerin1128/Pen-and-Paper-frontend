@@ -9,7 +9,7 @@ export default defineConfig({
  
     // },
     proxy : {
-      '/api/v1': {
+      '/api': {
         target: 'https://penpaper.cyclic.app',
         changeOrigin: true,
         secure: false,
