@@ -1,2 +1,3 @@
+/api/*  https://penpaper.cyclic.app/:splat  200
+/api/*  https://penpaper.cyclic.app/api/:splat  200
 /*    /index.html    200
-/api/*  https://penpaper.cyclic.app  200
