@@ -23,7 +23,7 @@ export default function NavbarGeneral() {
           }}
         >
           <img
-            src="\src\assets\images\logo-sm.svg"
+            src="images/logo-sm.svg"
             style={{ width: "4rem", marginTop: "0.5rem" }}
           />
         </Typography>

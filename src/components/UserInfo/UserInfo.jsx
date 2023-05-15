@@ -71,7 +71,7 @@ export default function UserInfo({cookieUsername, setUserId}) {
         <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#168030" }}/>
         <div className="profilePicWrap">
           <img
-            src="\src\assets\images\profile-pic2.jpg"
+            src="images/profile-pic2.jpg"
             alt="profile"
             className="profilePic"
           />

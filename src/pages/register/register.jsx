@@ -123,7 +123,7 @@ export default function Form() {
     <>
       <div className="form">
         <div className="left">
-          <img className="logo" src='\src\assets\images\logo-sm.svg' onClick={() => navigate("/")}/>
+          <img className="logo" src='images/logo-sm.svg' onClick={() => navigate("/")}/>
         </div>
         <div className="right">
           <div className="messages">{registerStatus()}</div>

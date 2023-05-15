@@ -71,7 +71,7 @@ function NavbarLoggedIn({ handleBlogAdd }) {
               >
                 <Avatar
                   alt="profile icon"
-                  src="\src\assets\images\profile-pic2.jpg"
+                  src="images/profile-pic2.jpg"
                 />
               </IconButton>
             </Tooltip>

@@ -37,7 +37,7 @@ export default function LeftSide({handleBlogAdd, showToast}) {
           }}
         >
           <img
-            src="\src\assets\images\logo-sm.svg"
+            src="images/logo-sm.svg"
             alt="logo"
             style={{ width: "4rem", marginTop: "0.5rem" }}
           />
@@ -92,7 +92,7 @@ export default function LeftSide({handleBlogAdd, showToast}) {
           }}
         >
           <img
-            src="\src\assets\images\logo-sm.svg"
+            src="images/logo-sm.svg"
             alt="logo"
             style={{ width: "4rem", marginTop: "0.5rem" }}
           />
