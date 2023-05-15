@@ -13,15 +13,7 @@ const register = async (newUser) => {
 const login = async (loginUser) => {
     console.log("Entered this url");
     try {
-        const response = await api.post("/auth/login", loginUser, { withCredentials: true }).then((res) => {
-            console.log(res);
-            const setCookie = res.headers["set-cookie"];
-            console.log(res.headers["set-cookie"]);
-            // if(setCookie){
-            //     document.cookie = setCookie;
-            //     console.log("Here is the cookie: ", setCookie);
-            // }
-        });
+        const response = await api.post("/auth/login", loginUser, { withCredentials: true });
         return response;
     } catch (err) {
         return err.response;
