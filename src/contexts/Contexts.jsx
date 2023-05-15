@@ -40,12 +40,11 @@ export const AuthProvider = (props) => {
     try {
       let jwtcookie = Cookies.get("jwt");
       let { username } = jwt_decode(jwtcookie);
-      console.log("Signed In " + username);
+      // console.log("Signed In " + username);
       setExpired(false);
       setLoggedInUsername(username);
       localStorage.setItem("username", username);
     } catch {
-      console.log("No correct token found");
       Cookies.remove("jwt");
       setExpired(false);
       setLoggedInUsername(null);

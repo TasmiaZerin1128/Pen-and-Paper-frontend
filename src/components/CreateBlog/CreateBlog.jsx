@@ -43,7 +43,6 @@ export default function CreateBlog({ handleBlogAdd, showToast }) {
         description: description,
       };
       const response = await createBlog(newBlog);
-      console.log(response.data);
       if (String(response.status)[0] == 2) {
         showToast("Blog added to timeline", "newBlog");
         handleClose();
@@ -51,7 +50,6 @@ export default function CreateBlog({ handleBlogAdd, showToast }) {
         setErrorTitle(null);
         setErrorDescription(null);
       } else {
-        console.log(response.data);
         setServerError(response.data);
       }
     } else {

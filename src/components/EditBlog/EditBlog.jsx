@@ -39,18 +39,15 @@ export default function EditBlog({ blog, setBlogList, showToast }) {
         description: editDescription,
       };
       const response = await editBlog(blog.id, editedBlog);
-      console.log(response.data);
       if (response.status === 200) {
         handleClose();
         showToast("Blog updated", "blogUpdated");
         const userBlogs = await getBlogsByAuthorId(blog.authorId);
-        console.log(userBlogs);
         if (typeof userBlogs.data === "object") {
           setBlogList(userBlogs.data.rows);
         }
       } else {
         setServerError(response.data);
-        console.log(response.data);
       }
     } else {
       if (!editTitle.trim()) {

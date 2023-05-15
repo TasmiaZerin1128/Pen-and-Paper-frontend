@@ -2,7 +2,6 @@ import api from "../api";
 
 const getAllUsers = async (pageNumber) => {
     try {
-        console.log(pageNumber);
         const response = await api.get(`/users?pagenumber=${pageNumber}&pagesize=5`);
         return response;
     } catch (err) {

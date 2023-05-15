@@ -35,7 +35,6 @@ export default function OwnBlogs({cookieUsername}) {
 
         async function getUser() {
             const user = await getUserByUsername(cookieUsername);
-            console.log(cookieUsername);
             setAuthorId(user.data.id);
             await getAllBlgsByAuthorId(user.data.id, pgNo, pgSize);
         }

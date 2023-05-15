@@ -30,7 +30,6 @@ function DeleteConfirm({cookieUsername}) {
 
     const deleteUserAccount = async () => {
         const response = await deleteUserByUsername(cookieUsername);
-        console.log(response.data);
         if(response.status === 200) {
             Cookies.remove("jwt");
             setStatusSignedOut();
@@ -38,7 +37,6 @@ function DeleteConfirm({cookieUsername}) {
             navigate("/login", { state: { message: "Account has been deleted" } });
         } else {
             setServerError(response.data);
-            console.log(response.data);
         }
         
     }

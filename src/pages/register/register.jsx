@@ -41,13 +41,11 @@ export default function Form() {
 
       try {
         const response = await register(newUser);
-        console.log(response);
         if (String(response.status)[0] == 2) {
           setSubmitted(true);
           setErrorOrSuccessLine(
             "User successfully registered! Please go to the login section"
           );
-          console.log(response.data);
           setStatusSignedIn();
           navigate("/login", {
             state: { message: "User registered successfully" },
@@ -55,7 +53,6 @@ export default function Form() {
         } else {
           setSubmitted(false);
           setErrorOrSuccessLine(response.data);
-          console.log(response.data);
         }
       } catch (err) {
         console.log("An error occured!");

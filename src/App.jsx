@@ -19,7 +19,6 @@ export default function App() {
   const { expired, loggedInUsername, checkLoggedIn } = useContext(AuthContext);
 
   useEffect(() => {
-    console.log(loggedInUsername);
     if(checkLoggedIn()){
       setProfileUsername(loggedInUsername);
     }
