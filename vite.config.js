@@ -5,7 +5,7 @@ export default defineConfig({
   server: {
     proxy: {
       // '/api': 'http://192.168.1.92:3000',
-      '/api': "https://penpaper.cyclic.app/"
+      '/api': "https://penpaper.cyclic.app"
     },
   },
   plugins: [react()],
