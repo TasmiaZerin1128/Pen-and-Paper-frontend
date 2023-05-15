@@ -9,7 +9,7 @@ export default defineConfig({
  
     // },
     proxy : {
-      '/api': {
+      '/api/v1': {
         target: 'https://penpaper.cyclic.app',
         changeOrigin: true,
         // rewrite: (path) => path.replace(/^\/api/, ''),
