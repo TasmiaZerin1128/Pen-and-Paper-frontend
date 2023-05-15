@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export default axios.create({
-  // baseURL: `/api/v1`
+  baseURL: `https://penpaper.cyclic.app/api/v1`
 });
