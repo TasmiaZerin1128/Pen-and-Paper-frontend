@@ -12,6 +12,7 @@ export default defineConfig({
       '/api/v1': {
         target: 'https://penpaper.cyclic.app',
         changeOrigin: true,
+        secure: false,
         // rewrite: (path) => path.replace(/^\/api/, ''),
       },
     }
