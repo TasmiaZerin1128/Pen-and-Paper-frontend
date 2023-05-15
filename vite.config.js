@@ -9,12 +9,12 @@ export default defineConfig({
  
     // },
     proxy : {
-      '/api/v1': {
-        target: 'https://penpaper.cyclic.app',
-        changeOrigin: true,
-        secure: false,
-        // rewrite: (path) => path.replace(/^\/api/, ''),
-      },
+      // '/api/v1': {
+      //   target: 'https://penpaper.cyclic.app',
+      //   changeOrigin: true,
+      //   secure: false,
+      //   rewrite: (path) => path.replace(/^\/api/, ''),
+      // },
     }
   },
   plugins: [react()],
