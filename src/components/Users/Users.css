@@ -1,0 +1,15 @@
+.userCards {
+    background-color: #FAF5E8;
+    border-radius: 10px;
+    padding: 0.5rem 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.viewBlogs, .viewBlogs:hover, .viewBlogs:active {
+    font-family: 'Poppins', sans-serif;
+    font-size: medium;
+    margin-top: 0px;
+    color: #5B3203;
+    text-transform: capitalize;
+    background-color: transparent;
+}

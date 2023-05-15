@@ -1,0 +1,13 @@
+.profilePicture {
+    border-radius: 50%;
+    border: #5B3203 2px solid;
+    width: 10%;
+    margin: 6rem auto 1rem;
+}
+
+
+
+.profileInfo{
+    text-align: center;
+    margin: 0 auto;
+}

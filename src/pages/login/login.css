@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Dancing+Script:wght@400;500&family=Great+Vibes&family=Playfair+Display:wght@400;600;700&family=Poppins:wght@400;700&display=swap');
+
+h1{
+    font-family: 'Poppins', sans-serif;
+    color: #5B3203;
+    font-size: 3rem;
+    margin: 0.5rem;
+}
+
+h3{
+    color: #863812;
+    margin: 0.2rem;
+    font-weight: 500;
+}
+
+.registerLine {
+    color: #5B3203;
+    font-weight: 300;
+}
+
+.wrapper{
+    text-align: center;
+}
+
+.logoLogin{
+    margin: 4% 15% 1%;
+    width: 10%;
+    cursor: pointer;
+}
+
+.signUp{
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 900;
+    color: #5B3203;
+}
+
+.input{
+    margin-bottom: 1.2rem;
+}
+
+.input:hover{
+    margin-bottom: 1.2rem;
+}
+
+.loginForm{
+    margin: 3% auto 0;
+    width: 30%;
+}
+
+.submit{
+    margin: 3rem auto 0;
+    background-color: #863812;
+    border-radius: 6px;
+    width: 10rem;
+    height: 3rem;
+    text-transform:capitalize;
+    font-size: large;
+    font-weight: bold;
+}
+
+.submit:hover{
+    background-color: #5B3203;
+}
+
+.loginStatus{
+    margin: 0;
+    color: #b11e1e;
+    margin: 0.5rem 0 2rem;
+    font-weight: 300;
+}

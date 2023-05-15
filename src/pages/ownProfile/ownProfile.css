@@ -1,0 +1,83 @@
+h1{
+    font-family: 'Poppins', sans-serif;
+    color: #5B3203;
+    font-size: 1.5rem;
+    margin: 0.5rem;
+}
+
+.profileNav {
+    background-color: #EBE4D2;
+    border-bottom: #5B3203 1px solid;
+    box-shadow: none;
+}
+
+.userInfoWrapper {
+    width: 100%;
+    align-items: center;
+}
+
+.info {
+    text-align: center;
+    margin: 1rem 7rem;
+    background-color: #FAF5E8;
+    border-radius: 1rem;
+}
+
+.infoForm {
+    padding: 1rem 4rem 0rem 4rem;
+}
+
+.profilePicWrap {
+    text-align: center;
+}
+
+.profilePic {
+    border-radius: 50%;
+    border: #5B3203 2px solid;
+    width: 10%;
+    margin: 0.5rem auto;
+}
+
+.individual {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0 3.5rem;
+    text-align: left;
+}
+
+h4 {
+    color:#5B3203;
+    font-weight: 100;
+}
+
+.profileButtons {
+    text-align: center;
+}
+
+.goBack {
+    border: #863812 2px solid;
+    background-color: transparent;
+    color: #863812;
+    margin: 0.5rem;
+}
+
+.goBack:hover {
+    border: #863812 2px solid;
+    background-color: #863812;
+    color: #ffffff;
+}
+
+.save, .save:hover {
+    border: #863812 2px solid;
+    background-color: #863812;
+    color: #ffffff;
+    margin: 0.5rem;
+}
+
+.save:disabled {
+    border: #86391269 2px solid;
+    background-color: #86391269;
+    color: #ffffff78;
+}

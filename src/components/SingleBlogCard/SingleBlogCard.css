@@ -1,0 +1,4 @@
+.blogAuthor:hover, .blogAuthor:focus {
+    text-decoration: underline;
+    cursor: pointer;
+}
