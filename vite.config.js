@@ -1,12 +1,12 @@
-import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   server: {
-    // proxy: {
+    proxy: {
     //   '/api': 'http://192.168.1.92:3000',
-    //   '/api': "https://penpaper.cyclic.app"
-    // },
+      '/api': "https://penpaper.cyclic.app"
+    },
   },
   plugins: [react()],
 })
