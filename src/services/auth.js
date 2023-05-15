@@ -2,6 +2,7 @@ import api from "../api";
 
 const register = async (newUser) => {
     try {
+        console.log("Entered this url");
         const response = await api.post("https://penpaper.cyclic.app/api/v1/auth/register", newUser, { withCredentials: true });
         return response;
     } catch (err) {
