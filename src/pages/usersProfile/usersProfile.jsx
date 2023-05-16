@@ -23,7 +23,7 @@ function UsersNavbar({ userName }) {
           <Toolbar>
           <Typography variant="h5" component="div" sx={{ flexGrow: 1 }} onClick={() => navigate("/")}>
           <img
-            src="images/logo-sm.svg"
+            src="/images/logo-sm.svg"
             style={{ width: "4rem", marginTop: "0.5rem" }}
           />
           </Typography>

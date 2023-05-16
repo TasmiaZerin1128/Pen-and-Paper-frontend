@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Contexts";
 import { register } from "../../services/auth";
 import validator from "validator";
+import Loading from "../../components/Loading/Loading";
 import "./register.css";
 
 export default function Form() {
@@ -20,6 +21,8 @@ export default function Form() {
   const [errorEmail, setErrorEmail] = useState(null);
   const [errorPassword, setErrorPassword] = useState(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const { setStatusSignedIn } = useContext(AuthContext);
@@ -32,6 +35,7 @@ export default function Form() {
       validateEmail(email) &&
       validatePassword(password)
     ) {
+      setIsLoading(true);
       const newUser = {
         fullName: fullName,
         username: username,
@@ -41,6 +45,7 @@ export default function Form() {
 
       try {
         const response = await register(newUser);
+        setIsLoading(false);
         if (String(response.status)[0] == 2) {
           setSubmitted(true);
           setErrorOrSuccessLine(
@@ -121,6 +126,7 @@ export default function Form() {
 
   return (
     <>
+    { isLoading ? <Loading/> : null}
       <div className="form">
         <div className="left">
           <img className="logo" src='images/logo-sm.svg' onClick={() => navigate("/")}/>

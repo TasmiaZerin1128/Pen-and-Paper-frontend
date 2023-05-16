@@ -7,6 +7,7 @@ import { login } from "../../services/auth";
 import { showToast } from "../../services/toast";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/Contexts";
+import Loading from "../../components/Loading/Loading";
 import "./login.css";
 
 export default function Login(){
@@ -14,6 +15,8 @@ export default function Login(){
     const [password, setPassword] = useState("");
     const [error, setError] = useState(false);
     const [status, setStatus] = useState("");
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -30,6 +33,7 @@ export default function Login(){
     const submit = async (e) => {
         e.preventDefault();
         if(username.trim() !== "" && password.trim() !== ""){
+        setIsLoading(true);
         const loginUser = {
             username: username,
             password: password
@@ -37,6 +41,7 @@ export default function Login(){
         
         try{
             const response = await login(loginUser);
+            setIsLoading(false);
             if(String(response.status)[0] == 2){
                 setStatusSignedIn();
                 navigate("/dashboard");
@@ -64,6 +69,7 @@ export default function Login(){
     return(
         <>
         <ToastContainer transition={Zoom} limit={1} toastStyle={{ backgroundColor: "#168030" }}/>
+        { isLoading ? <Loading/> : null}
         <div className="wrapper">
             <img className="logoLogin" src='images/logo-sm.svg' onClick={() => navigate("/")}/>
             <h1>Welcome Back!</h1>
