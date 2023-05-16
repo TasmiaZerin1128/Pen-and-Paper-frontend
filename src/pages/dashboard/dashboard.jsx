@@ -3,7 +3,7 @@ import BlogList from "../../components/BlogList/BlogList";
 import Navbar from "../../components/Navbar/Navbar";
 import PaginationBar from "../../components/Pagination/Pagination";
 import { AuthContext } from "../../contexts/Contexts";
-import { Loading } from "../../components/Loading/Loading";
+import { LoadingWithBackdrop } from "../../components/Loading/Loading";
 import "./dashboard.css";
 
 export default function Dashboard({ setProfileUsername }) {
@@ -32,9 +32,8 @@ export default function Dashboard({ setProfileUsername }) {
     setBlogAdded(!blogAdded);
   };
 
+  if(isLoading) return <LoadingWithBackdrop />
   return (
-    <>
-    { isLoading ? <Loading /> : 
     <>
       <div style={{ position: "sticky", top: 0, zIndex: 100 }}>
         <Navbar handleBlogAdd={handleBlogAdd} />
@@ -56,8 +55,6 @@ export default function Dashboard({ setProfileUsername }) {
           blogCount={blogCount}
         />
       </div>
-    </>
-  }
   </>
   );
 }

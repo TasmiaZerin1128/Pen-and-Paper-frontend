@@ -13,8 +13,8 @@ function parseCookie() {
 }
 
 function tokenExpired() {
-  let jwtcookie = Cookies.get("jwt");
   try {
+      let jwtcookie = Cookies.get("jwt");
       let token = jwt_decode(jwtcookie);
       let expirationTime = token.exp;
       let current_time = Date.now() / 1000;
