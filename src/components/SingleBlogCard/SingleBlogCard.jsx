@@ -115,7 +115,7 @@ export default function SingleBlogCard({
             <ReadMore blog={singleBlog} />
           </div>
         </CardContent>
-        {editMode ? (
+        {editMode && (
           <>
             <hr style={{ border: "1px solid #e0d8c3" }} />
             <CardActions>
@@ -131,9 +131,7 @@ export default function SingleBlogCard({
               />
             </CardActions>
           </>
-        ) : (
-          <></>
-        )}
+        ) }
       </Card>
     </>
   );

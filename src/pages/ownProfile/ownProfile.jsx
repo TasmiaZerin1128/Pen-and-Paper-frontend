@@ -151,9 +151,9 @@ export default function OwnProfile({setUsername}) {
         sx={{ flexGrow: 1, bgcolor: "#EBE4D2", p: 3, margin: "auto" }}
       >
         <Toolbar />
-        {selectedOption === "user-info" ? (<UserInfo cookieUsername={loggedInUsername} setUserId={setUserId}/>) : null}
-        {selectedOption === "delete-account" ? (<DeleteAccount cookieUsername={loggedInUsername}/>) : null}
-        {selectedOption === "own-blogs" ? (<OwnBlogs cookieUsername={loggedInUsername} userId={userId}/>) : null}
+        {selectedOption === "user-info" && (<UserInfo cookieUsername={loggedInUsername} setUserId={setUserId}/>)}
+        {selectedOption === "delete-account" && (<DeleteAccount cookieUsername={loggedInUsername}/>) }
+        {selectedOption === "own-blogs" && (<OwnBlogs cookieUsername={loggedInUsername} userId={userId}/>) }
       </Box>
     </Box>
   );

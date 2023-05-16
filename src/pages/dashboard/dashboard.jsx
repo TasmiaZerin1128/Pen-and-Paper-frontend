@@ -3,7 +3,7 @@ import BlogList from "../../components/BlogList/BlogList";
 import Navbar from "../../components/Navbar/Navbar";
 import PaginationBar from "../../components/Pagination/Pagination";
 import { AuthContext } from "../../contexts/Contexts";
-import Loading from "../../components/Loading/Loading";
+import { Loading } from "../../components/Loading/Loading";
 import "./dashboard.css";
 
 export default function Dashboard({ setProfileUsername }) {

@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import OwnProfile from "../ownProfile/ownProfile";
 import UsersProfile from "../usersProfile/usersProfile";
 import { useState } from "react";
-import Loading from "../../components/Loading/Loading";
+import { Loading } from "../../components/Loading/Loading";
 
 export default function Profile() {
     const navigate = useNavigate();
@@ -34,13 +34,12 @@ export default function Profile() {
         setIsLoading(false);
     });
 
-    return(
-        <>
-        { isLoading ? <Loading /> : 
-            <>
-            { isOwnProfile ? <OwnProfile /> : <UsersProfile />}
-            </>
-        }
-        </>
-    )
+
+    if(isLoading){
+        return <Loading />
+    }
+    if(isOwnProfile){
+        return <OwnProfile />
+    }
+    return <UsersProfile />
 }

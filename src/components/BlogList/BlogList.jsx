@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import SingleBlogCard from "../SingleBlogCard/SingleBlogCard";
-import Loading from "../Loading/Loading";
+import { Loading } from "../Loading/Loading";
 import { useSearchParams } from "react-router-dom";
 
 import { getAllBlogs, getBlogsByAuthorId } from "../../services/blog";
@@ -47,31 +47,19 @@ export default function BlogList({
     setBlogCount(allBlogs.data.count);
   };
 
+  if (isLoading) return <Loading />;
+  if (!blogs) {
+    return (
+      <h1 style={{ marginBottom: "1rem", textAlign: "center" }}>
+        No blog found
+      </h1>
+    );
+  }
   return (
     <>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
-          {blogs ? (
-            <>
-              {blogs.map((item) => (
-                <SingleBlogCard
-                  key={item.id}
-                  singleBlog={item}
-                  editMode={false}
-                />
-              ))}
-            </>
-          ) : (
-            <>
-              <h1 style={{ marginBottom: "1rem", textAlign: "center" }}>
-                No blog found
-              </h1>
-            </>
-          )}
-        </>
-      )}
+      {blogs.map((item) => (
+        <SingleBlogCard key={item.id} singleBlog={item} editMode={false} />
+      ))}
     </>
   );
 }

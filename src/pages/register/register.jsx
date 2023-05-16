@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Contexts";
 import { register } from "../../services/auth";
 import validator from "validator";
-import Loading from "../../components/Loading/Loading";
+import { LoadingWithBackdrop } from "../../components/Loading/Loading";
 import "./register.css";
 
 export default function Form() {
@@ -126,7 +126,7 @@ export default function Form() {
 
   return (
     <>
-    { isLoading ? <Loading/> : null}
+    { isLoading && <LoadingWithBackdrop/> }
       <div className="form">
         <div className="left">
           <img className="logo" src='images/logo-sm.svg' onClick={() => navigate("/")}/>

@@ -42,7 +42,7 @@ function NavbarLoggedIn({ handleBlogAdd }) {
 
         <Box sx={{ flexGrow: 0 }}>
           <div style={{ display: "flex", flexDirection: "row" }}>
-            {checkLoggedIn ? (
+            {checkLoggedIn && (
               <Typography
                 textAlign="left"
                 variant="body1"
@@ -56,8 +56,6 @@ function NavbarLoggedIn({ handleBlogAdd }) {
                 Welcome <br />
                 <b>{loggedInUsername}</b>!
               </Typography>
-            ) : (
-              <></>
             )}
             <Tooltip title="Open Profile">
               <IconButton

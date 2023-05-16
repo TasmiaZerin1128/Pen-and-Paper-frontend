@@ -6,7 +6,7 @@ import { ToastContainer , Zoom } from 'react-toastify';
 import { useLocation, useNavigate } from "react-router-dom";
 import { getUserByUsername, updateUserByUsername } from "../../services/user";
 import { showToast } from "../../services/toast";
-import Loading from "../../components/Loading/Loading";
+import { Loading } from "../Loading/Loading";
 
 export default function UserInfo({cookieUsername, setUserId}) {
     const [fullName, setFullName] = useState("");
