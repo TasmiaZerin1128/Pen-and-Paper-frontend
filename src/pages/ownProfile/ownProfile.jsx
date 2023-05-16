@@ -153,7 +153,7 @@ export default function OwnProfile({setUsername}) {
         <Toolbar />
         {selectedOption === "user-info" && (<UserInfo cookieUsername={loggedInUsername} setUserId={setUserId}/>)}
         {selectedOption === "delete-account" && (<DeleteAccount cookieUsername={loggedInUsername}/>) }
-        {selectedOption === "own-blogs" && (<OwnBlogs cookieUsername={loggedInUsername} userId={userId}/>) }
+        {selectedOption === "own-blogs" && (<OwnBlogs cookieUsername={loggedInUsername}/>) }
       </Box>
     </Box>
   );

@@ -35,11 +35,7 @@ export default function Profile() {
     });
 
 
-    if(isLoading){
-        return <Loading />
-    }
-    if(isOwnProfile){
-        return <OwnProfile />
-    }
+    if(isLoading) return <Loading />
+    if(isOwnProfile) return <OwnProfile />
     return <UsersProfile />
 }
