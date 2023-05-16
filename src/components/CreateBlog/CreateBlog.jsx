@@ -10,6 +10,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/Contexts";
 import { createBlog } from "../../services/blog";
+import { LoadingWithBackdrop } from "../Loading/Loading";
 
 import "../Navbar/Navbar.css";
 
@@ -21,6 +22,8 @@ export default function CreateBlog({ handleBlogAdd, showToast }) {
   const [serverError, setServerError] = useState("");
   const [errorTitle, setErrorTitle] = useState(null);
   const [errorDescription, setErrorDescription] = useState(null);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const { checkLoggedIn } = useContext(AuthContext);
 
@@ -38,6 +41,7 @@ export default function CreateBlog({ handleBlogAdd, showToast }) {
 
   const create = async () => {
     if (title.trim() && description.trim()) {
+      setIsLoading(true);
       const newBlog = {
         title: title,
         description: description,
@@ -45,6 +49,7 @@ export default function CreateBlog({ handleBlogAdd, showToast }) {
       const response = await createBlog(newBlog);
       if (String(response.status)[0] == 2) {
         showToast("Blog added to timeline", "newBlog");
+        setIsLoading(false);
         handleClose();
         handleBlogAdd();
         setErrorTitle(null);
@@ -66,6 +71,7 @@ export default function CreateBlog({ handleBlogAdd, showToast }) {
     }
   };
 
+  if (isLoading) return <LoadingWithBackdrop />;
   return (
     <div>
       <Button className="create" onClick={handleClickOpen}>
