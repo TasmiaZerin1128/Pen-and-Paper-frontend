@@ -26,10 +26,11 @@ export default function DeleteBlog({blog, setBlogList, showToast}) {
           handleClose();
           showToast("Blog deleted", "deleted");
           const userBlogs = await getBlogsByAuthorId(blog.authorId);
-          if(typeof(userBlogs.data.rows) === 'object'){
+          if(userBlogs.data.count > 0){
               setBlogList(userBlogs.data.rows);
           }
         } else {
+          setBlogList(null);
           setServerError(response.data);
       }
     }
