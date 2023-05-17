@@ -27,7 +27,7 @@ function formatTimestamp(timestamp) {
   );
 }
 
-function ReadMore({ blog, length = 400 }) {
+function ReadMore({ blog, length = 400, editMode }) {
   const [showLess, setShowLess] = useState(true);
   const text = blog.description;
 
@@ -36,7 +36,9 @@ function ReadMore({ blog, length = 400 }) {
 
   const showBlog = () => {
     if (!location.state) {
-      navigate(`/blogs/${blog.id}`, { state: { data: blog } });
+      navigate(`/blogs/${blog.id}`, {
+        state: { data: blog, editMode: editMode },
+      });
     }
   };
 
@@ -112,7 +114,7 @@ export default function SingleBlogCard({
           </Typography>
           {formatTimestamp(singleBlog.updatedAt)}
           <div className="description">
-            <ReadMore blog={singleBlog} />
+            <ReadMore blog={singleBlog} editMode={editMode} />
           </div>
         </CardContent>
         {editMode && (
@@ -122,6 +124,7 @@ export default function SingleBlogCard({
               <EditBlog
                 blog={singleBlog}
                 setBlogList={setSingleBlog}
+                setSingleBlog={setSingleBlog}
                 showToast={showToast}
               />
               <DeleteBlog
@@ -131,7 +134,7 @@ export default function SingleBlogCard({
               />
             </CardActions>
           </>
-        ) }
+        )}
       </Card>
     </>
   );

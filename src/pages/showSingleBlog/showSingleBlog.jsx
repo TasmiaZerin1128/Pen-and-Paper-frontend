@@ -20,7 +20,7 @@ export default function ShowSingleBlog() {
         <>
             <div style={{ padding: '3rem' }}>
                 <h4 onClick={() => navigate(-1)} style={{ fontSize: '16px', color: '#863812', textDecoration: 'none', marginBottom: '2rem', cursor: 'pointer'}}>←  Go Back</h4>
-                { location.state ? (<SingleBlogCard singleBlog={location.state.data} editMode={false}/>) : (<h1>No blog found</h1>) }
+                { location.state ? (<SingleBlogCard singleBlog={location.state.data} editMode={location.state.editMode}/>) : (<h1>No blog found</h1>) }
             </div>
         </>
     )
