@@ -2,12 +2,14 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { showToast } from "../../services/toast";
 import "../BlogList/BlogList.css";
 import DeleteBlog from "../DeleteBlog/DeleteBlog";
 import EditBlog from "../EditBlog/EditBlog";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/Contexts";
 import "./SingleBlogCard.css";
 
 function formatTimestamp(timestamp) {
@@ -34,11 +36,13 @@ function ReadMore({ blog, length = 400, editMode }) {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const { loggedInUsername } = useContext(AuthContext);
+
   const showBlog = () => {
     if (!location.state) {
-      navigate(`/blogs/${blog.id}`, {
-        state: { data: blog, editMode: editMode },
-      });
+      if(blog.authorUsername === loggedInUsername) editMode = true;
+      else editMode = false;
+      navigate(`/blogs/${blog.id}`, { state: { data: blog, editMode: editMode }});
     }
   };
 
@@ -67,20 +71,30 @@ function ReadMore({ blog, length = 400, editMode }) {
 export default function SingleBlogCard({
   singleBlog,
   editMode,
-  setSingleBlog,
+  setBlogList,
+  showSingle,
+  setBlog
 }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const [oneBlog, setOneBlog] = useState(singleBlog);
+  const { loggedInUsername } = useContext(AuthContext);
+
+  useEffect(() => {
+    setOneBlog(singleBlog);
+  }, [singleBlog]);
 
   const showBlog = () => {
     if (!location.state) {
-      navigate(`/blogs/${singleBlog.id}`, { state: { data: singleBlog } });
+      if(singleBlog.authorUsername === loggedInUsername) editMode = true;
+      else editMode = false;
+      navigate(`/blogs/${singleBlog.id}`, { state: { data: singleBlog, editMode: editMode } });
     }
   };
 
   return (
     <>
-      <Card className="blogCards" key={singleBlog.id}>
+      <Card className="blogCards" key={oneBlog.id}>
         <CardContent style={{ overflowWrap: "break-word" }}>
           <Typography
             className="blogAuthor"
@@ -89,14 +103,14 @@ export default function SingleBlogCard({
               display: "inline-block",
               alignItems: "center",
             }}
-            onClick={() => navigate(`/profile/${singleBlog.authorUsername}`)}
+            onClick={() => navigate(`/profile/${oneBlog.authorUsername}`)}
             gutterBottom
           >
             <span style={{ fontSize: 14, color: "#555558" }}>
-              {singleBlog.authorFullName}
+              {oneBlog.authorFullName}
             </span>
             <span style={{ fontSize: 13, padding: "0", color: "#863812" }}>
-              &nbsp;@{singleBlog.authorUsername}
+              &nbsp;@{oneBlog.authorUsername}
             </span>
           </Typography>
           <Typography
@@ -110,11 +124,11 @@ export default function SingleBlogCard({
               color: "#863812",
             }}
           >
-            {singleBlog.title}
+            {oneBlog.title}
           </Typography>
-          {formatTimestamp(singleBlog.updatedAt)}
+          {formatTimestamp(oneBlog.updatedAt)}
           <div className="description">
-            <ReadMore blog={singleBlog} editMode={editMode} />
+            <ReadMore blog={oneBlog} editMode={editMode} />
           </div>
         </CardContent>
         {editMode && (
@@ -122,15 +136,17 @@ export default function SingleBlogCard({
             <hr style={{ border: "1px solid #e0d8c3" }} />
             <CardActions>
               <EditBlog
-                blog={singleBlog}
-                setBlogList={setSingleBlog}
-                setSingleBlog={setSingleBlog}
+                blog={oneBlog}
+                setBlogList={setBlogList}
                 showToast={showToast}
+                setOneBlog={setOneBlog}
               />
               <DeleteBlog
-                blog={singleBlog}
-                setBlogList={setSingleBlog}
+                blog={oneBlog}
+                setBlogList={setBlogList}
                 showToast={showToast}
+                showSingle={showSingle}
+                setBlog={setBlog}
               />
             </CardActions>
           </>

@@ -6,6 +6,7 @@ import { ToastContainer, Zoom } from "react-toastify";
 import PaginationBar from "../Pagination/Pagination";
 import { Loading } from "../Loading/Loading";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export default function OwnBlogs({ cookieUsername }) {
   const navigate = useNavigate();
@@ -19,6 +20,8 @@ export default function OwnBlogs({ cookieUsername }) {
 
   const [isLoading, setLoading] = useState(true);
 
+  const location = useLocation();
+
   const changePageNumber = (page) => {
     if (page) setPageNumber(page);
   };
@@ -31,14 +34,18 @@ export default function OwnBlogs({ cookieUsername }) {
     if (parseInt(pgNo) > 0 && pgNo !== "null") setPageNumber(pgNo);
     if (parseInt(pgSize) > 0 && pgSize !== "null") setPageSize(pgSize);
 
-    async function getUser() {
-      const user = await getUserByUsername(cookieUsername);
-      setAuthorId(user.data.id);
-      await getAllBlgsByAuthorId(user.data.id, pgNo, pgSize);
+    if(location.state){
+      showToast(location.state.data);
+      location.state = null;
     }
-
-    getUser();
+    getUser(pgNo, pgSize);
   }, [cookieUsername, searchParams]);
+
+  async function getUser(pgNo, pgSize) {
+    const user = await getUserByUsername(cookieUsername);
+    setAuthorId(user.data.id);
+    await getAllBlgsByAuthorId(user.data.id, pgNo, pgSize);
+  }
 
   const getAllBlgsByAuthorId = async (authorId, pageNumber, pageSize) => {
     const userBlogs = await getBlogsByAuthorId(authorId, pageNumber, pageSize);
@@ -59,7 +66,7 @@ export default function OwnBlogs({ cookieUsername }) {
       {blogList ? (
         <>
           {blogList.map((item) => (
-            <SingleBlogCard key={item.id} singleBlog={item} editMode={true} setSingleBlog={setBlogList}/>
+            <SingleBlogCard key={item.id} singleBlog={item} editMode={true} setBlogList={setBlogList} showSingle={false}/>
           ))}
           <PaginationBar
             changePage={changePageNumber} pageSize={pageSize} pageNumber={pageNumber} blogCount={blogCount}

@@ -11,7 +11,6 @@ const register = async (newUser) => {
 }
 
 const login = async (loginUser) => {
-    console.log("Entered this url");
     try {
         const response = await api.post("/api/v1/auth/login", loginUser, { withCredentials: true });
         return response;

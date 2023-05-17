@@ -8,7 +8,7 @@ import { useState } from "react";
 import { editBlog, getBlogsByAuthorId } from "../../services/blog";
 import "../BlogList/BlogList.css";
 
-export default function EditBlog({ blog, setBlogList, showToast, setSingleBlog }) {
+export default function EditBlog({ blog, setBlogList, showToast, setOneBlog }) {
   const [open, setOpen] = useState(false);
   const [editTitle, setEditTitle] = useState(blog.title);
   const [editDescription, setEditDescription] = useState(blog.description);
@@ -42,13 +42,15 @@ export default function EditBlog({ blog, setBlogList, showToast, setSingleBlog }
       if (response.status === 200) {
         handleClose();
         showToast("Blog updated", "blogUpdated");
-        setSingleBlog(response.data);
+        setOneBlog(response.data);
+        if(setBlogList){
         const userBlogs = await getBlogsByAuthorId(blog.authorId);
         if (userBlogs.data.count > 0) {
           setBlogList(userBlogs.data.rows);
         } else {
           setBlogList(null);
         }
+      }
       } else {
         setServerError(response.data);
       }

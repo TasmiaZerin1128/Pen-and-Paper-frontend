@@ -58,7 +58,7 @@ export default function BlogList({
   return (
     <>
       {blogs.map((item) => (
-        <SingleBlogCard key={item.id} singleBlog={item} editMode={false} />
+          <SingleBlogCard key={item.id} singleBlog={item} editMode={false} />
       ))}
     </>
   );

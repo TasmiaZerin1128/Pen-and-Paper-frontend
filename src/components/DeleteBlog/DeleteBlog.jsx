@@ -7,10 +7,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { useNavigate, useLocation } from "react-router-dom";
 
-export default function DeleteBlog({blog, setBlogList, showToast}) {
+export default function DeleteBlog({blog, setBlogList, showToast, showSingle, setBlog}) {
     const [open, setOpen] = useState(false);
     const [serverError, setServerError] = useState('');
+    const navigate = useNavigate();
+    const location = useLocation();
   
     const handleClickOpen = () => {
       setOpen(true);
@@ -25,12 +28,16 @@ export default function DeleteBlog({blog, setBlogList, showToast}) {
         if(response.status === 200){
           handleClose();
           showToast("Blog deleted", "deleted");
+          if(showSingle){
+            location.state = null;
+            setBlog(null);
+          } else {
           const userBlogs = await getBlogsByAuthorId(blog.authorId);
           if(userBlogs.data.count > 0){
               setBlogList(userBlogs.data.rows);
-          }
+          } else setBlogList(null);
+        }
         } else {
-          setBlogList(null);
           setServerError(response.data);
       }
     }
