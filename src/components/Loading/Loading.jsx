@@ -20,11 +20,11 @@ function Loading() {
 function LoadingWithBackdrop() {
   return (
     <Box sx={{ width: '100%', backgroundColor: '#00000056' }}>
-      <Backdrop
+      <Backdrop data-testid="backdrop"
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open
       >
-        <CircularProgress color="inherit" />
+        <CircularProgress data-testid="circular-progress" color="inherit" />
       </Backdrop>
       
     </Box>

@@ -8,6 +8,7 @@
     "start": "vite --host",
     "build": "vite build",
     "test": "vitest",
+    "coverage": "vitest run --coverage",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -37,6 +38,7 @@
     "@vitejs/plugin-react": "^3.1.0",
     "jsdom": "^22.0.0",
     "react-router-dom": "^6.10.0",
+    "react-scripts": "^5.0.1",
     "vite": "^4.2.0",
     "vitest": "^0.31.1"
   }

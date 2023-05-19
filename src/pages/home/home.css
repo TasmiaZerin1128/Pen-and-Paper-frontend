@@ -18,7 +18,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-image: url('../../../public/images/home.png');
+  background-image: url('../../../images/home.png');
   background-size: cover;
   background-position: center;
   
@@ -64,7 +64,7 @@ p {
 }
 
 .second {
-  background-image:url('../../../public/images/home-2.png');
+  background-image:url('../../../images/home-2.png');
   background-attachment: fixed;
   height: 800px;
 }
