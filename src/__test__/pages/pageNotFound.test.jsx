@@ -1,22 +1,16 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 import {describe, it} from 'vitest';
-import { useNavigate, useLocation, Router, BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import * as router from 'react-router';
 import PageNotFound from "../../pages/pageNotFound";
+
 
 const mockNavigate = jest.fn();
 
-// Mock the useNavigate hook
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: () => mockNavigate,
-}));
-
-// Custom text matcher function
-const matchGoBackText = (content, element) => {
-    const normalizedText = (element.textContent || '').trim().replace(/\s+/g, ' ');
-    return normalizedText === content;
-};
+beforeEach(() => {
+    jest.spyOn(router, 'useNavigate').mockImplementation(() => mockNavigate);
+  })
 
 describe("PageNotFound", () => {
     it("should render the page not found image", () => {
@@ -45,18 +39,18 @@ describe("PageNotFound", () => {
             <PageNotFound />
         </BrowserRouter>
         );
-        // const text = screen.getByText("←  Go back");
-        expect(container).toContain("Go back");
+        const element = screen.getByText("← Go back");
+        expect(container).toContainElement(element);
     });
 
-    // it("should call navigate function when go back text is clicked", () => {
-    //     render(
-    //     <BrowserRouter>
-    //         <PageNotFound />
-    //     </BrowserRouter>
-    //     );
-    //     const text = screen.getByText("← Go back");
-    //     text.click();
-    //     expect(mockNavigate).toHaveBeenCalledWith('/');
-    // });
+    it("should call navigate function when go back text is clicked", () => {
+        render(
+        <BrowserRouter>
+            <PageNotFound />
+        </BrowserRouter>
+        );
+        const goBack = screen.getByText(/Go back/i);
+        fireEvent.click(goBack);
+        expect(mockNavigate).toHaveBeenCalledWith('/');
+    });
 });
