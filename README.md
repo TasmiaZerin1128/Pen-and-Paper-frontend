@@ -58,6 +58,7 @@ server: {
 proxy : {
 '/api': {
 target: 'https://penpaper.cyclic.app',
+// if target is localhost --> http//localhost:3000
 changeOrigin: true,
 secure: false,
 },
